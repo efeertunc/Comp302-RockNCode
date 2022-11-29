@@ -1,16 +1,40 @@
 package controllers;
 
+import Models.Account;
+import Utilities.DBManager.DBObserver;
 import factory.PanelType;
-import factory.ViewType;
 import main.EscapeFromKoc;
 
-public class AuthController {
+public class AuthController  implements DBObserver {
 
-    public void login() {
-        EscapeFromKoc.getInstance().changeView(EscapeFromKoc.getInstance().getView(ViewType.AuthView),
-                                                EscapeFromKoc.getInstance().getView(ViewType.GameView));
+    public AuthController() {
 
-        //EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getView(ViewType.AuthView).getPanel(PanelType.Auth),
-        //                                        EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu));
+        EscapeFromKoc.getInstance().getDatabaseAdapter().subscribeAuthObserver(this);
+    }
+
+    public void loginClick(String username, String password) {
+        EscapeFromKoc.getInstance().getDatabaseAdapter()
+                .loginUser(username, password);
+    }
+
+    @Override
+    public void loginAccepted(Account user, String response) {
+        EscapeFromKoc.getInstance().changeView(EscapeFromKoc.getInstance().getAuthView(), EscapeFromKoc.getInstance().getGameView());
+        EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getAuthView().getPanel(PanelType.Auth), EscapeFromKoc.getInstance().getGameView().getPanel(PanelType.Menu));
+    }
+
+    @Override
+    public void loginRejected(String response) {
+
+    }
+
+    @Override
+    public void registerAccepted(Account user, String response) {
+
+    }
+
+    @Override
+    public void registerRejected(String response) {
+
     }
 }

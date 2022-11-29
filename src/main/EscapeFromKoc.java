@@ -1,5 +1,7 @@
 package main;
 
+import Utilities.DBManager.DBManager;
+import Utilities.DBManager.DatabaseAdapter;
 import factory.PanelType;
 import factory.ViewFactory;
 import factory.ViewType;
@@ -22,9 +24,13 @@ public class EscapeFromKoc {
     }
 
     private static EscapeFromKoc instance;
+    private DatabaseAdapter databaseAdapter;
 
     private IAppView authView;
     private IAppView gameView;
+
+    private IPanel curPanel;
+    private IPanel oldPanel;
 
     private EscapeFromKoc() {
     }
@@ -37,6 +43,9 @@ public class EscapeFromKoc {
     }
 
     private void startApp() {
+        databaseAdapter = new DatabaseAdapter(DBManager.getInstance());
+        databaseAdapter.connect();
+
         authView = ViewFactory.getInstance().createView(ViewType.AuthView);
 
         authView.showView(true);
@@ -63,4 +72,51 @@ public class EscapeFromKoc {
             to.showView(true);
         }
     }
+
+    public void changePanel(IPanel from, IPanel to) {
+        if (from == null) {
+            to.showPanel(true);
+        }
+        else if (to == null) {
+            from.showPanel(false);
+        }
+        else {
+            from.showPanel(false);
+            to.showPanel(true);
+
+        }
+        setCurPanel(to);
+        setOldPanel(from);
+    }
+
+    public IPanel getOldPanel() {
+        return oldPanel;
+    }
+
+
+    public void setOldPanel(IPanel oldPanel) {
+        this.oldPanel = oldPanel;
+    }
+
+    public IPanel getCurPanel() {
+        return curPanel;
+    }
+
+
+    public void setCurPanel(IPanel curPanel) {
+        this.curPanel = curPanel;
+    }
+
+    public IAppView getAuthView() {
+        return authView;
+    }
+
+    public IAppView getGameView() {
+        return gameView;
+    }
+
+    public DatabaseAdapter getDatabaseAdapter() {
+        return databaseAdapter;
+    }
+
 }
