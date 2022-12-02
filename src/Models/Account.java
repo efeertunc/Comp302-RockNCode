@@ -1,5 +1,8 @@
 package Models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Account {
     String username;
     String password;
@@ -46,5 +49,16 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Map<String, Object> toMap() {
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("username", username);
+        result.put("password", password);
+        result.put("hint", hint);
+        result.put("ID", ID);
+
+        return result;
     }
 }

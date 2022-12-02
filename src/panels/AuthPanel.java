@@ -24,6 +24,7 @@ public class AuthPanel implements IPanel {
 
     private JTextField newUsername;
     private JTextField userHint;
+    private JLabel info;
     private JPasswordField newPassword;
     private JPasswordField confirmPass;
     private JButton createAccountButton;
@@ -32,17 +33,17 @@ public class AuthPanel implements IPanel {
         putPaneltoFrame(appView.getFrame());
         initialize();
         design();
-        this.authController = new AuthController();
+        this.authController = new AuthController(this);
 
     }
 
     private void login() {
-        authController.loginClick(loginUsername.getText(), loginPasswordField.getText());
+        authController.loginClick(loginUsername.getText().trim(), loginPasswordField.getText().trim());
     }
 
 
     private void createAccount() {
-
+        authController.registerClick(newUsername.getText().trim(), newPassword.getText().trim(), confirmPass.getText().trim(), userHint.getText().trim());
     }
 
     @Override
@@ -81,6 +82,10 @@ public class AuthPanel implements IPanel {
                 createAccount();
             }
         });
+    }
+
+    public void setInfo(String text) {
+        info.setText(text);
     }
 
     @Override
@@ -257,6 +262,11 @@ public class AuthPanel implements IPanel {
 
         panel.add(createAccountButton);
         createAccountButton.setBounds(153, 277, 159, 29);
+
+        info = new JLabel();
+        info.setHorizontalAlignment(SwingConstants.CENTER);
+        info.setBounds(6, 310, 438, 16);
+        panel.add(info);
 
     }
 

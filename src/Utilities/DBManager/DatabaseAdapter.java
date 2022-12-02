@@ -16,8 +16,8 @@ public class DatabaseAdapter {
         dbManager.loginUser(username, password);
     }
 
-    public void registerUser(String username, String password, String hint) {
-        dbManager.createUser(username, password, hint);
+    public void registerUser(String username, String firstPassword, String secondPassword, String hint) {
+        dbManager.createUser(username, firstPassword, secondPassword, hint);
     }
 
     public void subscribeAuthObserver(DBObserver observer) {

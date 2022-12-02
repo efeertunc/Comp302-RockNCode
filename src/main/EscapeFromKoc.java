@@ -7,6 +7,8 @@ import factory.ViewFactory;
 import factory.ViewType;
 
 import java.awt.*;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 
 public class EscapeFromKoc {
 
@@ -43,13 +45,17 @@ public class EscapeFromKoc {
     }
 
     private void startApp() {
-        databaseAdapter = new DatabaseAdapter(DBManager.getInstance());
-        databaseAdapter.connect();
+        if (!checkInternetConnection()) {
+            System.out.println("Lütfen internete bağlı olduğunuzdan emin olup tekrar deneyin.");
+        } else {
+            databaseAdapter = new DatabaseAdapter(DBManager.getInstance());
+            databaseAdapter.connect();
 
-        authView = ViewFactory.getInstance().createView(ViewType.AuthView);
+            authView = ViewFactory.getInstance().createView(ViewType.AuthView);
 
-        authView.showView(true);
-        authView.getPanel(PanelType.Auth).showPanel(true);
+            authView.showView(true);
+            authView.getPanel(PanelType.Auth).showPanel(true);
+        }
     }
 
     public IAppView getView(ViewType type) {
@@ -73,14 +79,32 @@ public class EscapeFromKoc {
         }
     }
 
+    public boolean checkInternetConnection() {
+        boolean status = false;
+        Socket sock = new Socket();
+        InetSocketAddress address = new InetSocketAddress("www.google.com", 80);
+
+        try {
+            sock.connect(address, 3000);
+            if (sock.isConnected()) status = true;
+        } catch (Exception e) {
+            status = false;
+        } finally {
+            try {
+                sock.close();
+            } catch (Exception e) {
+            }
+        }
+        return status;
+    }
+
+
     public void changePanel(IPanel from, IPanel to) {
         if (from == null) {
             to.showPanel(true);
-        }
-        else if (to == null) {
+        } else if (to == null) {
             from.showPanel(false);
-        }
-        else {
+        } else {
             from.showPanel(false);
             to.showPanel(true);
 
