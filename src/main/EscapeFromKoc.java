@@ -52,31 +52,44 @@ public class EscapeFromKoc {
             databaseAdapter.connect();
 
             authView = ViewFactory.getInstance().createView(ViewType.AuthView);
+            gameView = ViewFactory.getInstance().createView(ViewType.GameView);
 
             authView.showView(true);
             authView.getPanel(PanelType.Auth).showPanel(true);
+            setCurPanel(authView.getPanel(PanelType.Auth));
         }
     }
 
-    public IAppView getView(ViewType type) {
-        return switch (type) {
-            case AuthView -> authView;
-            case GameView -> gameView;
-            default -> throw new IllegalArgumentException("No such kind of panel type");
-        };
-    }
 
     public void changeView(IAppView from, IAppView to) {
         if (from == null) {
             startApp();
-        }
-/*        else if (to == null) {
+        } else if (to == null) {
             exitApp(from);
-        }*/
-        else {
+        } else {
             from.showView(false);
             to.showView(true);
         }
+    }
+
+    public void changePanel(IPanel from, IPanel to) {
+        if (from == null) {
+            to.showPanel(true);
+        } else if (to == null) {
+            from.showPanel(false);
+        } else {
+            from.showPanel(false);
+            to.showPanel(true);
+
+        }
+        setCurPanel(to);
+        setOldPanel(from);
+    }
+
+    private void exitApp(IAppView view) {
+        view.showView(false);
+        view.getFrame().dispose();
+        System.exit(0);
     }
 
     public boolean checkInternetConnection() {
@@ -99,18 +112,20 @@ public class EscapeFromKoc {
     }
 
 
-    public void changePanel(IPanel from, IPanel to) {
-        if (from == null) {
-            to.showPanel(true);
-        } else if (to == null) {
-            from.showPanel(false);
-        } else {
-            from.showPanel(false);
-            to.showPanel(true);
+    public IAppView getView(ViewType type) {
+        return switch (type) {
+            case AuthView -> authView;
+            case GameView -> gameView;
+            default -> throw new IllegalArgumentException("No such kind of panel type");
+        };
+    }
 
-        }
-        setCurPanel(to);
-        setOldPanel(from);
+    public IAppView setView(ViewType type, IAppView appView) {
+        return switch (type) {
+            case AuthView -> authView = appView;
+            case GameView -> gameView = appView;
+            default -> throw new IllegalArgumentException("No such kind of panel type");
+        };
     }
 
     public IPanel getOldPanel() {
@@ -131,13 +146,6 @@ public class EscapeFromKoc {
         this.curPanel = curPanel;
     }
 
-    public IAppView getAuthView() {
-        return authView;
-    }
-
-    public IAppView getGameView() {
-        return gameView;
-    }
 
     public DatabaseAdapter getDatabaseAdapter() {
         return databaseAdapter;

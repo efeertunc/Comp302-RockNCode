@@ -2,6 +2,8 @@ package controllers;
 
 import Models.Account;
 import Utilities.DBManager.DBObserver;
+import factory.PanelType;
+import factory.ViewType;
 import main.EscapeFromKoc;
 import main.IPanel;
 import panels.AuthPanel;
@@ -27,8 +29,11 @@ public class AuthController implements DBObserver {
     @Override
     public void loginAccepted(Account user, String response) {
         ((AuthPanel) panel).setInfo(response + user.getUsername());
-        /*EscapeFromKoc.getInstance().changeView(EscapeFromKoc.getInstance().getView(ViewType.AuthView), EscapeFromKoc.getInstance().getGameView());
-        EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Auth), EscapeFromKoc.getInstance().getGameView().getPanel(PanelType.Menu));*/
+
+        EscapeFromKoc.getInstance().changeView(EscapeFromKoc.getInstance().getView(ViewType.AuthView),
+                                                EscapeFromKoc.getInstance().getView(ViewType.GameView));
+        EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getView(ViewType.AuthView).getPanel(PanelType.Auth),
+                                EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu));
     }
 
     @Override
