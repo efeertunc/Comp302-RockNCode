@@ -14,6 +14,7 @@ public class AuthView implements IAppView {
 
     public AuthView() {
         putFrametoGame();
+
         authPanel = PanelFactory.getInstance().createPanel(PanelType.Auth, this);
     }
 

@@ -12,10 +12,18 @@ public class GameView implements IAppView {
     private JFrame frame;
 
     private IPanel menuPanel;
+    private IPanel buildPanel;
+    private IPanel runPanel;
+    private IPanel helpPanel;
+    private IPanel pausePanel;
 
     public GameView() {
         putFrametoGame();
         menuPanel = PanelFactory.getInstance().createPanel(PanelType.Menu, this);
+        buildPanel = PanelFactory.getInstance().createPanel(PanelType.Build, this);
+        runPanel = PanelFactory.getInstance().createPanel(PanelType.Run, this);
+        helpPanel = PanelFactory.getInstance().createPanel(PanelType.Help, this);
+        pausePanel = PanelFactory.getInstance().createPanel(PanelType.Pause, this);
     }
 
 
@@ -39,6 +47,10 @@ public class GameView implements IAppView {
     public IPanel getPanel(PanelType panel) {
         return switch (panel) {
             case Menu -> menuPanel;
+            case Build -> buildPanel;
+            case Run -> runPanel;
+            case Pause -> pausePanel;
+            case Help -> helpPanel;
             default -> throw new IllegalArgumentException("No such kind of panel type");
         };
     }
