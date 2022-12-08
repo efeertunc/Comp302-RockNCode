@@ -10,25 +10,24 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 
 import controllers.PauseController;
-import factory.PanelType;
-import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
 
+public class PausePanel implements IPanel {
 
-public class PausePanel implements IPanel{
-	
 	private JPanel panel;
-	
+
 	private PauseController pauseController;
-	
+
 	private JButton resumeButton;
 	private JButton helpButton;
 	private JButton returnMenuButton;
-	
+
 	public PausePanel(IAppView appView) {
 		putPaneltoFrame(appView.getFrame());
 		this.pauseController = new PauseController();
@@ -36,45 +35,42 @@ public class PausePanel implements IPanel{
 		design();
 	}
 
-	
 	@Override
 	public void design() {
-		
+
 		JLabel BigLabel = new JLabel("PAUSE");
 		BigLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 27));
 		BigLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		BigLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		BigLabel.setBounds(101, 36, 230, 51);
 		panel.add(BigLabel);
-		 
+
 		resumeButton.setBounds(129, 109, 174, 29);
 		panel.add(resumeButton);
-		
+
 		helpButton.setBounds(129, 150, 174, 29);
 		panel.add(helpButton);
-		
+
 		returnMenuButton.setBounds(129, 191, 174, 29);
 		panel.add(returnMenuButton);
 
 	}
 
-
 	@Override
 	public void putPaneltoFrame(JFrame frame) {
-		panel = new JPanel();	
+		panel = new JPanel();
 		panel.setVisible(false);
-		panel.setBounds(6, 6, 438, 342);
+		panel.setBounds(420, 200, 438, 342);
 		panel.setLayout(null);
-		panel.setBorder(new LineBorder(Color.BLACK));
+		panel.setBorder(new CompoundBorder(new LineBorder(new Color(255, 0, 102), 7, true),
+				new MatteBorder(4, 4, 2, 2, (Color) new Color(0, 204, 255))));
 		frame.add(panel);
 	}
 
-
 	@Override
 	public void showPanel(Boolean show) {
-		panel.setVisible(show);	
+		panel.setVisible(show);
 	}
-
 
 	@Override
 	public void initialize() {
@@ -85,39 +81,34 @@ public class PausePanel implements IPanel{
 				resume();
 			}
 		});
-		
-		
+
 		helpButton = new JButton("Help Screen");
 		helpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openHelp();
 			}
 		});
-		
-		
+
 		returnMenuButton = new JButton("Return to Main Menu");
 		returnMenuButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				returnMenu();
 			}
 		});
-		
-	}
 
+	}
 
 	protected void returnMenu() {
 		pauseController.openMenu();
 	}
 
-
 	protected void openHelp() {
 		pauseController.openHelp();
 	}
 
-
 	protected void resume() {
 		pauseController.resumeGame();
-		
+
 	}
 
 }

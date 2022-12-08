@@ -1,14 +1,14 @@
 package main;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public interface IPanel {
 
-    public void showPanel(Boolean show);
+	public void showPanel(Boolean show);
 
-    public void initialize();
+	public void initialize();
 
-    public void design();
+	public void design();
 
-    void putPaneltoFrame(JFrame frame);
+	void putPaneltoFrame(JFrame frame);
 }

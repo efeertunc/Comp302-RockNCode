@@ -1,16 +1,18 @@
 package main;
 
-import factory.PanelType;
+import javax.swing.JFrame;
 
-import javax.swing.*;
+import factory.PanelType;
 
 public interface IAppView {
 
-    void showView(Boolean show);
+	void showView(Boolean show);
 
-    IPanel getPanel(PanelType panel);
+	IPanel getPanel(PanelType panel);
 
-    JFrame getFrame();
+	JFrame getFrame();
 
-    void putFrametoGame();
+	void putFrametoGame();
+
+	void createrunPanel();
 }
