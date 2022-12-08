@@ -22,17 +22,17 @@ public class BuildingTracker {
 		ArrayList<Integer> xlist = new ArrayList<Integer>();
 		ArrayList<Integer> ylist = new ArrayList<Integer>();
 		ArrayList<Integer> objtype = new ArrayList<Integer>();
-		Building omerB = new Building(map, new ArrayList<Integer>(), ylist, objtype, BuildingType.OMER, 5);
+		Building omerB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.OMER, 5);
 		buildingList.add(0,omerB);
-		Building caseB = new Building(map, new ArrayList<Integer>(), ylist, objtype, BuildingType.CASE, 1);
+		Building caseB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.CASE, 1);
 		buildingList.add(1,caseB);
-		Building sosB = new Building(map, new ArrayList<Integer>(), ylist, objtype, BuildingType.SOS, 1);
+		Building sosB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SOS, 1);
 		buildingList.add(2,sosB);
-		Building scieB = new Building(map, new ArrayList<Integer>(), ylist, objtype, BuildingType.SCIE, 1);
+		Building scieB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SCIE, 1);
 		buildingList.add(3,scieB);
-		Building engB = new Building(map, new ArrayList<Integer>(), ylist, objtype, BuildingType.ENG, 1);
+		Building engB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.ENG, 1);
 		buildingList.add(4,engB);
-		Building snaB = new Building(map, new ArrayList<Integer>(), ylist, objtype, BuildingType.SNA, 2);
+		Building snaB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SNA, 2);
 		buildingList.add(5,snaB);
 		
 		currentIndex = 0;

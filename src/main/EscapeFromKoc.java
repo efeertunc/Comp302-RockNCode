@@ -60,7 +60,6 @@ public class EscapeFromKoc {
         }
     }
 
-
     public void changeView(IAppView from, IAppView to) {
         if (from == null) {
             startApp();
