@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 public class BuildingTracker {
 	
-	private ArrayList<Building> buildingList;
+	private static ArrayList<Building> buildingList;
 	
-	private int currentIndex;
+	private static int currentIndex;
 	
 
 	public BuildingTracker() {
-		this.buildingList = new ArrayList<Building>();
+		System.out.println("buildTracker");
+		buildingList = new ArrayList<Building>();
 		
 		int[][] map = new int [12][17];
 		for (int i = 0; i < 12; i++) {
@@ -18,26 +19,28 @@ public class BuildingTracker {
 				map[i][j] = 0;
 			}
 		}
+		ArrayList<Integer> xlist = new ArrayList<Integer>();
+		ArrayList<Integer> ylist = new ArrayList<Integer>();
+		ArrayList<Integer> objtype = new ArrayList<Integer>();
+		Building omerB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.OMER, 5);
+		buildingList.add(0,omerB);
+		Building caseB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.CASE, 1);
+		buildingList.add(1,caseB);
+		Building sosB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SOS, 1);
+		buildingList.add(2,sosB);
+		Building scieB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SCIE, 1);
+		buildingList.add(3,scieB);
+		Building engB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.ENG, 1);
+		buildingList.add(4,engB);
+		Building snaB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SNA, 2);
+		buildingList.add(5,snaB);
 		
-		Building omerB = new Building(map, BuildingType.OMER, 5);
-		buildingList.add(omerB);
-		Building caseB = new Building(map, BuildingType.CASE, 5);
-		buildingList.add(caseB);
-		Building sosB = new Building(map, BuildingType.SOS, 5);
-		buildingList.add(sosB);
-		Building scieB = new Building(map, BuildingType.SCIE, 5);
-		buildingList.add(scieB);
-		Building engB = new Building(map, BuildingType.ENG, 5);
-		buildingList.add(engB);
-		Building snaB = new Building(map, BuildingType.SNA, 5);
-		buildingList.add(snaB);	
-		
-		this.currentIndex = 0;
+		currentIndex = 0;
 		
 	}
 
 
-	public ArrayList<Building> getBuildingList() {
+	public static ArrayList<Building> getBuildingList() {
 		return buildingList;
 	}
 
@@ -47,13 +50,13 @@ public class BuildingTracker {
 	}
 
 
-	public int getCurrentIndex() {
+	public static int getCurrentIndex() {
 		return currentIndex;
 	}
 
 
-	public void setCurrentIndex(int currentIndex) {
-		this.currentIndex = currentIndex;
+	public static void setCurrentIndex(int currentIndex1) {
+		currentIndex = currentIndex1;
 	}
 	
 	
