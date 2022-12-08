@@ -5,7 +5,7 @@ import Utilities.DBManager.DatabaseAdapter;
 import factory.PanelType;
 import factory.ViewFactory;
 import factory.ViewType;
-
+import javax.swing.JFrame;
 import java.awt.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -17,7 +17,6 @@ public class EscapeFromKoc {
             public void run() {
                 try {
                     EscapeFromKoc.getInstance().startApp();
-                    ;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -57,6 +56,7 @@ public class EscapeFromKoc {
             authView.showView(true);
             authView.getPanel(PanelType.Auth).showPanel(true);
             setCurPanel(authView.getPanel(PanelType.Auth));
+            gameView.getFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
     }
 

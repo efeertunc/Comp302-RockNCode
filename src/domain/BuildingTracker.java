@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class BuildingTracker {
 	
-	private ArrayList<Building> buildingList;
+	private static ArrayList<Building> buildingList;
 	
-	private int currentIndex;
+	private static int currentIndex;
 	
 
 	public BuildingTracker() {
@@ -18,18 +18,20 @@ public class BuildingTracker {
 				map[i][j] = 0;
 			}
 		}
-		
-		Building omerB = new Building(map, BuildingType.OMER, 5);
+		ArrayList<Integer> xlist = new ArrayList<Integer>();
+		ArrayList<Integer> ylist = new ArrayList<Integer>();
+		ArrayList<Integer> objtype = new ArrayList<Integer>();
+		Building omerB = new Building(map, xlist, ylist, objtype, BuildingType.OMER, 5);
 		buildingList.add(omerB);
-		Building caseB = new Building(map, BuildingType.CASE, 5);
+		Building caseB = new Building(map, xlist, ylist, objtype, BuildingType.CASE, 1);
 		buildingList.add(caseB);
-		Building sosB = new Building(map, BuildingType.SOS, 5);
+		Building sosB = new Building(map, xlist, ylist, objtype, BuildingType.SOS, 1);
 		buildingList.add(sosB);
-		Building scieB = new Building(map, BuildingType.SCIE, 5);
+		Building scieB = new Building(map, xlist, ylist, objtype, BuildingType.SCIE, 1);
 		buildingList.add(scieB);
-		Building engB = new Building(map, BuildingType.ENG, 5);
+		Building engB = new Building(map, xlist, ylist, objtype, BuildingType.ENG, 1);
 		buildingList.add(engB);
-		Building snaB = new Building(map, BuildingType.SNA, 5);
+		Building snaB = new Building(map, xlist, ylist, objtype, BuildingType.SNA, 2);
 		buildingList.add(snaB);	
 		
 		this.currentIndex = 0;
@@ -37,7 +39,7 @@ public class BuildingTracker {
 	}
 
 
-	public ArrayList<Building> getBuildingList() {
+	public static ArrayList<Building> getBuildingList() {
 		return buildingList;
 	}
 
@@ -47,13 +49,13 @@ public class BuildingTracker {
 	}
 
 
-	public int getCurrentIndex() {
+	public static int getCurrentIndex() {
 		return currentIndex;
 	}
 
 
-	public void setCurrentIndex(int currentIndex) {
-		this.currentIndex = currentIndex;
+	public static void setCurrentIndex(int currentIndex1) {
+		currentIndex = currentIndex1;
 	}
 	
 	

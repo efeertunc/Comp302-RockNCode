@@ -13,4 +13,6 @@ public interface IAppView {
     JFrame getFrame();
 
     void putFrametoGame();
+
+    void createrunPanel();
 }

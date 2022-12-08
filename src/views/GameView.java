@@ -21,16 +21,19 @@ public class GameView implements IAppView {
         putFrametoGame();
         menuPanel = PanelFactory.getInstance().createPanel(PanelType.Menu, this);
         buildPanel = PanelFactory.getInstance().createPanel(PanelType.Build, this);
-        runPanel = PanelFactory.getInstance().createPanel(PanelType.Run, this);
         helpPanel = PanelFactory.getInstance().createPanel(PanelType.Help, this);
         pausePanel = PanelFactory.getInstance().createPanel(PanelType.Pause, this);
     }
 
+    public void createrunPanel() {
+        runPanel = PanelFactory.getInstance().createPanel(PanelType.Run, this);
+    }
 
     @Override
     public void putFrametoGame() {
         this.frame = new JFrame();
         this.frame.setResizable(false);
+        this.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLayout(null);
         this.frame.setVisible(false);
