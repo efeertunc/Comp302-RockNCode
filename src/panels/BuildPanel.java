@@ -275,16 +275,31 @@ public class BuildPanel implements IPanel {
 			JOptionPane.showMessageDialog(null, str);
 
 		} else {
+			System.out.println("Current Index: "+BuildingTracker.getCurrentIndex());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(BuildingMap.getMap());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setXlist(BuildingMap.getXlist());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setYlist(BuildingMap.getYlist());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setObjtype(BuildingMap.getObjtype());
-			System.out.println("onemlii");
 			printArray(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getXlist());
 			printArray(BuildingMap.getXlist());
+
+			System.out.println("aa\n");
+			printArray(BuildingTracker.getBuildingList().get(0).getXlist());
+			System.out.println("aa\n");
+			printArray(BuildingTracker.getBuildingList().get(1).getXlist());
+			System.out.println("aa\n");
+			printArray(BuildingTracker.getBuildingList().get(2).getXlist());
+			System.out.println("aa\n");
+			printArray(BuildingTracker.getBuildingList().get(3).getXlist());
+			System.out.println("aa\n");
+			printArray(BuildingTracker.getBuildingList().get(4).getXlist());
+			System.out.println("aa\n");
+			printArray(BuildingTracker.getBuildingList().get(5).getXlist());
+
+
 			// printArr(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap());
 
-			System.out.println("bu yukardakine eþit,þimdi aþaðýyý yapýcaz");
+			//System.out.println("bu yukardakine eþit,þimdi aþaðýyý yapýcaz");
 			System.out.println(next.getType().toString());
 			BuildingMap.emptyMap();
 			BuildingTracker.setCurrentIndex(1 + BuildingTracker.getCurrentIndex());

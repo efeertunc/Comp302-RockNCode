@@ -140,7 +140,7 @@ public class BuildingMap extends JPanel implements IPanel {
 
     public void emptyMap() {
 
-        xlist.removeAll(xlist);
+        xlist = new ArrayList<Integer>();
         ylist.removeAll(ylist);
         objtype.removeAll(objtype);
         repaint();
