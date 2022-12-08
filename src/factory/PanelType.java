@@ -1,5 +1,5 @@
 package factory;
 
 public enum PanelType {
-    Auth, Menu, Help, Pause, Run, Build
+    Auth, ForgotPass, CreateAccount, Menu, Help, Pause, Run, Build
 }
