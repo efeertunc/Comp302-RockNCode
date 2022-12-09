@@ -239,12 +239,18 @@ public class BuildPanel implements IPanel {
 
 		} else {
 
-			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(BuildingMap.getMap());
+			//BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(BuildingMap.getMap());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setXlist(BuildingMap.getXlist());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setYlist(BuildingMap.getYlist());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setObjtype(BuildingMap.getObjtype());
-
-			BuildingMap.emptyMap();
+			for (int i=0;i<6;i++){
+				BuildingTracker.getBuildingList().get(i).initializeMap();
+				System.out.println(BuildingTracker.getBuildingList().get(i).getType());
+				printArr(BuildingTracker.getBuildingList().get(i).getMap());
+				printArray(BuildingTracker.getBuildingList().get(i).getXlist());
+				printArray(BuildingTracker.getBuildingList().get(i).getYlist());
+			}
+			//BuildingMap.emptyMap();
 			BuildingTracker.setCurrentIndex(0);
 			buildController.startRun();
 
@@ -275,16 +281,16 @@ public class BuildPanel implements IPanel {
 			JOptionPane.showMessageDialog(null, str);
 
 		} else {
-			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(BuildingMap.getMap());
+			System.out.println("Current Index: "+BuildingTracker.getCurrentIndex());
+		//	BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(BuildingMap.getMap());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setXlist(BuildingMap.getXlist());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setYlist(BuildingMap.getYlist());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setObjtype(BuildingMap.getObjtype());
-			System.out.println("onemlii");
-			printArray(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getXlist());
-			printArray(BuildingMap.getXlist());
+
+
 			// printArr(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap());
 
-			System.out.println("bu yukardakine eþit,þimdi aþaðýyý yapýcaz");
+			//System.out.println("bu yukardakine eþit,þimdi aþaðýyý yapýcaz");
 			System.out.println(next.getType().toString());
 			BuildingMap.emptyMap();
 			BuildingTracker.setCurrentIndex(1 + BuildingTracker.getCurrentIndex());

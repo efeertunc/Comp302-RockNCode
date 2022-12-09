@@ -62,4 +62,10 @@ public class Building {
 	public void setObjtype(ArrayList<Integer> objtype) {
 		this.objtype = objtype;
 	}
+	public void initializeMap(){
+		for (int i = 0; i < xlist.size(); i++) {
+			map[ylist.get(i) / 50][xlist.get(i) / 50] = objtype.get(i) + 1;
+		}
+
+	}
 }

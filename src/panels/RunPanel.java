@@ -101,17 +101,7 @@ public class RunPanel implements IPanel{
 		});
 
 
-		printArr(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap());
 		RunningMap = new RunningMap(panel);
-		System.out.println(BuildingTracker.getCurrentIndex());
-		RunningMap.setMap(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap());
-		RunningMap.setXlist(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getXlist());
-		RunningMap.setXlist(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getYlist());
-		RunningMap.setXlist(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getObjtype());
-		System.out.println("hellooð");
-		System.out.println(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getXlist().size());
-		printArray(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getXlist());
-		printArray(RunningMap.getXlist());
 		RunningMap.repaint();
 
 	}

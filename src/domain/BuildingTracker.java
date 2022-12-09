@@ -10,7 +10,8 @@ public class BuildingTracker {
 	
 
 	public BuildingTracker() {
-		this.buildingList = new ArrayList<Building>();
+		System.out.println("buildTracker");
+		buildingList = new ArrayList<Building>();
 		
 		int[][] map = new int [12][17];
 		for (int i = 0; i < 12; i++) {
@@ -21,20 +22,20 @@ public class BuildingTracker {
 		ArrayList<Integer> xlist = new ArrayList<Integer>();
 		ArrayList<Integer> ylist = new ArrayList<Integer>();
 		ArrayList<Integer> objtype = new ArrayList<Integer>();
-		Building omerB = new Building(map, xlist, ylist, objtype, BuildingType.OMER, 5);
-		buildingList.add(omerB);
-		Building caseB = new Building(map, xlist, ylist, objtype, BuildingType.CASE, 1);
-		buildingList.add(caseB);
-		Building sosB = new Building(map, xlist, ylist, objtype, BuildingType.SOS, 1);
-		buildingList.add(sosB);
-		Building scieB = new Building(map, xlist, ylist, objtype, BuildingType.SCIE, 1);
-		buildingList.add(scieB);
-		Building engB = new Building(map, xlist, ylist, objtype, BuildingType.ENG, 1);
-		buildingList.add(engB);
-		Building snaB = new Building(map, xlist, ylist, objtype, BuildingType.SNA, 2);
-		buildingList.add(snaB);	
+		Building omerB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.OMER, 5);
+		buildingList.add(0,omerB);
+		Building caseB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.CASE, 1);
+		buildingList.add(1,caseB);
+		Building sosB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SOS, 1);
+		buildingList.add(2,sosB);
+		Building scieB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SCIE, 1);
+		buildingList.add(3,scieB);
+		Building engB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.ENG, 1);
+		buildingList.add(4,engB);
+		Building snaB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SNA, 2);
+		buildingList.add(5,snaB);
 		
-		this.currentIndex = 0;
+		currentIndex = 0;
 		
 	}
 

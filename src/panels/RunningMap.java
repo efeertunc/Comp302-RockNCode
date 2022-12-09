@@ -10,22 +10,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import domain.BuildingTracker;
 import main.IPanel;
 import objects.TileManager;
 
 public class RunningMap extends JPanel implements IPanel {
     JPanel panel;
-    ArrayList<Integer> xlist = new ArrayList<Integer>();
-    ArrayList<Integer> ylist = new ArrayList<Integer>();
-    ArrayList<Integer> objtype = new ArrayList<Integer>();
+    ArrayList<Integer> xlist = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getXlist();
+    ArrayList<Integer> ylist = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getYlist();
+    ArrayList<Integer> objtype = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getObjtype();
     TileManager tm;
     Point startPoint;
-    private int[][] map = new int[12][17];
+    private int[][] map = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap();
 
     public RunningMap(JPanel panel) {
+        printAll();
+
         this.panel = panel;
         tm = new TileManager();
         design();
+        repaint();
 
     }
 
@@ -121,5 +125,27 @@ public class RunningMap extends JPanel implements IPanel {
         }
 
     }
+    public void printArray(ArrayList<Integer> arr) {
+        for (int i = 0; i < arr.size(); i++) {
+            System.out.printf(" %d ", arr.get(i));
+        }
+        System.out.println();
+    }
 
+    public void printArr(int[][] arr) {
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 17; j++) {
+                System.out.printf("%d", arr[i][j]);
+            }
+            System.out.println();
+        }
+    }
+    public void printAll(){
+        System.out.printf("All the information for %s \n",BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
+        printArray(xlist);
+        printArray(ylist);
+        printArray(objtype);
+        printArr(map);
+
+    }
 }
