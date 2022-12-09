@@ -54,8 +54,8 @@ public class EscapeFromKoc {
             gameView = ViewFactory.getInstance().createView(ViewType.GameView);
 
             authView.showView(true);
-            authView.getPanel(PanelType.Auth).showPanel(true);
-            setCurPanel(authView.getPanel(PanelType.Auth));
+            authView.getPanel(PanelType.Login).showPanel(true);
+            setCurPanel(authView.getPanel(PanelType.Login));
             gameView.getFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
     }

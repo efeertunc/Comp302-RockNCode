@@ -1,5 +1,6 @@
 package views;
 
+import controllers.AuthController;
 import factory.PanelFactory;
 import factory.PanelType;
 import main.IAppView;
@@ -8,14 +9,22 @@ import main.IPanel;
 import javax.swing.*;
 
 public class AuthView implements IAppView {
-
+    private final AuthController authController;
     private JFrame frame;
     private final IPanel authPanel;
+    private final IPanel CreateAccount;
+    private final IPanel ForgotPass;
+
+
 
     public AuthView() {
+        authController = new AuthController();
         putFrametoGame();
+        CreateAccount = PanelFactory.getInstance().createPanel(PanelType.Register, this);
+        authPanel = PanelFactory.getInstance().createPanel(PanelType.Login, this);
+        ForgotPass = PanelFactory.getInstance().createPanel(PanelType.ForgotPass, this);
 
-        authPanel = PanelFactory.getInstance().createPanel(PanelType.Auth, this);
+
     }
 
     @Override
@@ -41,8 +50,11 @@ public class AuthView implements IAppView {
 
     @Override
     public IPanel getPanel(PanelType panel) {
+
         return switch (panel) {
-            case Auth -> authPanel;
+            case Login -> authPanel;
+            case Register ->  CreateAccount;
+            case ForgotPass ->  ForgotPass;
             default -> throw new IllegalArgumentException("No such kind of panel type");
         };
     }
@@ -52,5 +64,7 @@ public class AuthView implements IAppView {
         return frame;
     }
 
-
+    public AuthController getAuthController() {
+        return authController;
+    }
 }

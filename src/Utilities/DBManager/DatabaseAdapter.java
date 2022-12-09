@@ -20,6 +20,10 @@ public class DatabaseAdapter {
         dbManager.createUser(username, firstPassword, secondPassword, hint);
     }
 
+    public void forgotPassword(String username, String hint, String firstPassword, String secondPassword){
+        dbManager.forgotPassword(username, hint, firstPassword, secondPassword);
+    }
+
     public void subscribeAuthObserver(DBObserver observer) {
         dbManager.subscribeAuthObserver(observer);
 
