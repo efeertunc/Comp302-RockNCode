@@ -36,6 +36,7 @@ public class BuildController {
 		EscapeFromKoc.getInstance().getView(ViewType.GameView).createrunPanel();
 		EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
 				EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run));
+		EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run).showPanel(true);
 
 
 	}

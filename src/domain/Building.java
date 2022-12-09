@@ -1,6 +1,9 @@
 package domain;
 
+import HelperComponents.Position;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Building {
 	
@@ -8,6 +11,9 @@ public class Building {
 	ArrayList<Integer> xlist;
 	ArrayList<Integer> ylist;
 	ArrayList<Integer> objtype;
+	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+	Position keyPos;
+	Avatar avatar;
 	private BuildingType type;
 	private int minReq;
 
@@ -19,7 +25,8 @@ public class Building {
 		this.type = type;
 		this.minReq = minReq;
 	}
-
+	
+	
 	public int[][] getMap() {
 		return map;
 	}
@@ -66,6 +73,45 @@ public class Building {
 		for (int i = 0; i < xlist.size(); i++) {
 			map[ylist.get(i) / 50][xlist.get(i) / 50] = objtype.get(i) + 1;
 		}
+	}
+	public void setObstacles()
+	{
+		for (int i = 0 ; i< 17; i ++)
+		{
+			for (int j = 0 ; j <12; j ++)
+			{
+				if (map[j][i] != 0)
+				{
+					obstacles.add(new Obstacle(map[j][i],i,j));
+				}
+			}
+		}
+	}
+	public void setKey()
+	{
+		Random rand = new Random();
+		int selectedObstacle = rand.nextInt(obstacles.size());
+		obstacles.get(selectedObstacle).generateKey(BuildingTracker.getCurrentIndex());
+		keyPos = obstacles.get(selectedObstacle).position;
+	}
 
+	public Avatar setAvatar()
+	{
+		avatar = new Avatar(3,120, 0, 0);
+		map[0][0] = avatar.getMatrixCode();
+		return avatar;
+	}
+
+	public Obstacle checkObstacle(int x, int y)
+	{
+		for (int i = 0; i < obstacles.size() ; i ++)
+		{
+			if (obstacles.get(i).position.getX() == x && obstacles.get(i).position.getY() == y)
+			{
+				return obstacles.get(i);
+			}
+		}
+		System.out.println("That is not an obstacle");
+		return null;
 	}
 }
