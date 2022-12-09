@@ -30,6 +30,11 @@ public class AuthView implements IAppView {
     }
 
     @Override
+    public void createrunPanel() {
+
+    }
+
+    @Override
     public void showView(Boolean show) {
         frame.setVisible(show);
     }
