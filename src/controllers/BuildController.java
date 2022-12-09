@@ -2,6 +2,7 @@ package controllers;
 
 import domain.Building;
 import domain.BuildingTracker;
+import domain.BuildingType;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
@@ -28,11 +29,6 @@ public class BuildController {
 	}
 
 	public Building nextBuilding() {
-		return buildingList.getBuildingList().get(buildingList.getCurrentIndex() + 1);
-	}
-
-	public Building SetnextBuilding() {
-		buildingList.setCurrentIndex(buildingList.getCurrentIndex() + 1);
 		return buildingList.getBuildingList().get(buildingList.getCurrentIndex() + 1);
 	}
 

@@ -4,6 +4,7 @@ import factory.PanelType;
 import factory.ViewFactory;
 import factory.ViewType;
 import main.EscapeFromKoc;
+import main.IAppView;
 import views.GameView;
 
 public class PauseController {
@@ -19,10 +20,12 @@ public class PauseController {
 	}
 
 	public void openMenu() {
-		EscapeFromKoc.getInstance().setView(ViewType.GameView, ViewFactory.getInstance().createView(ViewType.GameView));
+		IAppView newGame =  ViewFactory.getInstance().createView(ViewType.GameView);
 		
-		EscapeFromKoc.getInstance().changeView(EscapeFromKoc.getInstance().getView(ViewType.AuthView),
-												EscapeFromKoc.getInstance().getView(ViewType.GameView));
+		EscapeFromKoc.getInstance().changeView(EscapeFromKoc.getInstance().getView(ViewType.GameView),
+												newGame);
+
+		EscapeFromKoc.getInstance().setView(ViewType.GameView, newGame);
 		
 		EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
 												EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu));
