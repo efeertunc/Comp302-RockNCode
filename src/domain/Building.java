@@ -25,7 +25,8 @@ public class Building {
 		this.type = type;
 		this.minReq = minReq;
 	}
-
+	
+	
 	public int[][] getMap() {
 		return map;
 	}
