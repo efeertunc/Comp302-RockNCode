@@ -20,8 +20,8 @@ public class AuthView implements IAppView {
     public AuthView() {
         authController = new AuthController();
         putFrametoGame();
-        CreateAccount = PanelFactory.getInstance().createPanel(PanelType.CreateAccount, this);
-        authPanel = PanelFactory.getInstance().createPanel(PanelType.Auth, this);
+        CreateAccount = PanelFactory.getInstance().createPanel(PanelType.Register, this);
+        authPanel = PanelFactory.getInstance().createPanel(PanelType.Login, this);
         ForgotPass = PanelFactory.getInstance().createPanel(PanelType.ForgotPass, this);
 
 
@@ -52,8 +52,8 @@ public class AuthView implements IAppView {
     public IPanel getPanel(PanelType panel) {
 
         return switch (panel) {
-            case Auth -> authPanel;
-            case CreateAccount ->  CreateAccount;
+            case Login -> authPanel;
+            case Register ->  CreateAccount;
             case ForgotPass ->  ForgotPass;
             default -> throw new IllegalArgumentException("No such kind of panel type");
         };

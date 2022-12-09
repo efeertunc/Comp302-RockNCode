@@ -1,8 +1,6 @@
 
 package panels;
 
-import controllers.AuthController;
-import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
 import main.IPanel;
@@ -14,19 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-import controllers.AuthController;
 import main.IAppView;
-import main.IPanel;
 import views.AuthView;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-public class CreateAccount implements IPanel {
+public class RegisterPanel implements IPanel {
     private JTextField newUsername;
     private JTextField userHint;
     private JPasswordField newPassword;
@@ -34,7 +23,8 @@ public class CreateAccount implements IPanel {
     private JPanel panel;
     private JButton registerButton;
     private JButton prevPage;
-    public CreateAccount(IAppView appView) {
+    private JLabel info;
+    public RegisterPanel(IAppView appView) {
         putPaneltoFrame(appView.getFrame());
         initialize();
         design();
@@ -64,10 +54,14 @@ public class CreateAccount implements IPanel {
         });
         prevPage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().goBack();
+                ((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().goBackFromRegister();
             }
         });
 
+    }
+
+    public void setInfo(String text) {
+        info.setText(text);
     }
 
     @Override
@@ -79,7 +73,7 @@ public class CreateAccount implements IPanel {
         header.setHorizontalAlignment(SwingConstants.CENTER);
 
         panel.add(prevPage);
-        prevPage.setBounds(10, 10, 30, 30);
+        prevPage.setBounds(10, 10, 50, 30);
 
         panel.add(registerButton);
         registerButton.setBounds(153, 237, 159, 29);
@@ -133,10 +127,10 @@ public class CreateAccount implements IPanel {
                 }
             }
         });
-        panel.add(newPassword);
-        newPassword.setBounds(250, 151, 130, 26);
-        newPassword.setEchoChar((char) 0);
+
+
         char passwordChar = newPassword.getEchoChar();
+        newPassword.setEchoChar((char) 0);
         newPassword.setText("Enter password");
         newPassword.setForeground(new Color(142, 144, 145));
         newPassword.addFocusListener(new FocusAdapter() {
@@ -160,6 +154,8 @@ public class CreateAccount implements IPanel {
                 }
             }
         });
+        panel.add(newPassword);
+        newPassword.setBounds(250, 151, 130, 26);
 
         panel.add(confirmPass);
         confirmPass.setBounds(250, 189, 130, 26);
@@ -187,6 +183,12 @@ public class CreateAccount implements IPanel {
                 }
             }
         });
+
+
+        info = new JLabel();
+        info.setHorizontalAlignment(SwingConstants.CENTER);
+        info.setBounds(6, 310, 438, 16);
+        panel.add(info);
     }
     @Override
     public void putPaneltoFrame(JFrame frame) {

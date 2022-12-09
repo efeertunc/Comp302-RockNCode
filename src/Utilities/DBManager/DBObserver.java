@@ -12,4 +12,8 @@ public interface DBObserver {
 
     public void registerRejected(String response);
 
+    public void changePasswordAccepted(String response);
+
+    public void changePasswordRejected(String response);
+
 }

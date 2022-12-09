@@ -76,7 +76,7 @@ public final class DBManager {
         }
 
         if (!firstPassword.equals(secondPassword)) {
-            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_SAME);
+            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_SAME_REGISTER);
             return;
         }
 
@@ -95,6 +95,33 @@ public final class DBManager {
 
     }
 
+    public void forgotPassword(String username, String hint, String firstPassword, String secondPassword) {
+
+        if (firstPassword.length() < 6) {
+            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_LENGTH_FORGOT);
+            return;
+        }
+
+        if (!firstPassword.equals(secondPassword)) {
+            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_SAME_FORGOT);
+            return;
+        }
+        Account account = checkUsernameForgotPassword(username,hint);
+
+        if (account != null){
+            account.setPassword(firstPassword);
+            Map<String, Object> childUpdates = new HashMap<>();
+            Map<String, Object> accountValues = account.toMap();
+
+            childUpdates.put("/users/" + account.getID(), accountValues);
+
+            database.updateChildren(childUpdates, (error, ref) -> notifyAuthObservers(Constants.DatabaseConstants.DATABASE_WRITE_ERROR + " because of" + error.getDetails()));
+            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_CHANGED);
+        }else {
+            notifyAuthObservers(Constants.DatabaseConstants.HINT_WRONG);
+        }
+    }
+
     private boolean checkUsernameRegister(String username) {
         getListOfUsers();
         for (Account account : userList) {
@@ -103,6 +130,16 @@ public final class DBManager {
             }
         }
         return true;
+    }
+
+    private Account checkUsernameForgotPassword(String username, String hint) {
+        getListOfUsers();
+        for (Account account : userList) {
+            if (account.getUsername().equals(username) && account.getHint().equals(hint)) {
+                return account;
+            }
+        }
+        return null;
     }
 
     private boolean checkUserLogin(String username, String password) {
@@ -155,7 +192,7 @@ public final class DBManager {
             DBObserver.registerRejected(response);
             return;
         }
-        if (response.equals(Constants.DatabaseConstants.PASSWORD_SAME)) {
+        if (response.equals(Constants.DatabaseConstants.PASSWORD_SAME_REGISTER)) {
             DBObserver.registerRejected(response);
             return;
         }
@@ -165,6 +202,22 @@ public final class DBManager {
         }
         if (response.equals(Constants.DatabaseConstants.USERNAME_NOT_AVAILABLE)) {
             DBObserver.registerRejected(response);
+            return;
+        }
+        if (response.equals(Constants.DatabaseConstants.PASSWORD_CHANGED)) {
+            DBObserver.changePasswordAccepted(response);
+            return;
+        }
+        if (response.equals(Constants.DatabaseConstants.HINT_WRONG)) {
+            DBObserver.changePasswordRejected(response);
+            return;
+        }
+        if (response.equals(Constants.DatabaseConstants.PASSWORD_SAME_FORGOT)) {
+            DBObserver.changePasswordRejected(response);
+            return;
+        }
+        if (response.equals(Constants.DatabaseConstants.PASSWORD_LENGTH_FORGOT)) {
+            DBObserver.changePasswordRejected(response);
         }
 
     }

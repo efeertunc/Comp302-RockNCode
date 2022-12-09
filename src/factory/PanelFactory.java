@@ -20,9 +20,9 @@ public class PanelFactory {
 
     public IPanel createPanel(PanelType type, IAppView appView) {
         return switch (type) {
-            case ForgotPass -> new ForgotPass(appView);
-            case CreateAccount -> new CreateAccount(appView);
-            case Auth -> new AuthPanel(appView);
+            case ForgotPass -> new ForgotPasswordPanel(appView);
+            case Register -> new RegisterPanel(appView);
+            case Login -> new LoginPanel(appView);
             case Menu -> new MenuPanel(appView);
             case Build -> new BuildPanel(appView);
             case Run -> new RunPanel(appView);
