@@ -29,14 +29,8 @@ public class BuildController {
 	}
 
 	public Building nextBuilding() {
-
-		if (buildingList.getBuildingList().get(buildingList.getCurrentIndex()).getType() == BuildingType.SNA) {
-			return buildingList.getBuildingList().get(buildingList.getCurrentIndex());
-		}
-
-		buildingList.setCurrentIndex(buildingList.getCurrentIndex() + 1);
-		return buildingList.getBuildingList().get(buildingList.getCurrentIndex());	
-  }
+		return buildingList.getBuildingList().get(buildingList.getCurrentIndex() + 1);
+	}
 
 	public void startRun() {
 		EscapeFromKoc.getInstance().getView(ViewType.GameView).createrunPanel();
