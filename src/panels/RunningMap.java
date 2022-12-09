@@ -4,35 +4,36 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import HelperComponents.Direction;
+import HelperComponents.Position;
+import domain.Avatar;
 import domain.BuildingTracker;
+import domain.Obstacle;
 import main.IPanel;
 import objects.TileManager;
 
-public class RunningMap extends JPanel implements IPanel {
+public class RunningMap extends JPanel implements IPanel , Runnable {
     JPanel panel;
-    ArrayList<Integer> xlist = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getXlist();
-    ArrayList<Integer> ylist = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getYlist();
-    ArrayList<Integer> objtype = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getObjtype();
     TileManager tm;
     Point startPoint;
+    Thread thread;
     private int[][] map = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap();
 
     public RunningMap(JPanel panel) {
-        printAll();
-
         this.panel = panel;
         tm = new TileManager();
+        //initialize();
         design();
-        repaint();
-
     }
-
     @Override
     public void showPanel(Boolean show) {
         this.setVisible(show);
@@ -41,10 +42,16 @@ public class RunningMap extends JPanel implements IPanel {
 
     @Override
     public void initialize() {
-        // TODO Auto-generated method stub
-
     }
 
+    private int parseX(int x)
+    {
+        return 42 + x*48;
+    }
+    private int parseY(int y)
+    {
+        return 27 + y*48;
+    }
     @Override
     public void design() {
         this.setBackground(Color.PINK);
@@ -52,43 +59,13 @@ public class RunningMap extends JPanel implements IPanel {
         this.setBorder(new LineBorder(new Color(255, 120, 241)));
         this.setBounds(0, 70, 900, 630);
         panel.add(this);
-
     }
 
     @Override
     public void putPaneltoFrame(JFrame frame) {
-        // TODO Auto-generated method stub
+        //
 
     }
-
-    public ArrayList<Integer> getXlist() {
-        return xlist;
-    }
-
-    public ArrayList<Integer> getYlist() {
-        return ylist;
-    }
-
-    public ArrayList<Integer> getObjtype() {
-        return objtype;
-    }
-
-    public int[][] getMap() {
-        return map;
-    }
-
-    public void setXlist(ArrayList<Integer> xlist) {
-        this.xlist = xlist;
-    }
-
-    public void setYlist(ArrayList<Integer> ylist) {
-        this.ylist = ylist;
-    }
-
-    public void setObjtype(ArrayList<Integer> objtype) {
-        this.objtype = objtype;
-    }
-
     public void setMap(int[][] map) {
         this.map = map;
     }
@@ -101,37 +78,23 @@ public class RunningMap extends JPanel implements IPanel {
     }
 
     public void draw(Graphics2D g2D) {
-
-        for (int i = 0; i < xlist.size(); i++) {
-            g2D.drawImage(tm.getObjects()[objtype.get(i)].image, xlist.get(i), ylist.get(i), tm.getTileSize() + 15,
-                    tm.getTileSize() + 15, null); // arrange tile weight and height
-
-        }
-
-    }
-
-    public boolean inMap(int x, int y) {
-        return map[y / 50][x / 50] != 0;
-    }
-
-    public void updateMap() {
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 17; j++) {
-                map[i][j] = 0;
+        for (int i = 0 ; i< 17; i ++)
+        {
+            for (int j = 0 ; j <12; j ++)
+            {
+                if (map[j][i] == 0)
+                {
+                    g2D.drawImage(tm.getObjects()[4].image, parseX(i), parseY(j), 48,
+                            48, null);
+                }
+                else
+                {
+                    g2D.drawImage(tm.getObjects()[map[j][i] -1].image, parseX(i), parseY(j), 48,
+                            48, null);
+                }
             }
         }
-        for (int i = 0; i < xlist.size(); i++) {
-            map[ylist.get(i) / 50][xlist.get(i) / 50] = objtype.get(i) + 1;
-        }
-
     }
-    public void printArray(ArrayList<Integer> arr) {
-        for (int i = 0; i < arr.size(); i++) {
-            System.out.printf(" %d ", arr.get(i));
-        }
-        System.out.println();
-    }
-
     public void printArr(int[][] arr) {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 17; j++) {
@@ -142,10 +105,28 @@ public class RunningMap extends JPanel implements IPanel {
     }
     public void printAll(){
         System.out.printf("All the information for %s \n",BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
-        printArray(xlist);
-        printArray(ylist);
-        printArray(objtype);
         printArr(map);
+    }
+
+
+    public void startThread()
+    {
+        thread = new Thread(this);
+        thread.start();
+    }
+    @Override
+    public void run() {
+        while (thread != null)
+        {
+            update();
+
+            repaint();
+        }
+    }
+
+    public void update()
+    {
 
     }
+
 }

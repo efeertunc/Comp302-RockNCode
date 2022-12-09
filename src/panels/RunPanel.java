@@ -2,18 +2,19 @@ package panels;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import HelperComponents.Direction;
 import controllers.RunController;
 import domain.BuildingTracker;
 import main.IAppView;
@@ -21,7 +22,7 @@ import main.IPanel;
 
 
 
-public class RunPanel implements IPanel{
+public class RunPanel extends JPanel implements IPanel, KeyListener{
 	
 	private JPanel panel;
 	
@@ -87,12 +88,14 @@ public class RunPanel implements IPanel{
 	@Override
 	public void showPanel(Boolean show) {
 		panel.setVisible(show);
-		
+		panel.requestFocus();
 	}
 
 
 	@Override
 	public void initialize() {
+		panel.addKeyListener(this);
+		panel.setFocusable(true);
 		pauseButton = new JButton("Pause Game");	
 		pauseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -100,10 +103,20 @@ public class RunPanel implements IPanel{
 			}
 		});
 
+		panel.addMouseListener(new MouseAdapter() {// provides empty implementation of all
+			// MouseListener`s methods, allowing us to
+			// override only those which interests us
+			@Override // I override only one method for presentation
+			public void mousePressed(MouseEvent e) {
+				int x = e.getX();
+				int y = e.getY();
+				runController.searchKey(x,y);
+			}
+
+		});
 
 		RunningMap = new RunningMap(panel);
-		RunningMap.repaint();
-
+		RunningMap.startThread();
 	}
 
 
@@ -125,6 +138,36 @@ public class RunPanel implements IPanel{
 			}
 			System.out.println();
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent keyEvent) {
+
+	}
+	@Override
+	public void keyPressed(KeyEvent keyEvent) {
+		int keyCode = keyEvent.getKeyCode();
+		if (keyCode == KeyEvent.VK_UP)
+		{
+			runController.movePlayer(Direction.fourDir.up);
+		}
+		if (keyCode == KeyEvent.VK_RIGHT)
+		{
+			runController.movePlayer(Direction.fourDir.right);
+		}
+		if (keyCode == KeyEvent.VK_DOWN)
+		{
+			runController.movePlayer(Direction.fourDir.down);
+		}
+		if (keyCode == KeyEvent.VK_LEFT)
+		{
+			runController.movePlayer(Direction.fourDir.left);
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent keyEvent) {
+
 	}
 
 }
