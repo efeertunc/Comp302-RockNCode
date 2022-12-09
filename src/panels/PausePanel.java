@@ -10,7 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 
 import controllers.PauseController;
 import factory.PanelType;
@@ -63,10 +65,10 @@ public class PausePanel implements IPanel{
 	public void putPaneltoFrame(JFrame frame) {
 		panel = new JPanel();	
 		panel.setVisible(false);
-		panel.setBounds(6, 6, 438, 342);
+		panel.setBounds(420, 200, 438, 342);
 		panel.setLayout(null);
-		panel.setBorder(new LineBorder(Color.BLACK));
-		frame.add(panel);
+		panel.setBorder(new CompoundBorder(new LineBorder(new Color(255, 0, 102), 7, true),
+				new MatteBorder(4, 4, 2, 2, (Color) new Color(0, 204, 255))));		frame.add(panel);
 	}
 
 

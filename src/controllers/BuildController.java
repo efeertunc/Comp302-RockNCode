@@ -15,6 +15,14 @@ public class BuildController {
 		buildingList = new BuildingTracker();
 	}
 
+	public BuildingTracker getBuildingList() {
+		return buildingList;
+	}
+
+	public void setBuildingList(BuildingTracker buildingList) {
+		this.buildingList = buildingList;
+	}
+
 	public void openHelpScreen() {
 		EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(), 
 		EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Help));
@@ -28,13 +36,14 @@ public class BuildController {
 
 		buildingList.setCurrentIndex(buildingList.getCurrentIndex() + 1);
 		return buildingList.getBuildingList().get(buildingList.getCurrentIndex());	
-	}
+  }
 
-	public void startRun() {		
-		EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(), 
-		EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run));
-		
-		
+	public void startRun() {
+		EscapeFromKoc.getInstance().getView(ViewType.GameView).createrunPanel();
+		EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
+				EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run));
+
+
 	}
 
 } 
