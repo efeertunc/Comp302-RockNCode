@@ -3,15 +3,12 @@ package panels;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import HelperComponents.Direction;
@@ -23,11 +20,16 @@ import main.IPanel;
 
 
 public class RunPanel extends JPanel implements IPanel, KeyListener{
-	
+	Timer timer;
+	JFrame windowTimer;
+	JLabel labelTimer;
+	Font font1 = new Font("Arial", Font.PLAIN, 15);
 	private JPanel panel;
 	
 	private JButton pauseButton;
-	
+	String showSecond, showMinute;
+	DecimalFormat dFormat = new DecimalFormat("00");
+	int second, minute;
 	private JPanel playerPanel;
 
 	private RunningMap RunningMap;
@@ -39,6 +41,8 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		this.runController = new RunController();
 		initialize();
 		design();
+		myTimer();
+		timer.start();
 		
 	}
 	
@@ -71,6 +75,42 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel.setBounds(325, 44, 107, 292);
 		panel.add(playerPanel);
 
+
+		labelTimer = new JLabel("");
+		labelTimer.setBounds(800, 100, 180, 70);
+		labelTimer.setHorizontalAlignment(JLabel.CENTER);
+		labelTimer.setFont(font1);
+
+		playerPanel.add(labelTimer);
+		playerPanel.setVisible(true);
+
+		labelTimer.setText("00:00");
+		second = 0;
+		minute = 0;
+
+	}
+	public void myTimer() {
+		timer = new Timer(1000, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				second++;
+
+				showSecond = dFormat.format(second);
+				showMinute = dFormat.format(minute);
+				labelTimer.setText(showMinute + ":" + showSecond);
+
+				if (second == 60) {
+					second = 0;
+					minute++;
+
+					showSecond = dFormat.format(second);
+					showMinute = dFormat.format(minute);
+					labelTimer.setText(showMinute + ":" + showSecond);
+				}
+			}
+		});
 	}
 
 
@@ -87,6 +127,9 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 	@Override
 	public void showPanel(Boolean show) {
+		if(show == true){
+			timer.start();
+		}
 		panel.setVisible(show);
 		panel.requestFocus();
 	}
@@ -100,6 +143,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		pauseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pauseGame();
+				timer.stop();
 			}
 		});
 
