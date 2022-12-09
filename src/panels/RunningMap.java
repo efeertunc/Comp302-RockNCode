@@ -63,7 +63,7 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
 
     @Override
     public void putPaneltoFrame(JFrame frame) {
-        // 
+        //
 
     }
     public void setMap(int[][] map) {
