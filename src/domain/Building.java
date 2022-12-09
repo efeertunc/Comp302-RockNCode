@@ -97,7 +97,20 @@ public class Building {
 	public Avatar setAvatar()
 	{
 		avatar = new Avatar(3,120, 0, 0);
-		map[0][0] = 6;
+		map[0][0] = avatar.getMatrixCode();
 		return avatar;
+	}
+
+	public Obstacle checkObstacle(int x, int y)
+	{
+		for (int i = 0; i < obstacles.size() ; i ++)
+		{
+			if (obstacles.get(i).position.getX() == x && obstacles.get(i).position.getY() == y)
+			{
+				return obstacles.get(i);
+			}
+		}
+		System.out.println("That is not an obstacle");
+		return null;
 	}
 }

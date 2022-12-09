@@ -49,9 +49,16 @@ public class RunController {
 		}
 	}
 
-	public void searchKey()
+	public void searchKey(int x, int y)
 	{
-
+		int indexX = (x-42) / 48;
+		int indexY = (y-97) / 48;
+		if (indexX < 0 || indexX>16 || indexY <0 || indexY >16)
+		{
+			System.out.println("MouseClick is outside of the field");
+			return;
+		}
+		avatar.searchKey(indexX , indexY , currentBuilding);
 	}
 
 }

@@ -2,11 +2,10 @@ package panels;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +16,7 @@ import javax.swing.border.LineBorder;
 
 import HelperComponents.Direction;
 import controllers.RunController;
+import domain.BuildingTracker;
 import main.IAppView;
 import main.IPanel;
 
@@ -102,6 +102,19 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 				pauseGame();
 			}
 		});
+
+		panel.addMouseListener(new MouseAdapter() {// provides empty implementation of all
+			// MouseListener`s methods, allowing us to
+			// override only those which interests us
+			@Override // I override only one method for presentation
+			public void mousePressed(MouseEvent e) {
+				int x = e.getX();
+				int y = e.getY();
+				runController.searchKey(x,y);
+			}
+
+		});
+
 		RunningMap = new RunningMap(panel);
 		RunningMap.startThread();
 	}
