@@ -58,6 +58,139 @@ public class BuildPanel implements IPanel {
 
 	}
 
+
+	public void performed() {
+		BuildingMap.addMouseListener(new MouseAdapter() {// provides empty implementation of all
+			// MouseListener`s methods, allowing us to
+			// override only those which interests us
+			@Override // I override only one method for presentation
+			public void mousePressed(MouseEvent e) {
+
+				int x = e.getX() - 30;
+				int y = e.getY()-20 ;
+				System.out.printf("x: %d  y:  %d\n",x,y);
+				int b = comboBox.getSelectedIndex();
+				BuildingMap.addToMap(x, y, b);
+				if (BuildingMap.objtype.size() >= BuildingTracker.getBuildingList()
+						.get(BuildingTracker.getCurrentIndex()).getMinReq()) {
+					textPane2.setBackground(Color.GREEN);
+				}
+			}
+
+		});
+
+		undoLastButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BuildingMap.undoLast();
+				if (BuildingMap.getXlist().size() < BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
+					textPane2.setBackground(Color.RED);}
+
+			}
+		});
+		emptyMapButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BuildingMap.emptyMap();
+				textPane2.setBackground(Color.RED);
+			}
+		});
+
+	}
+
+	protected void startRunMode() {
+
+		int minimum = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq();
+		if (BuildingMap.getXlist().size() < minimum) {
+			String str = "Please select at least " + Integer.toString(minimum) + " objects !";
+			JOptionPane.showMessageDialog(null, str);
+
+		} else {
+			setBuildingLists();
+			//BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(BuildingMap.getMap());
+			BuildingTracker.setCurrentIndex(0);
+			buildController.startRun();
+
+		}
+
+	}
+
+	protected void nextBuilding() {
+		Building next = buildController.nextBuilding();
+		textPane2.setBackground(Color.RED);
+
+		if (next.getType() == BuildingType.SNA) {
+			nextBuildingButton.setVisible(false);
+			startRunModeButton.setVisible(true);
+		}
+		updateBuildingMap(next);
+
+	}
+
+	private void updateBuildingMap(Building next) {
+
+		// buraya yazz arrayleri eþitle
+		int minimum = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq();
+
+		if (BuildingMap.getXlist().size() < minimum) {
+			String str = "Please select at least " + Integer.toString(minimum) + " objects !";
+			JOptionPane.showMessageDialog(null, str);
+
+		} else {
+			System.out.println("Current Index: "+BuildingTracker.getCurrentIndex());
+			setBuildingLists();
+
+			BuildingMap.emptyMap();
+			BuildingTracker.setCurrentIndex(1 + BuildingTracker.getCurrentIndex());
+			String str = "At least "
+					+ Integer.toString(
+					BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq())
+					+ " object is required!";
+			textPane2.setText(str);
+			buildingInfo.setText(next.getType().toString());
+		}
+
+	}
+
+	protected void showHelp() {
+		buildController.openHelpScreen();
+
+	}
+
+	@Override
+	public void putPaneltoFrame(JFrame frame) {
+		panel = new JPanel();
+		frame.add(this.panel);
+		panel.setVisible(false);
+		panel.setBounds(0, 0, 1290, 700);
+		panel.setLayout(null);
+		panel.setBorder(new LineBorder(Color.BLACK));
+	}
+
+	public void printArray(ArrayList<Integer> arr) {
+		for (int i = 0; i < arr.size(); i++) {
+			System.out.printf(" %d ", arr.get(i));
+		}
+		System.out.println();
+	}
+
+	public void printArr(int[][] arr) {
+		for (int i = 0; i < 12; i++) {
+			for (int j = 0; j < 17; j++) {
+				System.out.printf("%d", arr[i][j]);
+			}
+			System.out.println();
+		}
+	}
+	public void setBuildingLists() {
+		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setXlist(BuildingMap.getXlist());
+		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setYlist(BuildingMap.getYlist());
+		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setObjtype(BuildingMap.getObjtype());
+		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).initializeMap();
+		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap_obj(BuildingMap.getMap());
+	}
 	@Override
 	public void design() {
 
@@ -105,8 +238,8 @@ public class BuildPanel implements IPanel {
 		comboBox.setBounds(10, 390, 138, 22);
 		comboBox.addItem("Shelves");
 		comboBox.addItem("Chair");
-		comboBox.addItem("Table");
 		comboBox.addItem("Recycle Bin");
+		comboBox.addItem("Table");
 		objectPanel.add(comboBox);
 
 		textPane = new JTextPane();
@@ -192,147 +325,5 @@ public class BuildPanel implements IPanel {
 		});
 	}
 
-	public void performed() {
-		BuildingMap.addMouseListener(new MouseAdapter() {// provides empty implementation of all
-			// MouseListener`s methods, allowing us to
-			// override only those which interests us
-			@Override // I override only one method for presentation
-			public void mousePressed(MouseEvent e) {
-
-				int x = e.getX() - 30;
-				int y = e.getY() - 20;
-				int b = comboBox.getSelectedIndex();
-				BuildingMap.addToMap(x, y, b);
-				if (BuildingMap.objtype.size() >= BuildingTracker.getBuildingList()
-						.get(BuildingTracker.getCurrentIndex()).getMinReq()) {
-					textPane2.setBackground(Color.GREEN);
-				}
-
-			}
-
-		});
-
-		undoLastButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				BuildingMap.undoLast();
-
-			}
-		});
-		emptyMapButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				BuildingMap.emptyMap();
-			}
-		});
-
-	}
-
-	protected void startRunMode() {
-
-		int minimum = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq();
-		if (BuildingMap.getXlist().size() < minimum) {
-			String str = "Please select at least " + Integer.toString(minimum) + " objects !";
-			JOptionPane.showMessageDialog(null, str);
-
-		} else {
-
-			//BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(BuildingMap.getMap());
-			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setXlist(BuildingMap.getXlist());
-			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setYlist(BuildingMap.getYlist());
-			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setObjtype(BuildingMap.getObjtype());
-			for (int i=0;i<6;i++){
-				BuildingTracker.getBuildingList().get(i).initializeMap();
-				System.out.println(BuildingTracker.getBuildingList().get(i).getType());
-				printArr(BuildingTracker.getBuildingList().get(i).getMap());
-				printArray(BuildingTracker.getBuildingList().get(i).getXlist());
-				printArray(BuildingTracker.getBuildingList().get(i).getYlist());
-			}
-			//BuildingMap.emptyMap();
-			BuildingTracker.setCurrentIndex(0);
-			buildController.startRun();
-
-		}
-
-	}
-
-	protected void nextBuilding() {
-		Building next = buildController.nextBuilding();
-		textPane2.setBackground(Color.RED);
-
-		if (next.getType() == BuildingType.SNA) {
-			nextBuildingButton.setVisible(false);
-			startRunModeButton.setVisible(true);
-		}
-
-		updateBuildingMap(next);
-
-	}
-
-	private void updateBuildingMap(Building next) {
-
-		// buraya yazz arrayleri eþitle
-		int minimum = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq();
-
-		if (BuildingMap.getXlist().size() < minimum) {
-			String str = "Please select at least " + Integer.toString(minimum) + " objects !";
-			JOptionPane.showMessageDialog(null, str);
-
-		} else {
-			System.out.println("Current Index: "+BuildingTracker.getCurrentIndex());
-		//	BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(BuildingMap.getMap());
-			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setXlist(BuildingMap.getXlist());
-			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setYlist(BuildingMap.getYlist());
-			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setObjtype(BuildingMap.getObjtype());
-
-
-			// printArr(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap());
-
-			//System.out.println("bu yukardakine eþit,þimdi aþaðýyý yapýcaz");
-			System.out.println(next.getType().toString());
-			BuildingMap.emptyMap();
-			BuildingTracker.setCurrentIndex(1 + BuildingTracker.getCurrentIndex());
-			String str = "At least "
-					+ Integer.toString(
-					BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq())
-					+ " object is required!";
-			textPane2.setText(str);
-			buildingInfo.setText(next.getType().toString());
-		}
-
-	}
-
-	protected void showHelp() {
-		buildController.openHelpScreen();
-
-	}
-
-	@Override
-	public void putPaneltoFrame(JFrame frame) {
-		panel = new JPanel();
-		frame.add(this.panel);
-		panel.setVisible(false);
-		panel.setBounds(0, 0, 1290, 700);
-		panel.setLayout(null);
-		panel.setBorder(new LineBorder(Color.BLACK));
-	}
-
-	public void printArray(ArrayList<Integer> arr) {
-		for (int i = 0; i < arr.size(); i++) {
-			System.out.printf(" %d ", arr.get(i));
-		}
-		System.out.println();
-	}
-
-	public void printArr(int[][] arr) {
-		for (int i = 0; i < 12; i++) {
-			for (int j = 0; j < 17; j++) {
-				System.out.printf("%d", arr[i][j]);
-			}
-			System.out.println();
-		}
-	}
 
 }
