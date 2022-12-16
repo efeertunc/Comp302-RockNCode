@@ -3,6 +3,7 @@ package controllers;
 import domain.Building;
 import domain.BuildingTracker;
 import domain.BuildingType;
+import domain.SoundManager;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
@@ -10,6 +11,7 @@ import main.EscapeFromKoc;
 public class BuildController {
 	
 	private BuildingTracker buildingList;
+
 	
 	public BuildController() {
 		buildingList = new BuildingTracker();

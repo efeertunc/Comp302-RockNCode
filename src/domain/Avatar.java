@@ -1,6 +1,7 @@
 package domain;
 
 import HelperComponents.Position;
+import panels.BuildPanel;
 
 public class Avatar {
     int life;
@@ -37,7 +38,7 @@ public class Avatar {
         }
     }
 
-    public void searchKey(int x, int y, Building building)
+    public boolean searchKey(int x, int y, Building building)
     {
         int xDiff = Math.abs(position.getX() - x);
         int yDiff = Math.abs(position.getY() - y);
@@ -48,8 +49,11 @@ public class Avatar {
                 System.out.println("KEY HAS BEEN FOUND");
                 setMatrixCode(7);
                 building.getMap()[position.getY()][position.getX()] = 7;
+                return true;
+
             }
         }
+        return false;
     }
     public int getMatrixCode()
     {

@@ -25,6 +25,8 @@ import controllers.BuildController;
 import domain.Building;
 import domain.BuildingTracker;
 import domain.BuildingType;
+import domain.SoundManager;
+import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
 
@@ -47,6 +49,7 @@ public class BuildPanel implements IPanel {
 	private JTextPane textPane2;
 
 	private BuildController buildController;
+	private  SoundManager sound = new SoundManager();
 
 	public BuildPanel(IAppView appView) {
 		putPaneltoFrame(appView.getFrame());
@@ -70,11 +73,14 @@ public class BuildPanel implements IPanel {
 				int y = e.getY()-20 ;
 				System.out.printf("x: %d  y:  %d\n",x,y);
 				int b = comboBox.getSelectedIndex();
-				BuildingMap.addToMap(x, y, b);
+				if(BuildingMap.addToMap(x, y, b)){
+					sound.playSoundEffect(2);
+				}
 				if (BuildingMap.objtype.size() >= BuildingTracker.getBuildingList()
 						.get(BuildingTracker.getCurrentIndex()).getMinReq()) {
 					textPane2.setBackground(Color.GREEN);
 				}
+
 			}
 
 		});
@@ -120,6 +126,7 @@ public class BuildPanel implements IPanel {
 	protected void nextBuilding() {
 		Building next = buildController.nextBuilding();
 		textPane2.setBackground(Color.RED);
+
 
 		if (next.getType() == BuildingType.SNA) {
 			nextBuildingButton.setVisible(false);
@@ -294,14 +301,24 @@ public class BuildPanel implements IPanel {
 
 	@Override
 	public void showPanel(Boolean show) {
+
 		panel.setVisible(show);
 		objectPanel.setVisible(show);
 		BuildingMap.setVisible(show);
+		if(show) {
+			System.out.println("Now showed");
+			//playMusic(1);
+		}
+		else{
+			System.out.println("Now closed");
+
+		}
 
 	}
 
 	@Override
 	public void initialize() {
+
 		helpButton = new JButton("Help");
 		helpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -324,6 +341,16 @@ public class BuildPanel implements IPanel {
 			}
 		});
 	}
+	public void playMusic(int index) {
+		sound.setFile(index);
+		sound.play();
+		sound.loop();
+	}
+	public void stopMusic() {
+		sound.stop();
+	}
+
+
 
 
 }

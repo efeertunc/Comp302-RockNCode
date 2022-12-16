@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 import HelperComponents.Direction;
 import controllers.RunController;
 import domain.BuildingTracker;
+import domain.SoundManager;
 import main.IAppView;
 import main.IPanel;
 
@@ -35,6 +36,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	private RunningMap RunningMap;
 	
 	private RunController runController;
+
 	
 	public RunPanel(IAppView appView) {
 		putPaneltoFrame(appView.getFrame());	
@@ -132,6 +134,12 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		}
 		panel.setVisible(show);
 		panel.requestFocus();
+		if(show){
+			runController.getSound().playMusic(4);
+		}
+		else{
+			runController.getSound().stopMusic();
+		}
 	}
 
 

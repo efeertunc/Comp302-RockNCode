@@ -87,7 +87,7 @@ public class BuildingMap extends JPanel implements IPanel {
 
         }
 
-        public void addToMap ( int x, int y, int b){
+        public boolean addToMap ( int x, int y, int b){
 
             int x_reduced = x % 50;
             int x_new;
@@ -124,9 +124,9 @@ public class BuildingMap extends JPanel implements IPanel {
                objtype.add(b);
                updateMap(unparseX(x_new), unparseY(y_new), b);
                repaint();
-
+                return true;
            }
-
+        return false;
         }
 
         public void emptyMap () {

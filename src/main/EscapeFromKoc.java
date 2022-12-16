@@ -2,6 +2,7 @@ package main;
 
 import Utilities.DBManager.DBManager;
 import Utilities.DBManager.DatabaseAdapter;
+import domain.SoundManager;
 import factory.PanelType;
 import factory.ViewFactory;
 import factory.ViewType;
@@ -149,5 +150,6 @@ public class EscapeFromKoc {
     public DatabaseAdapter getDatabaseAdapter() {
         return databaseAdapter;
     }
+
 
 }
