@@ -59,8 +59,6 @@ public class RunController {
 			return;
 		}
 		if(avatar.searchKey(indexX , indexY , currentBuilding)){
-			sound.setVolumeScale(5);
-			sound.checkVolume();
 			sound.playSoundEffect(0);
 		}
 	}
