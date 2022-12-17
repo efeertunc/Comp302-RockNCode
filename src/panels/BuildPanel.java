@@ -195,7 +195,7 @@ public class BuildPanel implements IPanel {
 		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setXlist(BuildingMap.getXlist());
 		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setYlist(BuildingMap.getYlist());
 		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setObjtype(BuildingMap.getObjtype());
-		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).initializeMap();
+		//BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).initializeMap();
 		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap_obj(BuildingMap.getMap());
 	}
 	@Override

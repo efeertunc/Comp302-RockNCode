@@ -18,8 +18,6 @@ public class RunController {
 	{
 		currentBuilding = BuildingTracker.getBuildingList()
 				.get(BuildingTracker.getCurrentIndex());
-
-		currentBuilding.setObstacles();
 		currentBuilding.setKey();
 		avatar = currentBuilding.setAvatar();
 	}

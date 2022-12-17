@@ -1,26 +1,24 @@
 package domain;
 
 import HelperComponents.Position;
+import main.EscapeFromKoc;
 import objects.ObjectTile;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Building {
-	
-	private int[][] map;
+
 	private ObjectTile[][] map_obj;
 	ArrayList<Integer> xlist;
 	ArrayList<Integer> ylist;
 	ArrayList<Integer> objtype;
-	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 	Position keyPos;
 	Avatar avatar;
 	private BuildingType type;
 	private int minReq;
 
 	public Building(int[][] map, ArrayList<Integer> xlist, ArrayList<Integer> ylist, ArrayList<Integer> objtype, BuildingType type, int minReq) {
-		this.map = map;
 		this.xlist = xlist;
 		this.ylist = ylist;
 		this.objtype = objtype;
@@ -33,11 +31,11 @@ public class Building {
 	public ObjectTile[][] getMap_obj() {
 		return map_obj ;
 	}
-	public int[][] getMap() {
-		return map;
+	public ObjectTile[][] getMap() {
+		return map_obj;
 	}
-	public void setMap(int[][] map) {
-		this.map = map;
+	public void setMap(ObjectTile[][] map) {
+		this.map_obj = map;
 	}
 	public BuildingType getType() {
 		return type;
@@ -75,47 +73,39 @@ public class Building {
 	public void setObjtype(ArrayList<Integer> objtype) {
 		this.objtype = objtype;
 	}
-	public void initializeMap(){
-		for (int i = 0; i < xlist.size(); i++) {
-			map[ylist.get(i) / 50][xlist.get(i) / 50] = objtype.get(i) + 1;
-		}
-	}
-	public void setObstacles()
+	public void setKey()
 	{
-		for (int i = 0 ; i< 17; i ++)
+		ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+
+		for (int i = 0; i < 17; i++)
 		{
-			for (int j = 0 ; j <12; j ++)
+			for (int j = 0; j <12; j++)
 			{
-				if (map[j][i] != 0)
+				if (map_obj[j][i] instanceof Obstacle)
 				{
-					obstacles.add(new Obstacle(map[j][i],i,j));
+					obstacles.add((Obstacle) map_obj[j][i]);
 				}
 			}
 		}
-	}
-	public void setKey()
-	{
 		Random rand = new Random();
 		int selectedObstacle = rand.nextInt(obstacles.size());
 		obstacles.get(selectedObstacle).generateKey(BuildingTracker.getCurrentIndex());
 		keyPos = obstacles.get(selectedObstacle).position;
+		obstacles.clear();
 	}
 
 	public Avatar setAvatar()
 	{
-		avatar = new Avatar(3,120, 0, 0);
-		map[0][0] = avatar.getMatrixCode();
+		avatar = new Avatar(3,120, 0, 0, EscapeFromKoc.getInstance().tm.objects[5].image);
+		map_obj[0][0] = avatar;
 		return avatar;
 	}
 
 	public Obstacle checkObstacle(int x, int y)
 	{
-		for (int i = 0; i < obstacles.size() ; i ++)
+		if (map_obj[y][x] instanceof Obstacle)
 		{
-			if (obstacles.get(i).position.getX() == x && obstacles.get(i).position.getY() == y)
-			{
-				return obstacles.get(i);
-			}
+			return (Obstacle) map_obj[y][x];
 		}
 		System.out.println("That is not an obstacle");
 		return null;

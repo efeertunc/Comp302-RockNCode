@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import domain.BuildingTracker;
+import domain.EmptyTile;
+import domain.Obstacle;
 import main.IPanel;
 import objects.ObjectTile;
 import objects.TileManager;
@@ -75,16 +77,13 @@ public class BuildingMap extends JPanel implements IPanel {
             for (int j = 0; j < 12; j++) {
                 g2D.drawImage(map[j][i].image, parseX(i), parseY(j), 48 + 5,
                         48 + 5, null);
-
             }
 
         }
     }
 
         public void updateMap ( int x, int y,int type){
-
-           map[y][x].setImage(tm.objects[type].getImage());
-
+            map[y][x] = new Obstacle(type,x,y,tm.objects[type].getImage());
         }
 
         public boolean addToMap ( int x, int y, int b){
@@ -145,7 +144,7 @@ public class BuildingMap extends JPanel implements IPanel {
             if (size != 0) {
                 int a = unparseY(ylist.get(size - 1));
                 int b = unparseX(xlist.get(size - 1));
-                map[a][b].setImage(tm.objects[4].getImage());
+                map[a][b] = new EmptyTile(b,a,tm.objects[4].getImage());
                 xlist.remove(size - 1);
                 ylist.remove(size - 1);
                 objtype.remove(size - 1);
@@ -213,8 +212,7 @@ public class BuildingMap extends JPanel implements IPanel {
             ObjectTile[][] map = new ObjectTile[12][17];
             for (int i = 0; i < 12; i++) {
                 for (int j = 0; j < 17; j++) {
-                    map[i][j] = new ObjectTile();
-                    map[i][j].setImage(tm.objects[4].getImage());
+                    map[i][j] = new EmptyTile(j,i,tm.objects[4].getImage());
                     System.out.println();
                 }
             }

@@ -27,7 +27,6 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     TileManager tm;
     Point startPoint;
     Thread thread;
-    private int[][] map = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap();
     private ObjectTile[][] map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
     public RunningMap(JPanel panel) {
         this.panel = panel;
@@ -68,7 +67,7 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
 
     }
     public void setMap(int[][] map) {
-        this.map = map;
+       //
     }
 
     public void paintComponent(Graphics g) {
@@ -83,30 +82,22 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
         {
             for (int j = 0 ; j <12; j ++)
             {
-                if (map[j][i] == 0)
-                {
-                    g2D.drawImage(tm.getObjects()[4].image, parseX(i), parseY(j), 48+5,
-                            48+5, null);
-                }
-                else
-                {
-                    g2D.drawImage(tm.getObjects()[map[j][i] -1].image, parseX(i), parseY(j), 48+5,
-                            48+5, null);
-                }
+                g2D.drawImage(map_obj[j][i].getImage(), parseX(i), parseY(j), 48+5,
+                        48+5, null);
             }
         }
     }
-    public void printArr(int[][] arr) {
+    public void printArr(ObjectTile[][] arr) {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 17; j++) {
-                System.out.printf("%d", arr[i][j]);
+                System.out.printf("%d", arr[i][j].ID);
             }
             System.out.println();
         }
     }
     public void printAll(){
         System.out.printf("All the information for %s \n",BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
-        printArr(map);
+        printArr(map_obj);
     }
 
 

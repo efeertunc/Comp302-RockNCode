@@ -1,19 +1,21 @@
 package domain;
 
 import HelperComponents.Position;
+import objects.ObjectTile;
 
-public class Obstacle {
+import java.awt.image.BufferedImage;
 
-    public Position position;
+public class Obstacle extends ObjectTile {
     public Key key;
 
     public int type;
 
-    public Obstacle(int type, int x, int y)
+    public Obstacle(int type, int x, int y, BufferedImage image)
     {
         this.type = type;
         this.position = new Position();
         position.setPos(x,y);
+        this.image = image;
     }
 
     public void generateKey(int id)

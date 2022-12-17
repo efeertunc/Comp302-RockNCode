@@ -6,6 +6,8 @@ import domain.SoundManager;
 import factory.PanelType;
 import factory.ViewFactory;
 import factory.ViewType;
+import objects.TileManager;
+
 import javax.swing.JFrame;
 import java.awt.*;
 import java.net.InetSocketAddress;
@@ -24,7 +26,7 @@ public class EscapeFromKoc {
             }
         });
     }
-
+    public TileManager tm;
     private static EscapeFromKoc instance;
     private DatabaseAdapter databaseAdapter;
 
@@ -35,6 +37,7 @@ public class EscapeFromKoc {
     private IPanel oldPanel;
 
     private EscapeFromKoc() {
+        tm = new TileManager();
     }
 
     public static EscapeFromKoc getInstance() {

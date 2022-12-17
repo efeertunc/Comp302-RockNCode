@@ -6,7 +6,8 @@ import java.awt.image.BufferedImage;
 
 public class ObjectTile {
     public BufferedImage image;
-    Position position;
+    public Position position;
+    public int ID;
 
     public BufferedImage getImage() {
         return image;
