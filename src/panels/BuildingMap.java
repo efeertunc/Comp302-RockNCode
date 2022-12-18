@@ -219,11 +219,10 @@ public class BuildingMap extends JPanel implements IPanel {
             return map;
         }
     public boolean inMap(int x, int y) {
-        for (int i=0;i<xlist.size();i++){
-            if (x==xlist.get(i) && y==ylist.get(i)){
+            if (map[unparseY(y)][unparseX(x)].getImage()!= tm.objects[4].getImage()){
                 return true;
             }
-        }
+
         return false;
     }
     }
