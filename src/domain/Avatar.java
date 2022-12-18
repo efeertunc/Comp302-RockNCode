@@ -53,6 +53,7 @@ public class Avatar extends ObjectTile {
                 {
                     System.out.println("KEY HAS BEEN FOUND");
                     this.image = EscapeFromKoc.getInstance().tm.getObjects()[6].image;
+                    building.deleteKey();
                     return true;
                 }
             }

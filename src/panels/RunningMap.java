@@ -15,14 +15,13 @@ import javax.swing.border.LineBorder;
 
 import HelperComponents.Direction;
 import HelperComponents.Position;
-import domain.Avatar;
-import domain.BuildingTracker;
-import domain.Obstacle;
+import domain.*;
 import main.IPanel;
 import objects.ObjectTile;
 import objects.TileManager;
 
 public class RunningMap extends JPanel implements IPanel , Runnable {
+    int FPS = 60;
     JPanel panel;
     TileManager tm;
     Point startPoint;
@@ -108,17 +107,44 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     }
     @Override
     public void run() {
+        double drawInterval = 1000000000/FPS;
+        double nextDrawTime = System.nanoTime() + drawInterval;
         while (thread != null)
         {
-            update();
+            update(drawInterval);
 
             repaint();
+
+
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime / 1000000;
+                if (remainingTime < 0)
+                {
+                    remainingTime = 0;
+                }
+                Thread.sleep((long) remainingTime);
+                nextDrawTime += drawInterval;
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
     }
 
-    public void update()
+    public void update(double intervalTime)
     {
-
+        for (int i = 0; i < 17; i++)
+        {
+            for (int j = 0; j <12; j++)
+            {
+                if (map_obj[j][i] instanceof TimeWasterAlien)
+                {
+                    TimeWasterAlien alien = (TimeWasterAlien) map_obj[j][i];
+                    alien.Update(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()), intervalTime);
+                }
+            }
+        }
     }
 
 }

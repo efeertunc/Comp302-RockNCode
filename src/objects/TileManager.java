@@ -8,7 +8,7 @@ public class TileManager {
     private final int scale = 3;
     private int tileSize = originalTileSize * scale; // 48x48 tile //her parça
 
-    public ObjectTile[] objects = new ObjectTile[7];
+    public ObjectTile[] objects = new ObjectTile[9];
 
     public TileManager() {
         super();
@@ -40,6 +40,12 @@ public class TileManager {
 
             objects[6] = new ObjectTile();
             objects[6].image = (ImageIO.read(getClass().getResource("/visual/avatarHappy.png"))); //playerWithKey
+
+            objects[7] = new ObjectTile();
+            objects[7].image = (ImageIO.read(getClass().getResource("/visual/alienTimeWaster.png")));
+
+            objects[8] = new ObjectTile();
+            objects[8].image = (ImageIO.read(getClass().getResource("/visual/keyObj.png")));
 
         } catch (Exception e) {
             e.printStackTrace();

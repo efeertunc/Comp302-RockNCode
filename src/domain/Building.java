@@ -76,7 +76,6 @@ public class Building {
 	public void setKey()
 	{
 		ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
-
 		for (int i = 0; i < 17; i++)
 		{
 			for (int j = 0; j <12; j++)
@@ -96,8 +95,22 @@ public class Building {
 
 	public Avatar setAvatar()
 	{
-		avatar = new Avatar(3,120, 0, 0, EscapeFromKoc.getInstance().tm.objects[5].image);
-		map_obj[0][0] = avatar;
+		ArrayList<EmptyTile> emptyTiles = new ArrayList<EmptyTile>();
+
+		for (int i = 0; i < 17; i++)
+		{
+			for (int j = 0; j <12; j++)
+			{
+				if (map_obj[j][i] instanceof EmptyTile)
+				{
+					emptyTiles.add((EmptyTile) map_obj[j][i]);
+				}
+			}
+		}
+		Random rand = new Random();
+		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
+		avatar = new Avatar(3,120, emptyTiles.get(selectedEmptyTile).position.getX(), emptyTiles.get(selectedEmptyTile).position.getY(), EscapeFromKoc.getInstance().tm.objects[5].image);
+		map_obj[avatar.getPosition().getY()][avatar.getPosition().getX()] = avatar;
 		return avatar;
 	}
 
@@ -109,5 +122,30 @@ public class Building {
 		}
 		System.out.println("That is not an obstacle");
 		return null;
+	}
+
+	public void generateAlien()
+	{
+		ArrayList<EmptyTile> emptyTiles = new ArrayList<EmptyTile>();
+		for (int i = 0; i < 17; i++)
+		{
+			for (int j = 0; j <12; j++)
+			{
+				if (map_obj[j][i] instanceof EmptyTile)
+				{
+					emptyTiles.add((EmptyTile) map_obj[j][i]);
+				}
+			}
+		}
+		Random rand = new Random();
+		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
+		TimeWasterAlien alien = new TimeWasterAlien(emptyTiles.get(selectedEmptyTile).position.getX(),emptyTiles.get(selectedEmptyTile).position.getY(), EscapeFromKoc.getInstance().tm.objects[7].image);
+		map_obj[alien.position.getY()][alien.position.getX()] = alien;
+	}
+
+	public void deleteKey()
+	{
+		((Obstacle)map_obj[keyPos.getY()][keyPos.getX()]).deleteKey();
+		keyPos=null;
 	}
 }

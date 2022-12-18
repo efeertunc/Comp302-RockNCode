@@ -20,6 +20,7 @@ public class RunController {
 				.get(BuildingTracker.getCurrentIndex());
 		currentBuilding.setKey();
 		avatar = currentBuilding.setAvatar();
+		currentBuilding.generateAlien();
 	}
 
 	public void pause() {
