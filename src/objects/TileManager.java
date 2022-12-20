@@ -1,5 +1,7 @@
 package objects;
 
+import Models.Constants;
+
 import javax.imageio.ImageIO;
 
 public class TileManager {
@@ -21,31 +23,31 @@ public class TileManager {
 
         try {
             objects[0] = new ObjectTile();
-            objects[0].image = (ImageIO.read(getClass().getResource("/visual/shelve.png")));
+            objects[0].image = 0;
 
             objects[1] = new ObjectTile();
-            objects[1].image = (ImageIO.read(getClass().getResource("/visual/chair_200.png")));
+            objects[1].image = 1;
 
             objects[2] = new ObjectTile();
-            objects[2].image = (ImageIO.read(getClass().getResource("/visual/bin.png")));
+            objects[2].image =2;
 
             objects[3] = new ObjectTile();
-            objects[3].image = (ImageIO.read(getClass().getResource("/visual/table1.png")));
+            objects[3].image =3;
 
             objects[4] = new ObjectTile();
-            objects[4].image = (ImageIO.read(getClass().getResource("/visual/empty.png"))); //empty
+            objects[4].image = 4; //empty
 
             objects[5] = new ObjectTile();
-            objects[5].image = (ImageIO.read(getClass().getResource("/visual/avatar.png"))); //playerNormal
+            objects[5].image = 5; //playerNormal
 
             objects[6] = new ObjectTile();
-            objects[6].image = (ImageIO.read(getClass().getResource("/visual/avatarHappy.png"))); //playerWithKey
+            objects[6].image = 6; //playerWithKey
 
             objects[7] = new ObjectTile();
-            objects[7].image = (ImageIO.read(getClass().getResource("/visual/alienTimeWaster.png")));
+            objects[7].image = 7;
 
             objects[8] = new ObjectTile();
-            objects[8].image = (ImageIO.read(getClass().getResource("/visual/keyObj.png")));
+            objects[8].image =8;
 
         } catch (Exception e) {
             e.printStackTrace();

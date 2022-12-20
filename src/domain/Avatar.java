@@ -12,7 +12,7 @@ public class Avatar extends ObjectTile {
     int time;
     Bag bag;
 
-    public Avatar(int life, int time, int x, int y, BufferedImage image)
+    public Avatar(int life, int time, int x, int y, int image)
     {
         this.life = life;
         this.time = time;

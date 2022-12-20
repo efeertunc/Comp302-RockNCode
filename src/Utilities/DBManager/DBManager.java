@@ -7,12 +7,15 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.*;
+import domain.*;
+import objects.ObjectTile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public final class DBManager {
 
@@ -50,6 +53,8 @@ public final class DBManager {
             e.printStackTrace();
         }
     }
+
+    //Auth Functions
 
     public void loginUser(String username, String password) {
         if (checkUserLogin(username, password)) {
@@ -157,7 +162,6 @@ public final class DBManager {
         database.child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                userList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Account account = dataSnapshot.getValue(Account.class);
                     userList.add(account);
@@ -224,5 +228,73 @@ public final class DBManager {
 
     public void subscribeAuthObserver(DBObserver observer) {
         this.DBObserver = observer;
+    }
+
+    //Save Game Functions
+
+    public void saveGame() {
+        Account account = Player.getInstance().getAccount();
+        String id = account.getID();
+        Map<String, Object> mapList = new HashMap<>();
+
+        clearDatabase(id);
+
+        for (int i = 0; i < 6; i++) {
+            if (BuildingTracker.getBuildingList().get(i).getMap_obj() != null){
+                for (int j = 0; j < 12; j++) {
+                    for (int k = 0; k < 17; k++) {
+
+                        ObjectTile objectTile = BuildingTracker.getBuildingList().get(i).getMap_obj()[j][k];
+
+                        if (objectTile instanceof Alien){
+                            mapList.put("/users/" + id + "/" + "map" + "/"+  i + "/" + j + "/" + k + "/" + "Alien", objectTile);
+
+                        }
+                        if (objectTile instanceof Avatar){
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar", objectTile);
+
+                        }
+                        if (objectTile instanceof EmptyTile){
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "EmptyTile", objectTile);
+
+                        }
+                        if (objectTile instanceof Obstacle){
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Obstacle", objectTile);
+
+                        }
+                        if (objectTile instanceof TimeWasterAlien){
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "TimeWasterAlien", objectTile);
+
+                        }
+                    }
+                }
+
+                database.updateChildren(mapList, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        if (databaseError != null) {
+                            System.out.println("Data could not be saved " + databaseError.getMessage());
+                        } else {
+                            System.out.println("Data saved successfully.");
+                        }
+                    }
+                });
+
+
+            }
+        }
+    }
+
+    private void clearDatabase(String id) {
+        database.child("users").child(id).child("map").removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference ref) {
+                if (error != null) {
+                    System.out.println("Data could not be deleted " + error.getMessage());
+                } else {
+                    System.out.println("Data deleted successfully.");
+                }
+            }
+        });
     }
 }

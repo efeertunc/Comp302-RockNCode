@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import Models.Constants;
 import domain.BuildingTracker;
 import domain.EmptyTile;
 import domain.Obstacle;
@@ -75,8 +76,46 @@ public class BuildingMap extends JPanel implements IPanel {
     public void draw(Graphics2D g2D) {
         for (int i = 0; i < 17; i++) {
             for (int j = 0; j < 12; j++) {
-                g2D.drawImage(map[j][i].image, parseX(i), parseY(j), 48 + 5,
-                        48 + 5, null);
+                int imageId = map[j][i].image;
+                        if (imageId != -1) {
+                            if (imageId == 0){
+                                g2D.drawImage(Constants.ImageConstants.SHELVE, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
+                            if (imageId == 1){
+                                g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
+                            if (imageId == 2){
+                                g2D.drawImage(Constants.ImageConstants.BIN, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
+                            if (imageId == 3){
+                                g2D.drawImage(Constants.ImageConstants.TABLE, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
+                            if (imageId == 4){
+                                g2D.drawImage(Constants.ImageConstants.EMPTY, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
+                            if (imageId == 5){
+                                g2D.drawImage(Constants.ImageConstants.AVATAR, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }if (imageId == 6){
+                                g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
+                            if (imageId == 7){
+                                g2D.drawImage(Constants.ImageConstants.ALIEN, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
+                            if (imageId == 8){
+                                g2D.drawImage(Constants.ImageConstants.KEY, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
+                        }
+
+
             }
 
         }
@@ -213,7 +252,7 @@ public class BuildingMap extends JPanel implements IPanel {
             for (int i = 0; i < 12; i++) {
                 for (int j = 0; j < 17; j++) {
                     map[i][j] = new EmptyTile(j,i,tm.objects[4].getImage());
-                    System.out.println();
+                    //System.out.println();
                 }
             }
             return map;

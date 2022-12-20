@@ -2,18 +2,24 @@ package controllers;
 
 import Models.Account;
 import Utilities.DBManager.DBObserver;
+import domain.BuildingTracker;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
+import objects.ObjectTile;
 import panels.ForgotPasswordPanel;
 import panels.LoginPanel;
 import panels.RegisterPanel;
+
+import java.util.ArrayList;
 
 public class AuthController implements DBObserver {
 
     public AuthController() {
         EscapeFromKoc.getInstance().getDatabaseAdapter().subscribeAuthObserver(this);
     }
+
+    // Auth Functions
 
     public void loginClick(String username, String password) {
         EscapeFromKoc.getInstance().getDatabaseAdapter()
@@ -89,4 +95,12 @@ public class AuthController implements DBObserver {
     public void changePasswordRejected(String response) {
         ((ForgotPasswordPanel) EscapeFromKoc.getInstance().getView(ViewType.AuthView).getPanel(PanelType.ForgotPass)).setInfo(response);
     }
+
+    // Save Game Functions
+
+    public void saveGameClick() {
+        EscapeFromKoc.getInstance().getDatabaseAdapter()
+                .saveGame();
+    }
+
 }

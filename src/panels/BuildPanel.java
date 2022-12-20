@@ -26,9 +26,12 @@ import domain.Building;
 import domain.BuildingTracker;
 import domain.BuildingType;
 import domain.SoundManager;
+import factory.ViewType;
 import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
+import views.AuthView;
+import views.GameView;
 
 public class BuildPanel implements IPanel {
 	private JComboBox comboBox;
@@ -39,6 +42,7 @@ public class BuildPanel implements IPanel {
 	private JButton helpButton;
 	private JButton nextBuildingButton;
 	private JButton startRunModeButton;
+	private JButton saveGameButton;
 
 	private BuildingMap BuildingMap;
 	private JPanel objectPanel;
@@ -136,6 +140,12 @@ public class BuildPanel implements IPanel {
 
 	}
 
+	private void saveGame() {
+		setBuildingLists();
+		((GameView) EscapeFromKoc.getInstance().getView(ViewType.GameView)).getAuthController().saveGameClick();
+
+	}
+
 	private void updateBuildingMap(Building next) {
 
 		// buraya yazz arrayleri eþitle
@@ -213,6 +223,9 @@ public class BuildPanel implements IPanel {
 
 		nextBuildingButton.setBounds(800, 6, 117, 29);
 		panel.add(nextBuildingButton);
+
+		saveGameButton.setBounds(1000, 6, 117, 29);
+		panel.add(saveGameButton);
 
 		startRunModeButton.setBounds(800, 6, 117, 29);
 		startRunModeButton.setVisible(false);
@@ -338,6 +351,13 @@ public class BuildPanel implements IPanel {
 		startRunModeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startRunMode();
+			}
+		});
+
+		saveGameButton = new JButton("Save Game");
+		saveGameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveGame();
 			}
 		});
 	}

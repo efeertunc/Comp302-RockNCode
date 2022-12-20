@@ -12,7 +12,7 @@ public class TimeWasterAlien extends Alien{
     final int cooldown = 5;
     public double counter;
     public boolean ready;
-    public TimeWasterAlien(int x, int y, BufferedImage image) {
+    public TimeWasterAlien(int x, int y, int image) {
         this.position = new Position();
         this.position.setPos(x,y);
         this.image = image;

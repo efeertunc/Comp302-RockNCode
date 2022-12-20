@@ -1,5 +1,11 @@
 package Models;
 
+import main.EscapeFromKoc;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 public interface Constants {
 
     interface DatabaseConstants {
@@ -18,6 +24,35 @@ public interface Constants {
         String PASSWORD_CHANGED = "You changed your password successfully";
         String HINT_WRONG = "Your hint and username does not match";
         String JSON = "src/Utilities/DBManager/comp302-4de74-firebase-adminsdk-yfz83-9552d14b68.json";
+    }
+
+    abstract  class ImageConstants{
+        public static final BufferedImage ALIEN;
+        public static final BufferedImage CHAIR;
+        public static final BufferedImage BIN;
+        public static final BufferedImage TABLE;
+        public static final BufferedImage EMPTY;
+        public static final BufferedImage AVATAR;
+        public static final BufferedImage AVATAR_HAPPY;
+        public static final BufferedImage KEY;
+        public static final BufferedImage SHELVE;
+
+        static {
+            try {
+                ALIEN = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienTimeWaster.png")));
+                CHAIR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/chair_200.png")));
+                BIN = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/bin.png")));
+                TABLE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/table1.png")));
+                EMPTY = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/empty.png")));
+                AVATAR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/avatar.png")));
+                AVATAR_HAPPY = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/avatarHappy.png")));
+                KEY = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/keyObj.png")));
+                SHELVE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/shelve.png")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
 }

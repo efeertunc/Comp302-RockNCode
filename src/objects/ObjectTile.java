@@ -5,17 +5,17 @@ import HelperComponents.Position;
 import java.awt.image.BufferedImage;
 
 public class ObjectTile {
-    public BufferedImage image;
+    public int image;
     public Position position;
     public int ID;
 
-    public BufferedImage getImage() {
+    public int getImage() {
         return image;
     }
 
 
-    public ObjectTile setImage(BufferedImage image) {
-        this.image = image;
+    public ObjectTile setImage(int imageId) {
+        this.image = imageId;
         return this;
     }
 }
