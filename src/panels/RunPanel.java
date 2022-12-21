@@ -33,7 +33,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	int second, minute;
 	private JPanel playerPanel;
 
-	private RunningMap RunningMap;
+	public RunningMap RunningMap;
 	
 	private RunController runController;
 
@@ -43,7 +43,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		this.runController = new RunController();
 		initialize();
 		design();
-		myTimer();
+		countDown();
 		timer.start();
 		
 	}
@@ -61,8 +61,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		pauseButton.setBounds(6, 6, 117, 29);
 		panel.add(pauseButton);
 
-
-		RunningMap = new RunningMap(panel);
 
 		playerPanel = new JPanel();
 		playerPanel.setBackground(Color.ORANGE);
@@ -86,31 +84,32 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel.add(labelTimer);
 		playerPanel.setVisible(true);
 
-		labelTimer.setText("00:00");
+		labelTimer.setText("01:00");
 		second = 0;
-		minute = 0;
+		minute = 1;
 
 	}
-	public void myTimer() {
+	public void countDown() {
 		timer = new Timer(1000, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				second++;
-
 				showSecond = dFormat.format(second);
 				showMinute = dFormat.format(minute);
 				labelTimer.setText(showMinute + ":" + showSecond);
 
-				if (second == 60) {
-					second = 0;
-					minute++;
+				if (minute == 1) {
+					second = 59;
+					minute--;
 
 					showSecond = dFormat.format(second);
 					showMinute = dFormat.format(minute);
 					labelTimer.setText(showMinute + ":" + showSecond);
 				}
+
+				second--;
+
 			}
 		});
 	}
@@ -173,6 +172,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 
 	protected void pauseGame() {
+		RunningMap.isPaused = true;
 		runController.pause();
 	}
 
