@@ -13,6 +13,7 @@ import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
 import objects.ObjectTile;
+import objects.ObjectTileFactory;
 import panels.BuildPanel;
 
 import java.io.FileInputStream;
@@ -22,25 +23,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public final class DBManager {
+public final class DBManager implements IDatabaseAdapter{
 
     private static DBManager instance = new DBManager();
     private DBObserver DBObserver;
     private DatabaseReference database;
     private final ArrayList<Account> userList = new ArrayList<>();
+    private ObjectTile[][] objectTiles = new ObjectTile[12][17];
+
+    private Map< Integer, ObjectTile[][]> map ;
+
     private static int currentIndexFromDB;
     private static boolean isSaved = false;
-    private ObjectTile[][] objectTiles = new ObjectTile[12][17];
-    private Map< Integer, ObjectTile[][]> map ;
+
 
     public static DBManager getInstance() {
         if (instance == null) {
             instance = new DBManager();
         }
-
         return instance;
     }
 
+    @Override
     public void connectDB() {
         try {
             FileInputStream serviceAccount;
@@ -63,7 +67,7 @@ public final class DBManager {
     }
 
     //Auth Functions
-
+    @Override
     public void loginUser(String username, String password) {
         if (checkUserLogin(username, password)) {
             isSaved();
@@ -105,7 +109,8 @@ public final class DBManager {
         }
     }
 
-    public void createUser(String username, String firstPassword, String secondPassword, String hint) {
+    @Override
+    public void registerUser(String username, String firstPassword, String secondPassword, String hint) {
         if (!checkUsernameRegister(username)) {
             notifyAuthObservers(Constants.DatabaseConstants.USERNAME_NOT_AVAILABLE);
             return;
@@ -141,6 +146,7 @@ public final class DBManager {
 
     }
 
+    @Override
     public void forgotPassword(String username, String hint, String firstPassword, String secondPassword) {
 
         if (firstPassword.length() < 6) {
@@ -288,6 +294,7 @@ public final class DBManager {
 
     }
 
+    @Override
     public void saveGame() {
         Account account = Player.getInstance().getAccount();
         String id = account.getID();
@@ -364,28 +371,6 @@ public final class DBManager {
                 }
             }
         });
-
-        database.child("users").child(id).child("currentIndex").removeValue(new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError error, DatabaseReference ref) {
-                if (error != null) {
-                    System.out.println("Data could not be deleted " + error.getMessage());
-                } else {
-                    System.out.println("Data deleted successfully.");
-                }
-            }
-        });
-
-        database.child("users").child(id).child("isSaved").removeValue(new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError error, DatabaseReference ref) {
-                if (error != null) {
-                    System.out.println("Data could not be deleted " + error.getMessage());
-                } else {
-                    System.out.println("Data deleted successfully.");
-                }
-            }
-        });
     }
 
     private void getMapForLoadGame() {
@@ -396,64 +381,14 @@ public final class DBManager {
                     int finalJ = j;
                     int finalK = k;
                     int finalI = i;
-
                     database.child("users").child(Player.getInstance().getAccount().getID()).child("map").child(String.valueOf(i)).child(String.valueOf(j)).child(String.valueOf(k)).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                if (dataSnapshot.getKey().equals("Alien")) {
-                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
-                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
-                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
-                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
-                                    Position position = new Position(x, y);
-                                    Alien alien = new Alien(position);
-                                    objectTiles[finalJ][finalK] = alien;
-                                }
-                                if (dataSnapshot.getKey().equals("Avatar")) {
-                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
-                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
-                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
-                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
-                                    Position position = new Position(x, y);
 
-                                    int life = (int) dataSnapshot.child("life").getValue(Integer.class);
-                                    int time = (int) dataSnapshot.child("time").getValue(Integer.class);
-                                    Avatar avatar = new Avatar(life, time, x, y, image);
-                                    objectTiles[finalJ][finalK] = avatar;
-                                }
-                                if (dataSnapshot.getKey().equals("EmptyTile")) {
-                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
-                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
-                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
-                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
-                                    EmptyTile emptyTile = new EmptyTile(x,y,image);
-                                    objectTiles[finalJ][finalK] = emptyTile;
-                                }
-                                if (dataSnapshot.getKey().equals("Obstacle")) {
-                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
-                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
-                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
-                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
-                                    Position position = new Position(x, y);
-                                    int uix = (int) dataSnapshot.child("position").child("uix").getValue(Integer.class);
-                                    int uiy = (int) dataSnapshot.child("position").child("uiy").getValue(Integer.class);
-                                    Key key = new Key(finalI);
-                                    int type = (int) dataSnapshot.child("type").getValue(Integer.class);
+                                ObjectTile obj = ObjectTileFactory.createTile(dataSnapshot);
+                                objectTiles[finalJ][finalK] = obj;
 
-
-                                    Obstacle obstacle = new Obstacle(type,x ,y,image);
-                                    objectTiles[finalJ][finalK] = obstacle;
-                                }
-                                if (dataSnapshot.getKey().equals("TimeWasterAlien")) {
-                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
-                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
-                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
-                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
-                                    Position position = new Position(x, y);
-                                    TimeWasterAlien timeWasterAlien = new TimeWasterAlien(x,y,image);
-                                    objectTiles[finalJ][finalK] = timeWasterAlien;
-                                }
                             }
                         }
 
@@ -519,4 +454,5 @@ public final class DBManager {
         }
         return 5;*/
     }
+
 }
