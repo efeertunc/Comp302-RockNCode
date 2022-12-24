@@ -1,5 +1,6 @@
 package Utilities.DBManager;
 
+import HelperComponents.Position;
 import Models.Account;
 import Models.Constants;
 import Models.Player;
@@ -8,7 +9,11 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.*;
 import domain.*;
+import factory.PanelType;
+import factory.ViewType;
+import main.EscapeFromKoc;
 import objects.ObjectTile;
+import panels.BuildPanel;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,8 +28,10 @@ public final class DBManager {
     private DBObserver DBObserver;
     private DatabaseReference database;
     private final ArrayList<Account> userList = new ArrayList<>();
-
+    private static int currentIndexFromDB;
     private static boolean isSaved = false;
+    private ObjectTile[][] objectTiles = new ObjectTile[12][17];
+    private Map< Integer, ObjectTile[][]> map ;
 
     public static DBManager getInstance() {
         if (instance == null) {
@@ -59,6 +66,39 @@ public final class DBManager {
 
     public void loginUser(String username, String password) {
         if (checkUserLogin(username, password)) {
+            isSaved();
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if (isSaved){
+                // DBden gelen mapler alındı.
+                getMapForLoadGame();
+                getLastIndexFromDB();
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                BuildingTracker.setCurrentIndex(currentIndexFromDB);
+
+                for (int i = 0; i < 6 ; i++){
+                    // Build listesine kendisinin mapi eklendi.
+                    BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                }
+            }else {
+                //Kayıt yok.
+                getMapForLoadGame();
+                // getMapForLoadGame() fonksiyonu kayıt olmamış mapler için EmptyTile ekledi.
+                for (int i = 0; i < 6 ; i++){
+                    // Build listesine kendisinin mapi eklendi.
+                    BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                }
+            }
+            ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).getBuildingMap().setMapForDB();
+            ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).setText();
+            ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).controlOfNextButton();
             notifyAuthObservers(Constants.DatabaseConstants.LOGIN_ACCEPTED);
         } else {
             notifyAuthObservers(Constants.DatabaseConstants.LOGIN_REJECTED);
@@ -346,5 +386,137 @@ public final class DBManager {
                 }
             }
         });
+    }
+
+    private void getMapForLoadGame() {
+        map = new HashMap<>();
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 12; j++) {
+                for (int k = 0; k < 17; k++) {
+                    int finalJ = j;
+                    int finalK = k;
+                    int finalI = i;
+
+                    database.child("users").child(Player.getInstance().getAccount().getID()).child("map").child(String.valueOf(i)).child(String.valueOf(j)).child(String.valueOf(k)).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                if (dataSnapshot.getKey().equals("Alien")) {
+                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
+                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
+                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
+                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
+                                    Position position = new Position(x, y);
+                                    Alien alien = new Alien(position);
+                                    objectTiles[finalJ][finalK] = alien;
+                                }
+                                if (dataSnapshot.getKey().equals("Avatar")) {
+                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
+                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
+                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
+                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
+                                    Position position = new Position(x, y);
+
+                                    int life = (int) dataSnapshot.child("life").getValue(Integer.class);
+                                    int time = (int) dataSnapshot.child("time").getValue(Integer.class);
+                                    Avatar avatar = new Avatar(life, time, x, y, image);
+                                    objectTiles[finalJ][finalK] = avatar;
+                                }
+                                if (dataSnapshot.getKey().equals("EmptyTile")) {
+                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
+                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
+                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
+                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
+                                    EmptyTile emptyTile = new EmptyTile(x,y,image);
+                                    objectTiles[finalJ][finalK] = emptyTile;
+                                }
+                                if (dataSnapshot.getKey().equals("Obstacle")) {
+                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
+                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
+                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
+                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
+                                    Position position = new Position(x, y);
+                                    int uix = (int) dataSnapshot.child("position").child("uix").getValue(Integer.class);
+                                    int uiy = (int) dataSnapshot.child("position").child("uiy").getValue(Integer.class);
+                                    Key key = new Key(finalI);
+                                    int type = (int) dataSnapshot.child("type").getValue(Integer.class);
+
+
+                                    Obstacle obstacle = new Obstacle(type,x ,y,image);
+                                    objectTiles[finalJ][finalK] = obstacle;
+                                }
+                                if (dataSnapshot.getKey().equals("TimeWasterAlien")) {
+                                    int ID = (int) dataSnapshot.child("ID").getValue(Integer.class);
+                                    int image = (int) dataSnapshot.child("image").getValue(Integer.class);
+                                    int x = (int) dataSnapshot.child("position").child("x").getValue(Integer.class);
+                                    int y = (int) dataSnapshot.child("position").child("y").getValue(Integer.class);
+                                    Position position = new Position(x, y);
+                                    TimeWasterAlien timeWasterAlien = new TimeWasterAlien(x,y,image);
+                                    objectTiles[finalJ][finalK] = timeWasterAlien;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            notifyAuthObservers(Constants.DatabaseConstants.DATABASE_READ_ERROR);
+                        }
+                    });
+                }
+            }
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (objectTiles[0][0] != null){
+                System.out.println("index: " + i + " map is loaded from db");
+                map.put(i, objectTiles);
+                objectTiles = new ObjectTile[12][17];
+            }
+            else{
+                // Kayıt yok. Maplere emptyTile ekliyoruz.
+                System.out.println("index: " + i + " map is loaded from getEmptyMap");
+                map.put(i, getNewEmptyMap());
+            }
+
+        }
+    }
+
+    private ObjectTile[][] getNewEmptyMap() {
+        ObjectTile[][] objectTiles = new ObjectTile[12][17];
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 17; j++) {
+                objectTiles[i][j] = new EmptyTile(j,i,4);
+            }
+        }
+        return objectTiles;
+    }
+
+    private void getLastIndexFromDB(){
+        database.child("users").child(Player.getInstance().getAccount().getID()).child("currentIndex").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                currentIndexFromDB = snapshot.getValue(Integer.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                notifyAuthObservers(Constants.DatabaseConstants.DATABASE_READ_ERROR);
+            }
+        });
+
+        /*for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 12; j++) {
+                for (int k = 0; k < 17; k++) {
+                    if (map.get(i)[j][k] == null){
+                        System.out.println("Last index in getLastIndexFromDB fuction is: " + i);
+                        return i;
+                    }
+                }
+            }
+        }
+        return 5;*/
     }
 }

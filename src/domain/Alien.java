@@ -5,9 +5,16 @@ import objects.ObjectTile;
 
 import java.awt.image.BufferedImage;
 
-public abstract class Alien extends ObjectTile {
+public class Alien extends ObjectTile {
+    public Alien() {
 
+    }
 
+    public Alien(Position position) {
+        this.position =position;
+    }
 
-    public abstract void Update(Building building, double intervalTime);
+    public void Update(Building building, double intervalTime) {
+
+    }
 }

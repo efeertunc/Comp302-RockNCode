@@ -31,10 +31,13 @@ public class BuildingMap extends JPanel implements IPanel {
 
     public BuildingMap(JPanel panel) {
         tm = new TileManager();
-        map=initial_map();
         this.panel = panel;
 
         design();
+    }
+
+    public void setMapForDB(){
+        map = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
     }
 
     @Override
@@ -218,6 +221,21 @@ public class BuildingMap extends JPanel implements IPanel {
             return map;
         }
 
+    public int getObjectCount (){
+        int count = 0;
+        if (map != null){
+            for (int i = 0; i < 17; i++) {
+                for (int j = 0; j < 12; j++) {
+                    if (map[j][i].image == 4){
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return (17*12) - count;
+    }
+
         private int parseX ( int x)
         {
             return  x * 50;
@@ -264,4 +282,7 @@ public class BuildingMap extends JPanel implements IPanel {
 
         return false;
     }
+    public void setMap(ObjectTile[][] map) {
+        this.map = map;
     }
+}

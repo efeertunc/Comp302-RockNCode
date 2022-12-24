@@ -27,10 +27,11 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     TileManager tm;
     Point startPoint;
     Thread thread;
-    private ObjectTile[][] map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
+    private ObjectTile[][] map_obj;
     public RunningMap(JPanel panel) {
         this.panel = panel;
         tm = new TileManager();
+        map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
         //initialize();
         design();
     }
