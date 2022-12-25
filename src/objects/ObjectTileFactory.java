@@ -31,9 +31,9 @@ public class ObjectTileFactory {
             case "Alien":
                 return new Alien(position);
             case "Avatar":
-                int life = dataSnapshot.child("life").getValue(Integer.class);
-                int time = dataSnapshot.child("time").getValue(Integer.class);
-                return new Avatar(life, time, x, y, image);
+                //int life = dataSnapshot.child("life").getValue(Integer.class);
+                //int time = dataSnapshot.child("time").getValue(Integer.class);
+                return new Avatar(0, 0, x, y, image);
             case "EmptyTile":
                 return new EmptyTile(x, y, image);
             case "Obstacle":

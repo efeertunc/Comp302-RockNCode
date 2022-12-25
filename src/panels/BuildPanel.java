@@ -156,7 +156,7 @@ public class BuildPanel implements IPanel {
 
 	private void saveGame() {
 		setBuildingLists();
-		((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().saveGameClick();
+		((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().saveGameClick(false);
 
 	}
 

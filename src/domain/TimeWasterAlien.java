@@ -24,10 +24,12 @@ public class TimeWasterAlien extends Alien{
     {
         if (building.keyPos == null)
         {
+            System.out.println("Change Key Pos null");
             return;
         }
+        System.out.println("Change Key Pos not null");
         Obstacle obstacle = (Obstacle) building.getMap_obj()[building.keyPos.getY()][building.keyPos.getX()];
-        int keyID = obstacle.key.getID();
+        //int keyID = obstacle.key.getID();
         obstacle.deleteKey();
         building.setKey();
     }

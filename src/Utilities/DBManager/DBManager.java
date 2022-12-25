@@ -15,6 +15,7 @@ import main.EscapeFromKoc;
 import objects.ObjectTile;
 import objects.ObjectTileFactory;
 import panels.BuildPanel;
+import panels.MenuPanel;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,6 +36,7 @@ public final class DBManager implements IDatabaseAdapter{
 
     private static int currentIndexFromDB;
     private static boolean isSaved = false;
+    private static boolean isRunningMode = false;
 
 
     public static DBManager getInstance() {
@@ -76,6 +78,7 @@ public final class DBManager implements IDatabaseAdapter{
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            isRunningMode();
             if (isSaved){
                 // DBden gelen mapler alındı.
                 getMapForLoadGame();
@@ -100,9 +103,15 @@ public final class DBManager implements IDatabaseAdapter{
                     BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
                 }
             }
-            ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).getBuildingMap().setMapForDB();
-            ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).setText();
-            ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).controlOfNextButton();
+            if (!isRunningMode){
+                ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).getBuildingMap().setMapForDB();
+                ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).setText();
+                ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).controlOfNextButton();
+            }else {
+                ((MenuPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu)).setRunningMode(isRunningMode);
+
+            }
+
             notifyAuthObservers(Constants.DatabaseConstants.LOGIN_ACCEPTED);
         } else {
             notifyAuthObservers(Constants.DatabaseConstants.LOGIN_REJECTED);
@@ -294,8 +303,23 @@ public final class DBManager implements IDatabaseAdapter{
 
     }
 
+    public void isRunningMode() {
+        database.child("users").child(Player.getInstance().getAccount().getID()).child("isRunningMode").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                isRunningMode = snapshot.getValue(Boolean.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                notifyAuthObservers(Constants.DatabaseConstants.DATABASE_READ_ERROR);
+            }
+        });
+
+    }
+
     @Override
-    public void saveGame() {
+    public void saveGame(boolean isRunningMode) {
         Account account = Player.getInstance().getAccount();
         String id = account.getID();
         Map<String, Object> mapList = new HashMap<>();
@@ -348,6 +372,7 @@ public final class DBManager implements IDatabaseAdapter{
         }
         currentIndex.put("/users/" + id + "/" + "currentIndex", BuildingTracker.getCurrentIndex());
         currentIndex.put("/users/" + id + "/" + "isSaved",true);
+        currentIndex.put("/users/" + id + "/" + "isRunningMode",isRunningMode);
         database.updateChildren(currentIndex, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -362,6 +387,39 @@ public final class DBManager implements IDatabaseAdapter{
 
     private void clearDatabase(String id) {
         database.child("users").child(id).child("map").removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference ref) {
+                if (error != null) {
+                    System.out.println("Data could not be deleted " + error.getMessage());
+                } else {
+                    System.out.println("Data deleted successfully.");
+                }
+            }
+        });
+
+        database.child("users").child(id).child("currentIndex").removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference ref) {
+                if (error != null) {
+                    System.out.println("Data could not be deleted " + error.getMessage());
+                } else {
+                    System.out.println("Data deleted successfully.");
+                }
+            }
+        });
+
+        database.child("users").child(id).child("isSaved").removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference ref) {
+                if (error != null) {
+                    System.out.println("Data could not be deleted " + error.getMessage());
+                } else {
+                    System.out.println("Data deleted successfully.");
+                }
+            }
+        });
+
+        database.child("users").child(id).child("isRunningMode").removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError error, DatabaseReference ref) {
                 if (error != null) {

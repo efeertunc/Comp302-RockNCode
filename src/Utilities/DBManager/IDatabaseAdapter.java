@@ -19,6 +19,6 @@ public interface IDatabaseAdapter {
     void subscribeAuthObserver(DBObserver observer);
 
     //Save Game Functions
-    void saveGame();
+    void saveGame(boolean isRunningMode);
 
 }
