@@ -30,7 +30,13 @@ public class PauseController {
 		EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
 												EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu));
 	}
-	
-	
+
+
+    public void saveAndExit() {
+		((GameView) EscapeFromKoc.getInstance().getView(ViewType.GameView)).getAuthController().saveGameClick(true);
+		System.exit(0);
+
+	}
+
 
 }

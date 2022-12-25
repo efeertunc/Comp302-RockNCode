@@ -11,20 +11,21 @@ import java.util.Random;
 
 public class TimeWasterAlien extends Alien{
 
-
     TimeWasteBehavior behavior;
+    boolean isBehaviorSet = false;
 
-    public TimeWasterAlien(int x, int y, BufferedImage image) {
-
-        this.position = new Position();
-        this.position.setPos(x,y);
+    public TimeWasterAlien(int x, int y, int image) {
+        this.position = new Position(x,y);
         this.image = image;
-        updateBehavior();
     }
     @Override
     public void update(double intervalTime) {
+        System.out.println("aaaaa update");
         updateBehavior();
-        behavior.timeWaste(intervalTime);
+        if (isBehaviorSet){
+            System.out.println("TimeWasterAlien is updating");
+            behavior.timeWaste(intervalTime);
+        }
     }
 
     public void setBehavior(TimeWasteBehavior newBehavior)
@@ -32,14 +33,16 @@ public class TimeWasterAlien extends Alien{
         if (behavior == null)
         {
             behavior = newBehavior;
+            isBehaviorSet =true;
             System.out.println("Assigned behavior: "+ behavior.getClass().getSimpleName());
         }
         else
         {
-
+            System.out.println("Behavior is already assigned");
             if (!behavior.getClass().isAssignableFrom(newBehavior.getClass()))
             {
                 behavior = newBehavior;
+                isBehaviorSet = true;
                 System.out.println("Updated behavior: "+ behavior.getClass().getSimpleName());
             }
         }
@@ -51,7 +54,7 @@ public class TimeWasterAlien extends Alien{
         double percentage = avatar.currentTime/avatar.time * 100;
         if (percentage >=70)
         {
-            setBehavior(new TimeWasteHard());
+            setBehavior(new TimeWasteHard(this));
         }
         else if (percentage >= 30)
         {

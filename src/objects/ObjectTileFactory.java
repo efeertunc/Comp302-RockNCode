@@ -28,12 +28,10 @@ public class ObjectTileFactory {
         String ObjectType = dataSnapshot.getKey();
 
         switch (ObjectType) {
-            case "Alien":
-                return new Alien(position);
             case "Avatar":
                 //int life = dataSnapshot.child("life").getValue(Integer.class);
                 //int time = dataSnapshot.child("time").getValue(Integer.class);
-                return new Avatar(0, 0, x, y, image);
+                return new Avatar(0, 60, x, y, image);
             case "EmptyTile":
                 return new EmptyTile(x, y, image);
             case "Obstacle":
