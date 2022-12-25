@@ -177,7 +177,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	protected void pauseGame() {
 		RunningMap.isPaused = true;
 		runController.pause();
-		((GameView) EscapeFromKoc.getInstance().getView(ViewType.GameView)).getAuthController().saveGameClick(true);
 	}
 
 	public void printArray(ArrayList<Integer> arr) {

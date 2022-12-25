@@ -31,6 +31,8 @@ public class PausePanel implements IPanel{
 	private JButton resumeButton;
 	private JButton helpButton;
 	private JButton returnMenuButton;
+
+	private JButton saveAndExitButton;
 	
 	public PausePanel(IAppView appView) {
 		putPaneltoFrame(appView.getFrame());
@@ -58,6 +60,9 @@ public class PausePanel implements IPanel{
 		
 		returnMenuButton.setBounds(129, 191, 174, 29);
 		panel.add(returnMenuButton);
+
+		saveAndExitButton.setBounds(129, 230, 174, 29);
+		panel.add(saveAndExitButton);
 
 	}
 
@@ -104,7 +109,18 @@ public class PausePanel implements IPanel{
 				returnMenu();
 			}
 		});
+
+		saveAndExitButton = new JButton("Save & Exit");
+		saveAndExitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveAndExit();
+			}
+		});
 		
+	}
+
+	private void saveAndExit() {
+		pauseController.saveAndExit();
 	}
 
 
