@@ -1,21 +1,27 @@
 package domain;
 
 import HelperComponents.Position;
+import main.EscapeFromKoc;
+import objects.ObjectTile;
 import panels.BuildPanel;
 
-public class Avatar {
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+
+public class Avatar extends DynamicTile {
     int life;
     int time;
-    Position position;
+    double currentTime;
     Bag bag;
-    int matrixCode = 6;
 
-    public Avatar(int life, int time, int x, int y)
+    public Avatar(int life, int time, int x, int y, BufferedImage image)
     {
         this.life = life;
         this.time = time;
+        currentTime = (double) time;
         this.position = new Position();
         position.setPos(x,y);
+        this.image = image;
     }
 
     public Position getPosition()
@@ -27,13 +33,13 @@ public class Avatar {
     {
         if (x>=0 && x<17 && y>=0 && y<12) //tile exists
         {
-            if (building.getMap()[y][x] == 0) //tile empty
+            if (building.getMap_obj()[y][x] instanceof EmptyTile) //tile empty
             {
                 int oldX = getPosition().getX();
                 int oldY = getPosition().getY();
-                building.getMap()[oldY][oldX] = 0;
+                building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, EscapeFromKoc.getInstance().tm.objects[4].image);
+                building.getMap_obj()[y][x] = this;
                 getPosition().setPos(x,y);
-                building.getMap()[y][x] = getMatrixCode();
             }
         }
     }
@@ -44,23 +50,26 @@ public class Avatar {
         int yDiff = Math.abs(position.getY() - y);
         if (xDiff <= 1 && yDiff <= 1) //reachable
         {
-            if (building.checkObstacle(x,y).key != null)
+            if (building.checkObstacle(x,y) != null)//it's obstacle
             {
-                System.out.println("KEY HAS BEEN FOUND");
-                setMatrixCode(7);
-                building.getMap()[position.getY()][position.getX()] = 7;
-                return true;
-
+                if (building.checkObstacle(x,y).key != null) //hasKey
+                {
+                    System.out.println("KEY HAS BEEN FOUND");
+                    this.image = EscapeFromKoc.getInstance().tm.getObjects()[6].image;
+                    building.deleteKey();
+                    return true;
+                }
             }
         }
         return false;
     }
-    public int getMatrixCode()
-    {
-        return this.matrixCode;
-    }
-    public void setMatrixCode(int code)
-    {
-        this.matrixCode = code;
+
+    @Override
+    public void update(double intervalTime) {
+        currentTime -=  intervalTime/1000000000;
+        if (currentTime < 0)
+        {
+            currentTime = 0;
+        }
     }
 }

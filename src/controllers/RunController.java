@@ -18,10 +18,9 @@ public class RunController {
 	{
 		currentBuilding = BuildingTracker.getBuildingList()
 				.get(BuildingTracker.getCurrentIndex());
-
-		currentBuilding.setObstacles();
 		currentBuilding.setKey();
 		avatar = currentBuilding.setAvatar();
+		currentBuilding.generateAlien();
 	}
 
 	public void pause() {
@@ -61,8 +60,6 @@ public class RunController {
 			return;
 		}
 		if(avatar.searchKey(indexX , indexY , currentBuilding)){
-			sound.setVolumeScale(5);
-			sound.checkVolume();
 			sound.playSoundEffect(0);
 		}
 	}
