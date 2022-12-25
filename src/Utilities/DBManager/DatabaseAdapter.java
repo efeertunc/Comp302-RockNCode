@@ -1,5 +1,9 @@
 package Utilities.DBManager;
 
+import objects.ObjectTile;
+
+import java.util.ArrayList;
+
 public class DatabaseAdapter {
 
     private DBManager dbManager;
@@ -7,6 +11,8 @@ public class DatabaseAdapter {
     public DatabaseAdapter(DBManager dbManager) {
         this.dbManager = dbManager;
     }
+
+    //Auth Functions
 
     public void connect() {
         dbManager.connectDB();
@@ -27,6 +33,12 @@ public class DatabaseAdapter {
     public void subscribeAuthObserver(DBObserver observer) {
         dbManager.subscribeAuthObserver(observer);
 
+    }
+
+    //Save Game Functions
+
+    public void saveGame() {
+        dbManager.saveGame();
     }
 
 }

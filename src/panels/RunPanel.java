@@ -15,9 +15,11 @@ import HelperComponents.Direction;
 import controllers.RunController;
 import domain.BuildingTracker;
 import domain.SoundManager;
+import factory.ViewType;
+import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
-
+import views.GameView;
 
 
 public class RunPanel extends JPanel implements IPanel, KeyListener{
@@ -174,6 +176,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	protected void pauseGame() {
 		RunningMap.isPaused = true;
 		runController.pause();
+		((GameView) EscapeFromKoc.getInstance().getView(ViewType.GameView)).getAuthController().saveGameClick();
 	}
 
 	public void printArray(ArrayList<Integer> arr) {

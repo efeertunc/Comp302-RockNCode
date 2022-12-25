@@ -14,7 +14,7 @@ public class Avatar extends DynamicTile {
     double currentTime;
     Bag bag;
 
-    public Avatar(int life, int time, int x, int y, BufferedImage image)
+    public Avatar(int life, int time, int x, int y, int image)
     {
         this.life = life;
         this.time = time;

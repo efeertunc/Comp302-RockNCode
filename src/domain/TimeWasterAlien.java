@@ -11,9 +11,11 @@ import java.util.Random;
 
 public class TimeWasterAlien extends Alien{
 
+
     TimeWasteBehavior behavior;
 
     public TimeWasterAlien(int x, int y, BufferedImage image) {
+
         this.position = new Position();
         this.position.setPos(x,y);
         this.image = image;

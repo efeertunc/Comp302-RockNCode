@@ -10,9 +10,9 @@ public class Obstacle extends ObjectTile {
     public Key key;
 
     public int type;
-    BufferedImage savedImage;
+    int savedImage;
 
-    public Obstacle(int type, int x, int y, BufferedImage image)
+    public Obstacle(int type, int x, int y, int image)
     {
         this.type = type;
         this.position = new Position();
@@ -30,6 +30,6 @@ public class Obstacle extends ObjectTile {
     {
         this.key = null;
         this.image = savedImage;
-        savedImage = null;
+        savedImage = -1;
     }
 }

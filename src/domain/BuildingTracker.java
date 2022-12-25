@@ -45,8 +45,21 @@ public class BuildingTracker {
 	}
 
 
-	public void setBuildingList(ArrayList<Building> buildingList) {
-		this.buildingList = buildingList;
+	public static void initialize() {
+		Building omerB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.OMER, 5);
+		buildingList.add(0,omerB);
+		Building caseB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.CASE, 1);
+		buildingList.add(1,caseB);
+		Building sosB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SOS, 1);
+		buildingList.add(2,sosB);
+		Building scieB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SCIE, 1);
+		buildingList.add(3,scieB);
+		Building engB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.ENG, 1);
+		buildingList.add(4,engB);
+		Building snaB = new Building(new int [12][17], new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), BuildingType.SNA, 2);
+		buildingList.add(5,snaB);
+
+		currentIndex = 0;
 	}
 
 
