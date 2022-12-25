@@ -5,7 +5,8 @@ import objects.ObjectTile;
 
 import java.awt.image.BufferedImage;
 
-public class Alien extends ObjectTile {
+public class Alien extends DynamicTile {
+
     public Alien() {
 
     }
@@ -14,7 +15,4 @@ public class Alien extends ObjectTile {
         this.position =position;
     }
 
-    public void Update(Building building, double intervalTime) {
-
-    }
 }

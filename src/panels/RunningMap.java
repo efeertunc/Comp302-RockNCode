@@ -23,26 +23,30 @@ import objects.TileManager;
 
 public class RunningMap extends JPanel implements IPanel , Runnable {
     int FPS = 60;
+    public boolean isPaused;
     JPanel panel;
     TileManager tm;
     Point startPoint;
     Thread thread;
+    AlienGenerator generator;  //TEST PURPOSES
     private ObjectTile[][] map_obj;
     public RunningMap(JPanel panel) {
         this.panel = panel;
         tm = new TileManager();
+        initialize();
         map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
         //initialize();
         design();
     }
+
     @Override
     public void showPanel(Boolean show) {
         this.setVisible(show);
-
     }
 
     @Override
     public void initialize() {
+        generator = new AlienGenerator();
     }
 
     private int parseX(int x)
@@ -83,44 +87,8 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
         {
             for (int j = 0 ; j <12; j ++)
             {
-                int imageId = map_obj[j][i].image;
-                if (imageId != -1) {
-                    if (imageId == 0){
-                        g2D.drawImage(Constants.ImageConstants.SHELVE, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
-                    }
-                    if (imageId == 1){
-                        g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
-                    }
-                    if (imageId == 2){
-                        g2D.drawImage(Constants.ImageConstants.BIN, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
-                    }
-                    if (imageId == 3){
-                        g2D.drawImage(Constants.ImageConstants.TABLE, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
-                    }
-                    if (imageId == 4){
-                        g2D.drawImage(Constants.ImageConstants.EMPTY, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
-                    }
-                    if (imageId == 5){
-                        g2D.drawImage(Constants.ImageConstants.AVATAR, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
-                    }if (imageId == 6){
-                        g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
-                    }
-                    if (imageId == 7){
-                        g2D.drawImage(Constants.ImageConstants.ALIEN, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
-                    }
-                    if (imageId == 8){
-                        g2D.drawImage(Constants.ImageConstants.KEY, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
-                    }
-                }
+                g2D.drawImage(map_obj[j][i].getImage(), parseX(i), parseY(j), 48+5,
+                        48+5, null);
             }
         }
     }
@@ -145,26 +113,24 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     }
     @Override
     public void run() {
-        double drawInterval = 1000000000/FPS;
-        double nextDrawTime = System.nanoTime() + drawInterval;
-        while (thread != null)
-        {
+
+    double drawInterval = 1000000000 / FPS;
+    double nextDrawTime = System.nanoTime() + drawInterval;
+
+    while (thread != null) {
+
             update(drawInterval);
-
             repaint();
-
 
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime = remainingTime / 1000000;
-                if (remainingTime < 0)
-                {
+                if (remainingTime < 0) {
                     remainingTime = 0;
                 }
                 Thread.sleep((long) remainingTime);
                 nextDrawTime += drawInterval;
-            }
-            catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -172,17 +138,17 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
 
     public void update(double intervalTime)
     {
-        for (int i = 0; i < 17; i++)
-        {
-            for (int j = 0; j <12; j++)
-            {
-                if (map_obj[j][i] instanceof TimeWasterAlien)
-                {
-                    TimeWasterAlien alien = (TimeWasterAlien) map_obj[j][i];
-                    alien.Update(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()), intervalTime);
+        if(!isPaused) {
+            for (int i = 0; i < 17; i++) {
+                for (int j = 0; j < 12; j++) {
+                    if (map_obj[j][i] instanceof DynamicTile) {
+                        ((DynamicTile) map_obj[j][i]).update(intervalTime);
+                    }
                 }
             }
+            generator.generateAlien(intervalTime);
         }
     }
+
 
 }

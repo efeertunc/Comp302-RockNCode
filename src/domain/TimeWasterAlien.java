@@ -1,6 +1,8 @@
 package domain;
 
 import HelperComponents.Position;
+import main.EscapeFromKoc;
+import objects.TileManager;
 
 import java.awt.image.BufferedImage;
 import java.io.ObjectStreamClass;
@@ -9,45 +11,60 @@ import java.util.Random;
 
 public class TimeWasterAlien extends Alien{
 
-    final int cooldown = 5;
-    public double counter;
-    public boolean ready;
-    public TimeWasterAlien(int x, int y, int image) {
+    TimeWasteBehavior behavior;
+
+    public TimeWasterAlien(int x, int y, BufferedImage image) {
         this.position = new Position();
         this.position.setPos(x,y);
         this.image = image;
+        updateBehavior();
     }
-
-
-
-    public void ChangeKeyPos(Building building)
-    {
-        if (building.keyPos == null)
-        {
-            System.out.println("Change Key Pos null");
-            return;
-        }
-        System.out.println("Change Key Pos not null");
-        Obstacle obstacle = (Obstacle) building.getMap_obj()[building.keyPos.getY()][building.keyPos.getX()];
-        //int keyID = obstacle.key.getID();
-        obstacle.deleteKey();
-        building.setKey();
-    }
-
-
     @Override
-    public void Update(Building building, double intervalTime) {
-        if (ready)
+    public void update(double intervalTime) {
+        updateBehavior();
+        behavior.timeWaste(intervalTime);
+    }
+
+    public void setBehavior(TimeWasteBehavior newBehavior)
+    {
+        if (behavior == null)
         {
-            ChangeKeyPos(building);
-            ready = false;
-            counter= (double)cooldown;
-            System.out.println("KEY CHANGED");
+            behavior = newBehavior;
+            System.out.println("Assigned behavior: "+ behavior.getClass().getSimpleName());
         }
-        counter -= intervalTime/1000000000;
-        if (counter <= 0)
+        else
         {
-            ready=true;
+            if (!behavior.getClass().isAssignableFrom(newBehavior.getClass()))
+            {
+                behavior = newBehavior;
+                System.out.println("Updated behavior: "+ behavior.getClass().getSimpleName());
+            }
         }
+    }
+
+    public void updateBehavior()
+    {
+        Avatar avatar= BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).avatar;
+        double percentage = avatar.currentTime/avatar.time * 100;
+        if (percentage >=70)
+        {
+            setBehavior(new TimeWasteHard());
+        }
+        else if (percentage >= 30)
+        {
+            setBehavior(new TimeWasteIndecisive(this));
+        }
+        else if (percentage < 30)
+        {
+            setBehavior(new TimeWasteEasy(this));
+        }
+    }
+
+
+    public void vanish()
+    {
+        Building b = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
+        b.getMap_obj()[position.getY()][position.getX()] = new EmptyTile(position.getX(),position.getY(), EscapeFromKoc.getInstance().tm.objects[4].image);
+        System.out.println("Alien Vanished");
     }
 }
