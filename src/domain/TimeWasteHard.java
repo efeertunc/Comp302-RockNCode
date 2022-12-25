@@ -1,9 +1,15 @@
 package domain;
 
 public class TimeWasteHard implements TimeWasteBehavior{
+    TimeWasterAlien alien;
     int cooldown = 3;
     boolean ready = false;
     double counter = cooldown;
+
+    public TimeWasteHard(TimeWasterAlien alien)
+    {
+        this.alien = alien;
+    }
     @Override
     public void timeWaste(double intervalTime) {
         if (ready)

@@ -10,7 +10,7 @@ public class Obstacle extends ObjectTile {
     public Key key;
 
     public int type;
-    int savedImage;
+    public int savedImage;
 
     public Obstacle(int type, int x, int y, int image)
     {

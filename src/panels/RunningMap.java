@@ -83,13 +83,57 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     }
 
     public void draw(Graphics2D g2D) {
-        for (int i = 0 ; i< 17; i ++)
+        if (thread.isAlive())
         {
-            for (int j = 0 ; j <12; j ++)
-            {
-                g2D.drawImage(map_obj[j][i].getImage(), parseX(i), parseY(j), 48+5,
-                        48+5, null);
+        for (int i = 0 ; i< 17; i ++) {
+            for (int j = 0; j < 12; j++) {
+                if (map_obj[j][i] == null){
+                    System.out.println("i" + i + "j" + j);
+                    continue;
+                }
+                //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
+                int imageId = map_obj[j][i].image;
+                if (imageId != -1) {
+                    if (imageId == 0) {
+                        g2D.drawImage(Constants.ImageConstants.SHELVE, parseX(i), parseY(j), 48 + 5,
+                                48 + 5, null);
+                    }
+                    if (imageId == 1) {
+                        g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(i), parseY(j), 48 + 5,
+                                48 + 5, null);
+                    }
+                    if (imageId == 2) {
+                        g2D.drawImage(Constants.ImageConstants.BIN, parseX(i), parseY(j), 48 + 5,
+                                48 + 5, null);
+                    }
+                    if (imageId == 3) {
+                        g2D.drawImage(Constants.ImageConstants.TABLE, parseX(i), parseY(j), 48 + 5,
+                                48 + 5, null);
+                    }
+                    if (imageId == 4) {
+                        g2D.drawImage(Constants.ImageConstants.EMPTY, parseX(i), parseY(j), 48 + 5,
+                                48 + 5, null);
+                    }
+                    if (imageId == 5) {
+                        g2D.drawImage(Constants.ImageConstants.AVATAR, parseX(i), parseY(j), 48 + 5,
+                                48 + 5, null);
+                    }
+                    if (imageId == 6) {
+                        g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY, parseX(i), parseY(j), 48 + 5,
+                                48 + 5, null);
+                    }
+                    if (imageId == 7) {
+                        g2D.drawImage(Constants.ImageConstants.ALIEN, parseX(i), parseY(j), 48 + 5,
+                                48 + 5, null);
+                    }
+                    if (imageId == 8) {
+                        g2D.drawImage(Constants.ImageConstants.KEY, parseX(i), parseY(j), 48 + 5,
+                                48 + 5, null);
+                    }
+                }
             }
+
+        }
         }
     }
     public void printArr(ObjectTile[][] arr) {

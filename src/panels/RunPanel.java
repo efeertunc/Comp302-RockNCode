@@ -41,6 +41,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 	
 	public RunPanel(IAppView appView) {
+		System.out.println("RunPanel");
 		putPaneltoFrame(appView.getFrame());	
 		this.runController = new RunController();
 		initialize();

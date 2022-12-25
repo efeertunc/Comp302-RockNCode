@@ -333,10 +333,6 @@ public final class DBManager implements IDatabaseAdapter{
                     for (int k = 0; k < 17; k++) {
                         ObjectTile objectTile = BuildingTracker.getBuildingList().get(i).getMap_obj()[j][k];
 
-                        if (objectTile instanceof Alien){
-                            mapList.put("/users/" + id + "/" + "map" + "/"+  i + "/" + j + "/" + k + "/" + "Alien", objectTile);
-
-                        }
                         if (objectTile instanceof Avatar){
                             mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar", objectTile);
 
@@ -346,6 +342,9 @@ public final class DBManager implements IDatabaseAdapter{
 
                         }
                         if (objectTile instanceof Obstacle){
+                            if (((Obstacle) objectTile).key != null){
+                                objectTile.image = ((Obstacle) objectTile).savedImage;
+                            }
                             mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Obstacle", objectTile);
 
                         }
