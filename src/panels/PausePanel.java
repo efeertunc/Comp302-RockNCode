@@ -16,6 +16,7 @@ import javax.swing.border.MatteBorder;
 
 import controllers.PauseController;
 import factory.PanelType;
+import factory.ViewType;
 import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
@@ -26,7 +27,7 @@ public class PausePanel implements IPanel{
 	private JPanel panel;
 	
 	private PauseController pauseController;
-	
+
 	private JButton resumeButton;
 	private JButton helpButton;
 	private JButton returnMenuButton;
@@ -118,8 +119,9 @@ public class PausePanel implements IPanel{
 
 
 	protected void resume() {
+		((RunPanel)EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).RunningMap.isPaused = false;
 		pauseController.resumeGame();
-		
+
 	}
 
 }
