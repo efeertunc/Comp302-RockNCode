@@ -18,6 +18,8 @@ public class Building {
 	private BuildingType type;
 	private int minReq;
 
+	private boolean isKeyAvailable = false;
+
 	public Building(int[][] map, ArrayList<Integer> xlist, ArrayList<Integer> ylist, ArrayList<Integer> objtype, BuildingType type, int minReq) {
 		this.xlist = xlist;
 		this.ylist = ylist;
@@ -75,6 +77,30 @@ public class Building {
 	}
 	public void setKey()
 	{
+		if (!isKeyAvailable){
+			for (int i = 0; i < 17; i++)
+			{
+				for (int j = 0; j <12; j++)
+				{
+					if (map_obj[j][i] instanceof Obstacle)
+					{
+						if (((Obstacle) map_obj[j][i]).key != null){
+							System.out.println("Key databaseden oluşturuldu");
+							keyPos = map_obj[j][i].position;
+							isKeyAvailable = true;
+							return;
+						}
+					}
+				}
+			}
+			isKeyAvailable = true;
+			setKey2();
+		}else {
+			setKey2();
+		}
+	}
+
+	public void setKey2(){
 		ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 		for (int i = 0; i < 17; i++)
 		{
@@ -86,6 +112,7 @@ public class Building {
 				}
 			}
 		}
+		System.out.println("Key databaseden oluşturulmadı");
 		Random rand = new Random();
 		int selectedObstacle = rand.nextInt(obstacles.size());
 		obstacles.get(selectedObstacle).generateKey(BuildingTracker.getCurrentIndex());
@@ -95,6 +122,19 @@ public class Building {
 
 	public Avatar setAvatar()
 	{
+
+		for (int i = 0; i < 17; i++)
+		{
+			for (int j = 0; j <12; j++)
+			{
+				if (map_obj[j][i] instanceof Avatar)
+				{
+					avatar = (Avatar) map_obj[j][i];
+					return avatar;
+				}
+			}
+		}
+
 		ArrayList<EmptyTile> emptyTiles = new ArrayList<EmptyTile>();
 
 		for (int i = 0; i < 17; i++)
@@ -126,6 +166,19 @@ public class Building {
 
 	public void generateAlien()
 	{
+		for (int i = 0; i < 17; i++)
+		{
+			for (int j = 0; j <12; j++)
+			{
+				if (map_obj[j][i] instanceof Alien)
+				{
+					TimeWasterAlien alien = new TimeWasterAlien(map_obj[j][i].position.getX(),map_obj[j][i].position.getY(), EscapeFromKoc.getInstance().tm.objects[7].image);
+					map_obj[alien.position.getY()][alien.position.getX()] = alien;
+					return;
+				}
+			}
+		}
+
 		ArrayList<EmptyTile> emptyTiles = new ArrayList<EmptyTile>();
 		for (int i = 0; i < 17; i++)
 		{

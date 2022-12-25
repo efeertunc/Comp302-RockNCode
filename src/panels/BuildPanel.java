@@ -65,6 +65,9 @@ public class BuildPanel implements IPanel {
 
 	}
 
+	public BuildingMap getBuildingMap() {
+		return BuildingMap;
+	}
 
 	public void performed() {
 		BuildingMap.addMouseListener(new MouseAdapter() {// provides empty implementation of all
@@ -80,8 +83,7 @@ public class BuildPanel implements IPanel {
 				if(BuildingMap.addToMap(x, y, b)){
 					sound.playSoundEffect(2);
 				}
-				if (BuildingMap.objtype.size() >= BuildingTracker.getBuildingList()
-						.get(BuildingTracker.getCurrentIndex()).getMinReq()) {
+				if (BuildingMap.getObjectCount() >= BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
 					textPane2.setBackground(Color.GREEN);
 				}
 
@@ -94,8 +96,10 @@ public class BuildPanel implements IPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				BuildingMap.undoLast();
-				if (BuildingMap.getXlist().size() < BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
-					textPane2.setBackground(Color.RED);}
+				if (BuildingMap.objtype.size() < BuildingTracker.getBuildingList()
+						.get(BuildingTracker.getCurrentIndex()).getMinReq()) {
+					textPane2.setBackground(Color.RED);
+				}
 
 			}
 		});
@@ -113,13 +117,12 @@ public class BuildPanel implements IPanel {
 	protected void startRunMode() {
 
 		int minimum = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq();
-		if (BuildingMap.getXlist().size() < minimum) {
+		if (BuildingMap.getObjectCount() < minimum) {
 			String str = "Please select at least " + Integer.toString(minimum) + " objects !";
 			JOptionPane.showMessageDialog(null, str);
 
 		} else {
-			setBuildingLists();
-			//BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(BuildingMap.getMap());
+			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap_obj(BuildingMap.getMap());
 			BuildingTracker.setCurrentIndex(0);
 			buildController.startRun();
 
@@ -128,46 +131,38 @@ public class BuildPanel implements IPanel {
 	}
 
 	protected void nextBuilding() {
-		Building next = buildController.nextBuilding();
-		textPane2.setBackground(Color.RED);
-
-
-		if (next.getType() == BuildingType.SNA) {
-			nextBuildingButton.setVisible(false);
-			startRunModeButton.setVisible(true);
-		}
-		updateBuildingMap(next);
-
-	}
-
-	private void saveGame() {
-		setBuildingLists();
-		((GameView) EscapeFromKoc.getInstance().getView(ViewType.GameView)).getAuthController().saveGameClick();
-
-	}
-
-	private void updateBuildingMap(Building next) {
-
-		// buraya yazz arrayleri eþitle
 		int minimum = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq();
-
-		if (BuildingMap.getXlist().size() < minimum) {
+		System.out.println("BuildingMap.getObjectCount() " + BuildingMap.getObjectCount());
+		if (BuildingMap.getObjectCount() < minimum) {
 			String str = "Please select at least " + Integer.toString(minimum) + " objects !";
 			JOptionPane.showMessageDialog(null, str);
 
 		} else {
-			System.out.println("Current Index: "+BuildingTracker.getCurrentIndex());
-			setBuildingLists();
+			System.out.println("updateBuildingMap Current Index: "+BuildingTracker.getCurrentIndex());
+			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap_obj(BuildingMap.getMap());
 
 			BuildingMap.emptyMap();
 			BuildingTracker.setCurrentIndex(1 + BuildingTracker.getCurrentIndex());
+			BuildingMap.setMap(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());
 			String str = "At least "
 					+ Integer.toString(
 					BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq())
 					+ " object is required!";
 			textPane2.setText(str);
-			buildingInfo.setText(next.getType().toString());
+			buildingInfo.setText(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
 		}
+		controlOfNextButton();
+	}
+
+	private void saveGame() {
+		setBuildingLists();
+		((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().saveGameClick(false);
+
+	}
+	public void loadGameForBuilding() {
+		getBuildingMap().setMapForDB();
+		setText();
+		controlOfNextButton();
 
 	}
 
@@ -202,10 +197,6 @@ public class BuildPanel implements IPanel {
 		}
 	}
 	public void setBuildingLists() {
-		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setXlist(BuildingMap.getXlist());
-		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setYlist(BuildingMap.getYlist());
-		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setObjtype(BuildingMap.getObjtype());
-		//BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).initializeMap();
 		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap_obj(BuildingMap.getMap());
 	}
 	@Override
@@ -232,9 +223,9 @@ public class BuildPanel implements IPanel {
 		panel.add(startRunModeButton);
 
 		BuildingMap = new BuildingMap(panel);
+		//BuildingMap.setMapForDB();
 
 		buildingInfo = new JTextField();
-		buildingInfo.setText("OMER");
 		buildingInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		buildingInfo.setBounds(300, 0, 130, 26);
 		BuildingMap.add(buildingInfo);
@@ -281,8 +272,7 @@ public class BuildPanel implements IPanel {
 		textPane2 = new JTextPane();
 		textPane2.setEditable(false);
 		textPane2.setFont(new Font("Sitka Display", Font.BOLD, 11));
-		textPane2.setText("At least 5 object is required !");
-		textPane2.setBackground(Color.RED);
+
 		textPane2.setBounds(190, 450, 187, 100);
 		objectPanel.add(textPane2);
 
@@ -310,6 +300,23 @@ public class BuildPanel implements IPanel {
 		objLabel3.setBounds(140, 170, 270, 250);
 		objectPanel.add(objLabel3);
 
+	}
+
+	public void setText(){
+		buildingInfo.setText(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
+		textPane2.setText("Please select at least " + Integer.toString(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) + " objects !");
+		if (BuildingMap.getObjectCount() < BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
+			textPane2.setBackground(Color.RED);
+		}else {
+			textPane2.setBackground(Color.GREEN);
+		}
+	}
+
+	public void controlOfNextButton(){
+		if (BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType() == BuildingType.SNA) {
+			nextBuildingButton.setVisible(false);
+			startRunModeButton.setVisible(true);
+		}
 	}
 
 	@Override

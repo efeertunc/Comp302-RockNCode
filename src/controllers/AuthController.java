@@ -98,9 +98,9 @@ public class AuthController implements DBObserver {
 
     // Save Game Functions
 
-    public void saveGameClick() {
+    public void saveGameClick(boolean isRunningMode) {
         EscapeFromKoc.getInstance().getDatabaseAdapter()
-                .saveGame();
+                .saveGame(isRunningMode);
     }
 
 }

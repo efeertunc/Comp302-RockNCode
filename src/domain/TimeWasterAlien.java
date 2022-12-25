@@ -36,6 +36,7 @@ public class TimeWasterAlien extends Alien{
         }
         else
         {
+
             if (!behavior.getClass().isAssignableFrom(newBehavior.getClass()))
             {
                 behavior = newBehavior;

@@ -24,6 +24,8 @@ public class MenuPanel implements IPanel{
 	private JButton playGameButton;
 	private JButton helpButton;
 	private JButton exitButton;
+
+	private boolean isRunningMode = false;
 	
 	public MenuPanel(IAppView appView) {
 		putPaneltoFrame(appView.getFrame());	
@@ -36,8 +38,11 @@ public class MenuPanel implements IPanel{
 
 	
 	private void play() {
-		menuController.startBuildingMode();
-		
+		if (isRunningMode) {
+			menuController.startRunMode();
+		} else {
+			menuController.startBuildingMode();
+		}
 	}
 
 	private void help() {
@@ -128,6 +133,7 @@ public class MenuPanel implements IPanel{
 
 	}
 
-
-	
+	public void setRunningMode(boolean runningMode) {
+		isRunningMode = runningMode;
+	}
 }

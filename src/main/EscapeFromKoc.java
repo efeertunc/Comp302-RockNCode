@@ -1,8 +1,8 @@
 package main;
 
 import Utilities.DBManager.DBManager;
-import Utilities.DBManager.DatabaseAdapter;
-import domain.SoundManager;
+
+import Utilities.DBManager.IDatabaseAdapter;
 import factory.PanelType;
 import factory.ViewFactory;
 import factory.ViewType;
@@ -28,7 +28,7 @@ public class EscapeFromKoc {
     }
     public TileManager tm;
     private static EscapeFromKoc instance;
-    private DatabaseAdapter databaseAdapter;
+    private IDatabaseAdapter databaseManager;
 
     private IAppView authView;
     private IAppView gameView;
@@ -51,8 +51,8 @@ public class EscapeFromKoc {
         if (!checkInternetConnection()) {
             System.out.println("Lütfen internete bağlı olduğunuzdan emin olup tekrar deneyin.");
         } else {
-            databaseAdapter = new DatabaseAdapter(DBManager.getInstance());
-            databaseAdapter.connect();
+            databaseManager = new DBManager();
+            databaseManager.connectDB();
 
             authView = ViewFactory.getInstance().createView(ViewType.AuthView);
             gameView = ViewFactory.getInstance().createView(ViewType.GameView);
@@ -150,8 +150,8 @@ public class EscapeFromKoc {
     }
 
 
-    public DatabaseAdapter getDatabaseAdapter() {
-        return databaseAdapter;
+    public IDatabaseAdapter getDatabaseAdapter() {
+        return databaseManager;
     }
 
 
