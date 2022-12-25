@@ -5,17 +5,20 @@ import main.EscapeFromKoc;
 import objects.ObjectTile;
 import panels.BuildPanel;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 
-public class Avatar extends ObjectTile {
+public class Avatar extends DynamicTile {
     int life;
     int time;
+    double currentTime;
     Bag bag;
 
     public Avatar(int life, int time, int x, int y, BufferedImage image)
     {
         this.life = life;
         this.time = time;
+        currentTime = (double) time;
         this.position = new Position();
         position.setPos(x,y);
         this.image = image;
@@ -59,5 +62,14 @@ public class Avatar extends ObjectTile {
             }
         }
         return false;
+    }
+
+    @Override
+    public void update(double intervalTime) {
+        currentTime -=  intervalTime/1000000000;
+        if (currentTime < 0)
+        {
+            currentTime = 0;
+        }
     }
 }

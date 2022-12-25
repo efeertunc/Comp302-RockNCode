@@ -109,7 +109,7 @@ public class Building {
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		avatar = new Avatar(3,120, emptyTiles.get(selectedEmptyTile).position.getX(), emptyTiles.get(selectedEmptyTile).position.getY(), EscapeFromKoc.getInstance().tm.objects[5].image);
+		avatar = new Avatar(3,60, emptyTiles.get(selectedEmptyTile).position.getX(), emptyTiles.get(selectedEmptyTile).position.getY(), EscapeFromKoc.getInstance().tm.objects[5].image);
 		map_obj[avatar.getPosition().getY()][avatar.getPosition().getX()] = avatar;
 		return avatar;
 	}
