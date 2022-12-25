@@ -63,6 +63,7 @@ public class AuthController implements DBObserver {
                 EscapeFromKoc.getInstance().getView(ViewType.GameView));
         EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getView(ViewType.AuthView).getPanel(PanelType.Login),
                 EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu));
+
     }
     @Override
     public void loginRejected(String response) {

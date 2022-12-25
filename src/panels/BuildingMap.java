@@ -11,7 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import domain.BuildingTracker;
 import main.IPanel;
+import objects.ObjectTile;
 import objects.TileManager;
 
 public class BuildingMap extends JPanel implements IPanel {
@@ -22,11 +24,13 @@ public class BuildingMap extends JPanel implements IPanel {
     JPanel panel;
 
     Point startPoint;
-    private int[][] map = new int[12][17];
+    private ObjectTile[][] map;
 
     public BuildingMap(JPanel panel) {
-        this.panel = panel;
         tm = new TileManager();
+        map=initial_map();
+        this.panel = panel;
+
         design();
     }
 
@@ -67,137 +71,161 @@ public class BuildingMap extends JPanel implements IPanel {
     }
 
     public void draw(Graphics2D g2D) {
+        for (int i = 0; i < 17; i++) {
+            for (int j = 0; j < 12; j++) {
+                g2D.drawImage(map[j][i].image, parseX(i), parseY(j), 48 + 5,
+                        48 + 5, null);
 
-        for (int i = 0; i < xlist.size(); i++) {
-            g2D.drawImage(tm.getObjects()[objtype.get(i)].image, xlist.get(i), ylist.get(i), tm.getTileSize() + 15,
-                    tm.getTileSize() + 15, null); // arrange tile weight and height
-
-        }
-
-    }
-
-    public boolean inMap(int x, int y) {
-        return map[y / 50][x / 50] != 0;
-    }
-
-    public void updateMap() {
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 17; j++) {
-                map[i][j] = 0;
             }
-        }
-        for (int i = 0; i < xlist.size(); i++) {
-            map[ylist.get(i) / 50][xlist.get(i) / 50] = objtype.get(i) + 1;
-        }
 
+        }
     }
 
-    public void addToMap(int x, int y, int b) {
+        public void updateMap ( int x, int y,int type){
 
-        int x_reduced = x % 50;
-        int x_new;
-        if (x > 800) {
-            x_new = 800;
-        } else {
-            if (x_reduced < 25) {
-                x_new = x - x_reduced;
+           map[y][x].setImage(tm.objects[type].getImage());
+
+        }
+
+        public boolean addToMap ( int x, int y, int b){
+
+            int x_reduced = x % 50;
+            int x_new;
+            if (x > 800) {
+                x_new = 800;
+            } else {
+                if (x_reduced < 25) {
+                    x_new = x - x_reduced;
+
+                } else {
+                    x_new = x + (50 - x_reduced);
+                }
+            }
+
+            int y_reduced = y % 50;
+            int y_new;
+            if (y > 550) {
+                y_new = 550;
 
             } else {
-                x_new = x + (50 - x_reduced);
+                if (y_reduced < 25) {
+                    y_new = y - y_reduced;
+                } else {
+                    y_new = y + (50 - y_reduced);
+                }
             }
+            // x, y between 0-800 and 0-550
+            System.out.printf("x is %d and y is %d",x_new,y_new);
+            //Here, we check whether this location is empty or not, by looking at lists
+            // For database, we can check in map later.
+           if (!inMap(x_new, y_new)) {
+               xlist.add(x_new);
+               ylist.add(y_new);
+               objtype.add(b);
+               updateMap(unparseX(x_new), unparseY(y_new), b);
+               repaint();
+                return true;
+           }
+        return false;
         }
 
-        int y_reduced = y % 50;
-        int y_new;
-        if (y > 550) {
-            y_new = 550;
+        public void emptyMap () {
 
-        } else {
-            if (y_reduced < 25) {
-                y_new = y - y_reduced;
-            } else {
-                y_new = y + (50 - y_reduced);
-            }
-        }
-        if (!inMap(x_new, y_new)) {
-
-            xlist.add(x_new);
-            ylist.add(y_new);
-            if (b == 0) {
-                objtype.add(0);
-            } else if (b == 1) {
-                objtype.add(1);
-            } else if (b == 3) {
-                objtype.add(2);
-            } else {
-                objtype.add(3);
-            }
-        }
-        updateMap();
-        repaint();
-
-    }
-
-    public void emptyMap() {
-
-        xlist = new ArrayList<Integer>();
-        ylist = new ArrayList<Integer>();
-        objtype = new ArrayList<Integer>();
-        repaint();
-
-    }
-
-    public void undoLast() {
-
-        int size = xlist.size();
-        if (size != 0) {
-            xlist.remove(size - 1);
-            ylist.remove(size - 1);
-            objtype.remove(size - 1);
+            xlist = new ArrayList<Integer>();
+            ylist = new ArrayList<Integer>();
+            objtype = new ArrayList<Integer>();
+            map = initial_map();
             repaint();
-        } else {
-            JOptionPane.showMessageDialog(null, "There is not any object to delete!");
+
         }
 
-    }
+        public void undoLast () {
 
-    public void printArray(ArrayList<Integer> arr) {
-        for (int i = 0; i < arr.size(); i++) {
-            System.out.printf(" %d ", arr.get(i));
+            int size = xlist.size();
+            if (size != 0) {
+                int a = unparseY(ylist.get(size - 1));
+                int b = unparseX(xlist.get(size - 1));
+                map[a][b].setImage(tm.objects[4].getImage());
+                xlist.remove(size - 1);
+                ylist.remove(size - 1);
+                objtype.remove(size - 1);
+
+                repaint();
+            } else {
+                JOptionPane.showMessageDialog(null, "There is not any object to delete!");
+            }
+
         }
-        System.out.println();
-    }
 
-    public ArrayList<Integer> getXlist() {
-        return xlist;
-    }
+        public void printArray (ArrayList < Integer > arr) {
+            for (int i = 0; i < arr.size(); i++) {
+                System.out.printf(" %d ", arr.get(i));
+            }
+            System.out.println();
+        }
 
-    public ArrayList<Integer> getYlist() {
-        return ylist;
-    }
+        public ArrayList<Integer> getXlist () {
+            return xlist;
+        }
 
-    public ArrayList<Integer> getObjtype() {
-        return objtype;
-    }
+        public ArrayList<Integer> getYlist () {
+            return ylist;
+        }
 
-    public int[][] getMap() {
-        return map;
-    }
+        public ArrayList<Integer> getObjtype () {
+            return objtype;
+        }
 
-    public void setXlist(ArrayList<Integer> xlist) {
-        this.xlist = xlist;
-    }
+        public ObjectTile[][] getMap () {
+            return map;
+        }
 
-    public void setYlist(ArrayList<Integer> ylist) {
-        this.ylist = ylist;
+        private int parseX ( int x)
+        {
+            return  x * 50;
+        }
+        private int parseY ( int y)
+        {
+            return y * 50;
+        }
+        private int unparseX ( int x)
+        {
+            return (x / 50);
+        }
+        private int unparseY ( int y)
+        {
+            return (y / 50);
+        }
+        public void printArr (ObjectTile[][]arr){
+            for (int i = 0; i < 12; i++) {
+                for (int j = 0; j < 17; j++) {
+                    if (arr[i][j] != null) {
+                        System.out.printf("%d ", 1);
+                    } else {
+                        System.out.printf("%s ", 'n');
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
+        public ObjectTile[][] initial_map () {
+            ObjectTile[][] map = new ObjectTile[12][17];
+            for (int i = 0; i < 12; i++) {
+                for (int j = 0; j < 17; j++) {
+                    map[i][j] = new ObjectTile();
+                    map[i][j].setImage(tm.objects[4].getImage());
+                    System.out.println();
+                }
+            }
+            return map;
+        }
+    public boolean inMap(int x, int y) {
+        for (int i=0;i<xlist.size();i++){
+            if (x==xlist.get(i) && y==ylist.get(i)){
+                return true;
+            }
+        }
+        return false;
     }
-
-    public void setObjtype(ArrayList<Integer> objtype) {
-        this.objtype = objtype;
     }
-
-    public void setMap(int[][] map) {
-        this.map = map;
-    }
-
-}

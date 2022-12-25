@@ -19,6 +19,7 @@ import domain.Avatar;
 import domain.BuildingTracker;
 import domain.Obstacle;
 import main.IPanel;
+import objects.ObjectTile;
 import objects.TileManager;
 
 public class RunningMap extends JPanel implements IPanel , Runnable {
@@ -27,7 +28,7 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     Point startPoint;
     Thread thread;
     private int[][] map = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap();
-
+    private ObjectTile[][] map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
     public RunningMap(JPanel panel) {
         this.panel = panel;
         tm = new TileManager();
@@ -84,13 +85,13 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
             {
                 if (map[j][i] == 0)
                 {
-                    g2D.drawImage(tm.getObjects()[4].image, parseX(i), parseY(j), 48,
-                            48, null);
+                    g2D.drawImage(tm.getObjects()[4].image, parseX(i), parseY(j), 48+5,
+                            48+5, null);
                 }
                 else
                 {
-                    g2D.drawImage(tm.getObjects()[map[j][i] -1].image, parseX(i), parseY(j), 48,
-                            48, null);
+                    g2D.drawImage(tm.getObjects()[map[j][i] -1].image, parseX(i), parseY(j), 48+5,
+                            48+5, null);
                 }
             }
         }

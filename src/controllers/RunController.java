@@ -4,6 +4,7 @@ import HelperComponents.Direction;
 import domain.Avatar;
 import domain.Building;
 import domain.BuildingTracker;
+import domain.SoundManager;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
@@ -11,6 +12,7 @@ import main.EscapeFromKoc;
 public class RunController {
 	Building currentBuilding;
 	Avatar avatar;
+	private SoundManager sound = new SoundManager();
 
 	public RunController()
 	{
@@ -58,7 +60,14 @@ public class RunController {
 			System.out.println("MouseClick is outside of the field");
 			return;
 		}
-		avatar.searchKey(indexX , indexY , currentBuilding);
+		if(avatar.searchKey(indexX , indexY , currentBuilding)){
+			sound.setVolumeScale(5);
+			sound.checkVolume();
+			sound.playSoundEffect(0);
+		}
 	}
 
+	public SoundManager getSound() {
+		return sound;
+	}
 }

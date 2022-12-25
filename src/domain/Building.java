@@ -1,6 +1,7 @@
 package domain;
 
 import HelperComponents.Position;
+import objects.ObjectTile;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,6 +9,7 @@ import java.util.Random;
 public class Building {
 	
 	private int[][] map;
+	private ObjectTile[][] map_obj;
 	ArrayList<Integer> xlist;
 	ArrayList<Integer> ylist;
 	ArrayList<Integer> objtype;
@@ -25,8 +27,12 @@ public class Building {
 		this.type = type;
 		this.minReq = minReq;
 	}
-	
-	
+	public void setMap_obj(ObjectTile[][] map) {
+		this.map_obj = map;
+	}
+	public ObjectTile[][] getMap_obj() {
+		return map_obj ;
+	}
 	public int[][] getMap() {
 		return map;
 	}
