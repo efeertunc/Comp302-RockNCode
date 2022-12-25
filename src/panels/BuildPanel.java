@@ -159,6 +159,12 @@ public class BuildPanel implements IPanel {
 		((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().saveGameClick(false);
 
 	}
+	public void loadGameForBuilding() {
+		getBuildingMap().setMapForDB();
+		setText();
+		controlOfNextButton();
+
+	}
 
 	protected void showHelp() {
 		buildController.openHelpScreen();

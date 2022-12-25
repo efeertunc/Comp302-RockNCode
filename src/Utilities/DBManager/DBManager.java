@@ -104,9 +104,8 @@ public final class DBManager implements IDatabaseAdapter{
                 }
             }
             if (!isRunningMode){
-                ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).getBuildingMap().setMapForDB();
-                ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).setText();
-                ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).controlOfNextButton();
+                ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).loadGameForBuilding();
+
             }else {
                 ((MenuPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu)).setRunningMode(isRunningMode);
 
