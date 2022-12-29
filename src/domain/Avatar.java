@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 public class Avatar extends DynamicTile {
     int life;
     int time;
-    double currentTime;
+    public double currentTime;
     Bag bag;
 
     public Avatar(int life, int time, int x, int y, int image)

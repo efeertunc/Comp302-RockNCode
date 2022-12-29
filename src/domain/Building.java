@@ -119,7 +119,10 @@ public class Building {
 		keyPos = obstacles.get(selectedObstacle).position;
 		obstacles.clear();
 	}
-
+	public Avatar getAvatar()
+	{
+		return this.avatar;
+	}
 	public Avatar setAvatar()
 	{
 

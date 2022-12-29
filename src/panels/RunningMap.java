@@ -25,12 +25,16 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     int FPS = 60;
     public boolean isPaused;
     JPanel panel;
+
+    RunPanel superPanel;
+
     TileManager tm;
     Point startPoint;
     Thread thread;
     AlienGenerator generator;  //TEST PURPOSES
     private ObjectTile[][] map_obj;
-    public RunningMap(JPanel panel) {
+    public RunningMap(JPanel panel, RunPanel _panel) {
+        this.superPanel=_panel;
         this.panel = panel;
         tm = new TileManager();
         initialize();
@@ -183,6 +187,7 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     public void update(double intervalTime)
     {
         if(!isPaused) {
+            superPanel.countdown();
             for (int i = 0; i < 17; i++) {
                 for (int j = 0; j < 12; j++) {
                     if (map_obj[j][i] instanceof DynamicTile) {
