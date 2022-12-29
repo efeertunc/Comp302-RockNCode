@@ -13,6 +13,7 @@ import javax.swing.border.LineBorder;
 
 import HelperComponents.Direction;
 import controllers.RunController;
+import domain.Building;
 import domain.BuildingTracker;
 import domain.SoundManager;
 import factory.ViewType;
@@ -46,11 +47,9 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		this.runController = new RunController();
 		initialize();
 		design();
-		countDown();
-		timer.start();
 		
 	}
-	
+
 	
 	public void design() {
 		
@@ -92,30 +91,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		minute = 1;
 
 	}
-	public void countDown() {
-		timer = new Timer(1000, new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				showSecond = dFormat.format(second);
-				showMinute = dFormat.format(minute);
-				labelTimer.setText(showMinute + ":" + showSecond);
-
-				if (minute == 1) {
-					second = 59;
-					minute--;
-
-					showSecond = dFormat.format(second);
-					showMinute = dFormat.format(minute);
-					labelTimer.setText(showMinute + ":" + showSecond);
-				}
-
-				second--;
-
-			}
-		});
-	}
 
 
 	@Override
@@ -128,12 +104,20 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		panel.setBorder(new LineBorder(Color.BLACK));
 	}
 
+	public void countdown(){
+		if(labelTimer == null){
+			return;
+		}
+		int seconds =  (int)BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().currentTime;
+		int min = seconds/60;
+		int second = seconds - (min*60);
+
+		labelTimer.setText(Integer.toString(min) + ":" + Integer.toString(second));
+	}
 
 	@Override
 	public void showPanel(Boolean show) {
-		if(show == true){
-			timer.start();
-		}
+
 		panel.setVisible(show);
 		panel.requestFocus();
 		if(show){
@@ -153,7 +137,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		pauseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pauseGame();
-				timer.stop();
+
 			}
 		});
 
@@ -169,7 +153,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 		});
 
-		RunningMap = new RunningMap(panel);
+		RunningMap = new RunningMap(panel,this);
 		RunningMap.startThread();
 	}
 
