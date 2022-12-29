@@ -1,6 +1,6 @@
 package views;
 
-import controllers.AuthController;
+import domain.controllers.AuthController;
 import factory.PanelFactory;
 import factory.PanelType;
 import main.IAppView;

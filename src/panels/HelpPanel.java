@@ -10,7 +10,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
-import controllers.HelpController;
+import domain.controllers.HelpController;
 import main.IAppView;
 import main.IPanel;
 

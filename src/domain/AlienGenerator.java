@@ -1,10 +1,12 @@
 package domain;
 
+import domain.building.BuildingTracker;
+
 public class AlienGenerator {
 
-    int cooldown = 10;
-    boolean ready = false;
-    double counter = cooldown;
+    private int cooldown = 10;
+    private boolean ready = false;
+    private double counter = cooldown;
     public void generateAlien(double intervalTime) {
         if (ready)
         {

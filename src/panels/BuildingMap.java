@@ -11,13 +11,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import Models.Constants;
-import domain.BuildingTracker;
-import domain.EmptyTile;
-import domain.Obstacle;
+import models.Constants;
+import domain.building.BuildingTracker;
+import domain.gameObjects.EmptyTile;
+import domain.gameObjects.obstacle.Obstacle;
 import main.IPanel;
-import objects.ObjectTile;
-import objects.TileManager;
+import domain.gameObjects.ObjectTile;
+import domain.TileManager;
 
 public class BuildingMap extends JPanel implements IPanel {
     ArrayList<Integer> xlist = new ArrayList<Integer>();
@@ -79,7 +79,7 @@ public class BuildingMap extends JPanel implements IPanel {
     public void draw(Graphics2D g2D) {
         for (int i = 0; i < 17; i++) {
             for (int j = 0; j < 12; j++) {
-                int imageId = map[j][i].image;
+                int imageId = map[j][i].getImage();
                         if (imageId != -1) {
                             if (imageId == 0){
                                 g2D.drawImage(Constants.ImageConstants.SHELVE, parseX(i), parseY(j), 48 + 5,
@@ -226,7 +226,7 @@ public class BuildingMap extends JPanel implements IPanel {
         if (map != null){
             for (int i = 0; i < 17; i++) {
                 for (int j = 0; j < 12; j++) {
-                    if (map[j][i].image == 4){
+                    if (map[j][i].getImage() == 4){
                         count++;
                     }
                 }

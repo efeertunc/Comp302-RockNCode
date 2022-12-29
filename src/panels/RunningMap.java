@@ -4,22 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import HelperComponents.Direction;
-import HelperComponents.Position;
-import Models.Constants;
+import models.Constants;
 import domain.*;
+import domain.building.BuildingTracker;
+import domain.gameObjects.DynamicTile;
 import main.IPanel;
-import objects.ObjectTile;
-import objects.TileManager;
+import domain.gameObjects.ObjectTile;
+import domain.TileManager;
 
 public class RunningMap extends JPanel implements IPanel , Runnable {
     int FPS = 60;
@@ -96,7 +92,7 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
                     continue;
                 }
                 //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
-                int imageId = map_obj[j][i].image;
+                int imageId = map_obj[j][i].getImage();
                 if (imageId != -1) {
                     if (imageId == 0) {
                         g2D.drawImage(Constants.ImageConstants.SHELVE, parseX(i), parseY(j), 48 + 5,
@@ -143,7 +139,7 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     public void printArr(ObjectTile[][] arr) {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 17; j++) {
-                System.out.printf("%d", arr[i][j].ID);
+                System.out.printf("%d", arr[i][j].getID());
             }
             System.out.println();
         }

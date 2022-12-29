@@ -1,15 +1,13 @@
 package panels;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
-import controllers.MenuController;
+import domain.controllers.MenuController;
 import main.IAppView;
 import main.IPanel;
 
