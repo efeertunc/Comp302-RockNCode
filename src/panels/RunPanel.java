@@ -11,16 +11,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import HelperComponents.Direction;
-import controllers.RunController;
-import domain.Building;
-import domain.BuildingTracker;
-import domain.SoundManager;
-import factory.ViewType;
-import main.EscapeFromKoc;
+import helperComponents.Direction;
+import domain.controllers.RunController;
+import domain.building.BuildingTracker;
 import main.IAppView;
 import main.IPanel;
-import views.GameView;
 
 
 public class RunPanel extends JPanel implements IPanel, KeyListener{
@@ -108,7 +103,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		if(labelTimer == null){
 			return;
 		}
-		int seconds =  (int)BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().currentTime;
+		int seconds =  (int)BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getCurrentTime();
 		int min = seconds/60;
 		int second = seconds - (min*60);
 

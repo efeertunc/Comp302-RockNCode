@@ -21,17 +21,15 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import controllers.BuildController;
-import domain.Building;
-import domain.BuildingTracker;
-import domain.BuildingType;
+import domain.controllers.BuildController;
+import domain.building.BuildingTracker;
+import domain.building.BuildingType;
 import domain.SoundManager;
 import factory.ViewType;
 import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
 import views.AuthView;
-import views.GameView;
 
 public class BuildPanel implements IPanel {
 	private JComboBox comboBox;

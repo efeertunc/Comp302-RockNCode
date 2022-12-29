@@ -14,7 +14,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
-import controllers.PauseController;
+import domain.controllers.PauseController;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
