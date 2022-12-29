@@ -1,17 +1,13 @@
 package controllers;
 
-import Models.Account;
-import Utilities.DBManager.DBObserver;
-import domain.BuildingTracker;
+import models.Account;
+import database.DBObserver;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
-import objects.ObjectTile;
 import panels.ForgotPasswordPanel;
 import panels.LoginPanel;
 import panels.RegisterPanel;
-
-import java.util.ArrayList;
 
 public class AuthController implements DBObserver {
 

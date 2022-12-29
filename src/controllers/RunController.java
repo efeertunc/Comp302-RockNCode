@@ -1,9 +1,9 @@
 package controllers;
 
-import HelperComponents.Direction;
-import domain.Avatar;
-import domain.Building;
-import domain.BuildingTracker;
+import helperComponents.Direction;
+import domain.gameObjects.avatar.Avatar;
+import domain.building.Building;
+import domain.building.BuildingTracker;
 import domain.SoundManager;
 import factory.PanelType;
 import factory.ViewType;

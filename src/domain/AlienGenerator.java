@@ -1,5 +1,7 @@
 package domain;
 
+import domain.building.BuildingTracker;
+
 public class AlienGenerator {
 
     int cooldown = 10;

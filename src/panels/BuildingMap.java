@@ -11,13 +11,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import Models.Constants;
-import domain.BuildingTracker;
-import domain.EmptyTile;
-import domain.Obstacle;
+import models.Constants;
+import domain.building.BuildingTracker;
+import domain.gameObjects.EmptyTile;
+import domain.gameObjects.obstacle.Obstacle;
 import main.IPanel;
-import objects.ObjectTile;
-import objects.TileManager;
+import domain.gameObjects.ObjectTile;
+import domain.TileManager;
 
 public class BuildingMap extends JPanel implements IPanel {
     ArrayList<Integer> xlist = new ArrayList<Integer>();

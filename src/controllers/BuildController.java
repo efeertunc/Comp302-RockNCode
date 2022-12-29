@@ -1,9 +1,7 @@
 package controllers;
 
-import domain.Building;
-import domain.BuildingTracker;
-import domain.BuildingType;
-import domain.SoundManager;
+import domain.building.Building;
+import domain.building.BuildingTracker;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;

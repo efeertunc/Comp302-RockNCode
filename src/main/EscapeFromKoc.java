@@ -1,12 +1,12 @@
 package main;
 
-import Utilities.DBManager.DBManager;
+import database.DBManager;
 
-import Utilities.DBManager.IDatabaseAdapter;
+import database.IDatabaseAdapter;
 import factory.PanelType;
 import factory.ViewFactory;
 import factory.ViewType;
-import objects.TileManager;
+import domain.TileManager;
 
 import javax.swing.JFrame;
 import java.awt.*;

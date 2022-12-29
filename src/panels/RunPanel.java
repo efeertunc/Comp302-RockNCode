@@ -11,15 +11,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import HelperComponents.Direction;
+import helperComponents.Direction;
 import controllers.RunController;
-import domain.BuildingTracker;
-import domain.SoundManager;
-import factory.ViewType;
-import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
-import views.GameView;
 
 
 public class RunPanel extends JPanel implements IPanel, KeyListener{
