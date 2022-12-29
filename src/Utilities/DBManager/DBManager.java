@@ -71,116 +71,135 @@ public final class DBManager implements IDatabaseAdapter{
     //Auth Functions
     @Override
     public void loginUser(String username, String password) {
-        if (checkUserLogin(username, password)) {
-            isSaved();
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            isRunningMode();
-            if (isSaved){
-                // DBden gelen mapler alındı.
-                getMapForLoadGame();
-                getLastIndexFromDB();
+        if (checkAllRequiredFields(username, password)){
+            if (checkUserLogin(username, password)) {
+                isSaved();
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                BuildingTracker.setCurrentIndex(currentIndexFromDB);
+                isRunningMode();
+                if (isSaved){
+                    // DBden gelen mapler alındı.
+                    getMapForLoadGame();
+                    getLastIndexFromDB();
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    BuildingTracker.setCurrentIndex(currentIndexFromDB);
 
-                for (int i = 0; i < 6 ; i++){
-                    // Build listesine kendisinin mapi eklendi.
-                    BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                    for (int i = 0; i < 6 ; i++){
+                        // Build listesine kendisinin mapi eklendi.
+                        BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                    }
+                }else {
+                    //Kayıt yok.
+                    getMapForLoadGame();
+                    // getMapForLoadGame() fonksiyonu kayıt olmamış mapler için EmptyTile ekledi.
+                    for (int i = 0; i < 6 ; i++){
+                        // Build listesine kendisinin mapi eklendi.
+                        BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                    }
                 }
-            }else {
-                //Kayıt yok.
-                getMapForLoadGame();
-                // getMapForLoadGame() fonksiyonu kayıt olmamış mapler için EmptyTile ekledi.
-                for (int i = 0; i < 6 ; i++){
-                    // Build listesine kendisinin mapi eklendi.
-                    BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                if (!isRunningMode){
+                    ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).loadGameForBuilding();
+
+                }else {
+                    ((MenuPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu)).setRunningMode(isRunningMode);
+
                 }
+
+                notifyAuthObservers(Constants.DatabaseConstants.LOGIN_ACCEPTED);
+            } else {
+                notifyAuthObservers(Constants.DatabaseConstants.LOGIN_REJECTED);
             }
-            if (!isRunningMode){
-                ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).loadGameForBuilding();
-
-            }else {
-                ((MenuPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu)).setRunningMode(isRunningMode);
-
-            }
-
-            notifyAuthObservers(Constants.DatabaseConstants.LOGIN_ACCEPTED);
-        } else {
-            notifyAuthObservers(Constants.DatabaseConstants.LOGIN_REJECTED);
         }
     }
 
     @Override
     public void registerUser(String username, String firstPassword, String secondPassword, String hint) {
-        if (!checkUsernameRegister(username)) {
-            notifyAuthObservers(Constants.DatabaseConstants.USERNAME_NOT_AVAILABLE);
-            return;
+        if (checkAllRequiredFields(username, hint, firstPassword, secondPassword)){
+            if (!checkUsernameRegister(username)) {
+                notifyAuthObservers(Constants.DatabaseConstants.USERNAME_NOT_AVAILABLE);
+                throw new IllegalArgumentException(Constants.DatabaseConstants.USERNAME_NOT_AVAILABLE);
+            }else {
+                String id = database.child("users").push().getKey();
+                Account account = new Account(username, firstPassword, hint, id);
+
+                Map<String, Object> childUpdates = new HashMap<>();
+                Map<String, Object> accountValues = account.toMap();
+
+                childUpdates.put("/users/" + account.getID(), accountValues);
+
+                database.updateChildren(childUpdates, (error, ref) -> notifyAuthObservers(Constants.DatabaseConstants.DATABASE_WRITE_ERROR + " because of" + error.getDetails()));
+
+                Player.getInstance().setAccount(account);
+                notifyAuthObservers(Constants.DatabaseConstants.REGISTER_ACCEPTED);
+            }
         }
-
-        if (username.length() < 6) {
-            notifyAuthObservers(Constants.DatabaseConstants.USERNAME_LENGTH);
-            return;
-        }
-
-        if (firstPassword.length() < 6) {
-            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_LENGTH);
-            return;
-        }
-
-        if (!firstPassword.equals(secondPassword)) {
-            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_SAME_REGISTER);
-            return;
-        }
-
-        String id = database.child("users").push().getKey();
-        Account account = new Account(username, firstPassword, hint, id);
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> accountValues = account.toMap();
-
-        childUpdates.put("/users/" + account.getID(), accountValues);
-
-        database.updateChildren(childUpdates, (error, ref) -> notifyAuthObservers(Constants.DatabaseConstants.DATABASE_WRITE_ERROR + " because of" + error.getDetails()));
-
-        Player.getInstance().setAccount(account);
-        notifyAuthObservers(Constants.DatabaseConstants.REGISTER_ACCEPTED);
-
     }
 
     @Override
     public void forgotPassword(String username, String hint, String firstPassword, String secondPassword) {
 
-        if (firstPassword.length() < 6) {
-            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_LENGTH_FORGOT);
-            return;
-        }
+        if (checkAllRequiredFields(username, hint, firstPassword, secondPassword)){
+            Account account = checkUsernameForgotPassword(username,hint);
+            if (account != null){
+                account.setPassword(firstPassword);
+                Map<String, Object> childUpdates = new HashMap<>();
+                Map<String, Object> accountValues = account.toMap();
 
-        if (!firstPassword.equals(secondPassword)) {
-            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_SAME_FORGOT);
-            return;
-        }
-        Account account = checkUsernameForgotPassword(username,hint);
+                childUpdates.put("/users/" + account.getID(), accountValues);
 
-        if (account != null){
-            account.setPassword(firstPassword);
-            Map<String, Object> childUpdates = new HashMap<>();
-            Map<String, Object> accountValues = account.toMap();
-
-            childUpdates.put("/users/" + account.getID(), accountValues);
-
-            database.updateChildren(childUpdates, (error, ref) -> notifyAuthObservers(Constants.DatabaseConstants.DATABASE_WRITE_ERROR + " because of" + error.getDetails()));
-            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_CHANGED);
-        }else {
-            notifyAuthObservers(Constants.DatabaseConstants.HINT_WRONG);
+                database.updateChildren(childUpdates, (error, ref) -> notifyAuthObservers(Constants.DatabaseConstants.DATABASE_WRITE_ERROR + " because of" + error.getDetails()));
+                notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_CHANGED);
+            }else {
+                notifyAuthObservers(Constants.DatabaseConstants.HINT_WRONG);
+            }
         }
     }
+
+    public boolean checkAllRequiredFields(String username, String hint, String firstPassword, String secondPassword) {
+        if (username == null || firstPassword == null || secondPassword == null || hint == null) {
+            throw new NullPointerException("Username or password or hint can not be null");
+        }
+        if (username.length() < 6){
+            notifyAuthObservers(Constants.DatabaseConstants.USERNAME_LENGTH);
+            throw new IllegalArgumentException(Constants.DatabaseConstants.USERNAME_LENGTH);
+        }
+        if (firstPassword.length() < 6){
+            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_LENGTH);
+            throw new IllegalArgumentException(Constants.DatabaseConstants.PASSWORD_LENGTH);
+        }
+        if (secondPassword.length() < 6){
+            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_LENGTH);
+            throw new IllegalArgumentException(Constants.DatabaseConstants.PASSWORD_LENGTH);
+        }
+        if (!firstPassword.equals(secondPassword)){
+            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_SAME_REGISTER);
+            throw new IllegalArgumentException(Constants.DatabaseConstants.PASSWORD_SAME_REGISTER);
+        }
+        return true;
+    }
+
+    public boolean checkAllRequiredFields(String username, String password) {
+        if (username == null || password == null ) {
+            throw new NullPointerException("Username or password can not be null");
+        }
+        if (username.length() < 6){
+            notifyAuthObservers(Constants.DatabaseConstants.USERNAME_LENGTH);
+            throw new IllegalArgumentException(Constants.DatabaseConstants.USERNAME_LENGTH);
+        }
+        if (password.length() < 6){
+            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_LENGTH);
+            throw new IllegalArgumentException(Constants.DatabaseConstants.PASSWORD_LENGTH);
+        }
+        return true;
+    }
+
 
     private boolean checkUsernameRegister(String username) {
         getListOfUsers();

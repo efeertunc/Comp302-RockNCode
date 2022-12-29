@@ -7,6 +7,8 @@ import main.EscapeFromKoc;
 import main.IAppView;
 import views.GameView;
 
+import java.util.concurrent.TimeUnit;
+
 public class PauseController {
 
 	public void openHelp() {
@@ -34,6 +36,11 @@ public class PauseController {
 
     public void saveAndExit() {
 		((GameView) EscapeFromKoc.getInstance().getView(ViewType.GameView)).getAuthController().saveGameClick(true);
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 		System.exit(0);
 
 	}
