@@ -78,7 +78,7 @@ public class BuildPanel implements IPanel {
 				int y = e.getY()-20 ;
 				System.out.printf("x: %d  y:  %d\n",x,y);
 				int b = comboBox.getSelectedIndex();
-				if(BuildingMap.addToMap(x, y, b)){
+				if(BuildingMap.addToMap(x, y, b)!=null){
 					sound.playSoundEffect(2);
 				}
 				if (BuildingMap.getObjectCount() >= BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
