@@ -10,6 +10,7 @@ public class Avatar extends DynamicTile {
     private int life;
     private int time;
     private double currentTime;
+    private boolean hasKey;
     private Bag bag;
 
     public Avatar(int life, int time, int x, int y, int image)
@@ -19,6 +20,7 @@ public class Avatar extends DynamicTile {
         currentTime = (double) time;
         setPosition(new Position(x,y));
         setImage(image);
+        hasKey=false;
     }
     public int getTime() {
         return time;
@@ -43,6 +45,14 @@ public class Avatar extends DynamicTile {
         }
     }
 
+    public boolean isHasKey() {
+        return hasKey;
+    }
+
+    public void setHasKey(boolean hasKey) {
+        this.hasKey = hasKey;
+    }
+
     public boolean searchKey(int x, int y, Building building)
     {
         int xDiff = Math.abs(getPosition().getX() - x);
@@ -56,6 +66,7 @@ public class Avatar extends DynamicTile {
                     System.out.println("KEY HAS BEEN FOUND");
                     setImage(EscapeFromKoc.getInstance().tm.getObjects()[6].getImage());
                     building.deleteKey();
+                    hasKey=true;
                     return true;
                 }
             }

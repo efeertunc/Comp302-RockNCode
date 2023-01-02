@@ -3,8 +3,10 @@ package models;
 import main.EscapeFromKoc;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 
 public interface Constants {
 
@@ -36,6 +38,8 @@ public interface Constants {
         public static final BufferedImage AVATAR_HAPPY;
         public static final BufferedImage KEY;
         public static final BufferedImage SHELVE;
+        public static final BufferedImage OPENDOOR;
+        public static final BufferedImage CLOSEDOOR;
 
         static {
             try {
@@ -48,6 +52,8 @@ public interface Constants {
                 AVATAR_HAPPY = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/avatarHappy.png")));
                 KEY = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/keyObj.png")));
                 SHELVE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/shelve.png")));
+                OPENDOOR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/opened_big.png")));
+                CLOSEDOOR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/closed.png")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
