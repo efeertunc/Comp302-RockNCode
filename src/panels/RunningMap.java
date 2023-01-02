@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import main.EscapeFromKoc;
 import models.Constants;
 import domain.*;
 import domain.building.BuildingTracker;
@@ -28,6 +29,15 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     Point startPoint;
     Thread thread;
     AlienGenerator generator;  //TEST PURPOSES
+
+    public ObjectTile[][] getMap_obj() {
+        return map_obj;
+    }
+
+    public void setMap_obj(ObjectTile[][] map_obj) {
+        this.map_obj = map_obj;
+    }
+
     private ObjectTile[][] map_obj;
     public RunningMap(JPanel panel, RunPanel _panel) {
         this.superPanel=_panel;
@@ -83,6 +93,13 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     }
 
     public void draw(Graphics2D g2D) {
+        if (superPanel.getRunController().getAvatar().isHasKey()) {
+            g2D.drawImage(Constants.ImageConstants.OPENDOOR, 810, 470, 110,
+                    110, null);
+        } else {
+            g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, 810, 470, 150,
+                    110, null);
+        }
         if (thread.isAlive())
         {
         for (int i = 0 ; i< 17; i ++) {

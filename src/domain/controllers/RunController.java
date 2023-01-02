@@ -12,17 +12,24 @@ import main.EscapeFromKoc;
 public class RunController {
 	private Building currentBuilding;
 	private Avatar avatar;
+
+	public Avatar getAvatar() {
+		return avatar;
+	}
+
 	private SoundManager sound = new SoundManager();
 
 	public RunController()
 	{
+		initialize();
+	}
+	public void initialize() {
 		currentBuilding = BuildingTracker.getBuildingList()
 				.get(BuildingTracker.getCurrentIndex());
 		currentBuilding.setKey();
 		avatar = currentBuilding.setAvatar();
 		currentBuilding.generateAlien();
 	}
-
 	public void pause() {
 		EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
 				EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Pause));

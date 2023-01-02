@@ -77,6 +77,8 @@ public class BuildingMap extends JPanel implements IPanel {
     }
 
     public void draw(Graphics2D g2D) {
+        g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, 810, 470, 150,
+                110, null);
         for (int i = 0; i < 17; i++) {
             for (int j = 0; j < 12; j++) {
                 int imageId = map[j][i].getImage();
