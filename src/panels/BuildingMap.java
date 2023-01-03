@@ -128,12 +128,19 @@ public class BuildingMap extends JPanel implements IPanel {
             map[y][x] = new Obstacle(type,x,y,tm.objects[type].getImage());
         }
 
-        public boolean addToMap ( int x, int y, int b){
+        public int[] addToMap ( int x, int y, int b){
+            //REQUIRES: y<= 550 and x <= 800 and b<=tm.objects.length-1
+            //EFFECTS: If x,y and b are in feasible range, add them to lists and update map.
+            //MODIFIES: x_list, y_list, objtype and lastly map.
 
+            if (b>tm.objects.length-1){
+            return null;
+        }
             int x_reduced = x % 50;
             int x_new;
             if (x > 800) {
-                x_new = 800;
+                //x_new = 800;
+                return null;
             } else {
                 if (x_reduced < 25) {
                     x_new = x - x_reduced;
@@ -146,8 +153,8 @@ public class BuildingMap extends JPanel implements IPanel {
             int y_reduced = y % 50;
             int y_new;
             if (y > 550) {
-                y_new = 550;
-
+               // y_new = 550;
+                return null;
             } else {
                 if (y_reduced < 25) {
                     y_new = y - y_reduced;
@@ -159,15 +166,19 @@ public class BuildingMap extends JPanel implements IPanel {
             System.out.printf("x is %d and y is %d",x_new,y_new);
             //Here, we check whether this location is empty or not, by looking at lists
             // For database, we can check in map later.
-           if (!inMap(x_new, y_new)) {
+           if (!inMap(x_new, y_new,map)) {
                xlist.add(x_new);
                ylist.add(y_new);
                objtype.add(b);
                updateMap(unparseX(x_new), unparseY(y_new), b);
                repaint();
-                return true;
+               int[] a=new int[3];
+               a[0]= unparseX(x_new);
+               a[1]=unparseY(y_new);
+               a[2]= b;
+                return a;
            }
-        return false;
+        return null;
         }
 
         public void emptyMap () {
@@ -275,7 +286,7 @@ public class BuildingMap extends JPanel implements IPanel {
             }
             return map;
         }
-    public boolean inMap(int x, int y) {
+    public boolean inMap(int x, int y,ObjectTile[][] map) {
             if (map[unparseY(y)][unparseX(x)].getImage()!= tm.objects[4].getImage()){
                 return true;
             }
