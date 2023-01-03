@@ -5,6 +5,7 @@ import domain.building.BuildingTracker;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
+import views.GameView;
 
 public class BuildController {
 	
@@ -33,9 +34,12 @@ public class BuildController {
 	}
 
 	public void startRun() {
-		EscapeFromKoc.getInstance().getView(ViewType.GameView).createrunPanel();
+
+		((GameView) EscapeFromKoc.getInstance().getView(ViewType.GameView)).createrunPanel();
+
 		EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
 				EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run));
+
 		EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run).showPanel(true);
 
 
