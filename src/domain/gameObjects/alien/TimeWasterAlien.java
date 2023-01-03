@@ -34,7 +34,7 @@ public class TimeWasterAlien extends Alien{
         }
         else
         {
-            System.out.println("Behavior is already assigned");
+            //System.out.println("Behavior is already assigned");
             if (!behavior.getClass().isAssignableFrom(newBehavior.getClass()))
             {
                 behavior = newBehavior;
