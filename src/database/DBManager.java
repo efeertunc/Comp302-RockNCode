@@ -569,4 +569,8 @@ public final class DBManager implements IDatabaseAdapter{
         return 5;*/
     }
 
+    public void closeFirebase(){
+        FirebaseApp.getInstance().delete();
+    }
+
 }
