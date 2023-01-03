@@ -129,10 +129,13 @@ public class BuildingMap extends JPanel implements IPanel {
         }
 
         public int[] addToMap ( int x, int y, int b){
-        if (b>tm.objects.length-1){
+            //REQUIRES: y<= 550 and x <= 800 and b<=tm.objects.length-1
+            //EFFECTS: If x,y and b are in feasible range, add them to lists and update map.
+            //MODIFIES: x_list, y_list, objtype and lastly map.
+
+            if (b>tm.objects.length-1){
             return null;
         }
-
             int x_reduced = x % 50;
             int x_new;
             if (x > 800) {
