@@ -18,7 +18,7 @@ import main.IPanel;
 import domain.gameObjects.ObjectTile;
 import domain.TileManager;
 
-public class RunningMap extends JPanel implements IPanel , Runnable {
+public class RunningMap extends JPanel implements Runnable {
     int FPS = 60;
     public boolean isPaused;
     JPanel panel;
@@ -49,12 +49,12 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
         design();
     }
 
-    @Override
+
     public void showPanel(Boolean show) {
         this.setVisible(show);
     }
 
-    @Override
+
     public void initialize() {
         generator = new AlienGenerator();
     }
@@ -67,7 +67,7 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     {
         return 27 + y*48;
     }
-    @Override
+
     public void design() {
         this.setBackground(Color.PINK);
         this.setLayout(null);
@@ -76,14 +76,6 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
         panel.add(this);
     }
 
-    @Override
-    public void putPaneltoFrame(JFrame frame) {
-        //
-
-    }
-    public void setMap(int[][] map) {
-       //
-    }
 
     public void paintComponent(Graphics g) {
 

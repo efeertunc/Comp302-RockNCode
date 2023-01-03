@@ -32,8 +32,23 @@ public class WinGamePanel extends JPanel implements IPanel {
         BigLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
         BigLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         BigLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        BigLabel.setBounds(450, 200, 300, 300);
+        BigLabel.setBounds(450, 400, 350, 30);
         this.add(BigLabel);
+
+
+        Icon imgIcon1 = new ImageIcon(this.getClass().getResource("/visual/confet.gif"));
+        JLabel label1 = new JLabel(imgIcon1);
+        JLabel label2 = new JLabel(imgIcon1);
+        JLabel label3 = new JLabel(imgIcon1);
+        JLabel label4 = new JLabel(imgIcon1);
+        label1.setBounds(150, 200, 300, 300); // You can use your own values
+        label2.setBounds(850, 200, 300, 300); // You can use your own values
+        label3.setBounds(250, 50, 300, 300); // You can use your own values
+        label4.setBounds(650, 50, 300, 300); // You can use your own values
+        this.add(label1);
+        this.add(label2);
+        this.add(label3);
+        this.add(label4);
     }
 
     @Override
@@ -43,5 +58,6 @@ public class WinGamePanel extends JPanel implements IPanel {
         this.setBounds(0, 0, 1400, 800);
         this.setLayout(null);
         this.setBorder(new LineBorder(Color.BLACK));
+        this.setOpaque(false);
     }
 }

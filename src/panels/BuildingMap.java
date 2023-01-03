@@ -19,7 +19,7 @@ import main.IPanel;
 import domain.gameObjects.ObjectTile;
 import domain.TileManager;
 
-public class BuildingMap extends JPanel implements IPanel {
+public class BuildingMap extends JPanel {
     ArrayList<Integer> xlist = new ArrayList<Integer>();
     ArrayList<Integer> ylist = new ArrayList<Integer>();
     ArrayList<Integer> objtype = new ArrayList<Integer>();
@@ -40,19 +40,14 @@ public class BuildingMap extends JPanel implements IPanel {
         map = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
     }
 
-    @Override
+
     public void showPanel(Boolean show) {
         this.setVisible(show);
 
     }
 
-    @Override
-    public void initialize() {
-        // TODO Auto-generated method stub
 
-    }
 
-    @Override
     public void design() {
         this.setBackground(Color.PINK);
         this.setLayout(null);
@@ -62,11 +57,6 @@ public class BuildingMap extends JPanel implements IPanel {
 
     }
 
-    @Override
-    public void putPaneltoFrame(JFrame frame) {
-        // TODO Auto-generated method stub
-
-    }
 
     @Override
     public void paintComponent(Graphics g) {

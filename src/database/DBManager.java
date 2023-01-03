@@ -122,7 +122,7 @@ public final class DBManager implements IDatabaseAdapter{
                 ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).loadGameForBuilding();
 
             }else {
-                System.out.println("rıunning mode");
+                System.out.println("running mode");
                 ((MenuPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu)).setRunningMode(isRunningMode);
 
             }
