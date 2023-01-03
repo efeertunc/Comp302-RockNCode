@@ -28,9 +28,8 @@ public class Avatar extends DynamicTile {
         return currentTime;
     }
 
-    public void move(int x, int y, Building building)
-    {
-        if (x>=0 && x<17 && y>=0 && y<12) //tile exists
+    public boolean move(int x, int y, Building building) {
+        if (x >= 0 && x < 17 && y >= 0 && y < 12) //tile exists
         {
             if (building.getMap_obj()[y][x] instanceof EmptyTile) //tile empty
             {
@@ -38,10 +37,20 @@ public class Avatar extends DynamicTile {
                 int oldY = getPosition().getY();
                 building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, EscapeFromKoc.getInstance().tm.objects[4].getImage());
                 building.getMap_obj()[y][x] = this;
-                getPosition().setPos(x,y);
+                getPosition().setPos(x, y);
+                if (building.getMap_obj()[y][x] instanceof Avatar) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
+        else{
+            throw new IllegalArgumentException("Map_obj out of bounds");
+        }
+        return false;
     }
+
 
     public boolean searchKey(int x, int y, Building building)
     {

@@ -1,4 +1,4 @@
-package panels;
+package test;
 
 import domain.TileManager;
 import domain.gameObjects.ObjectTile;
@@ -7,6 +7,7 @@ import factory.PanelType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import panels.BuildingMap;
 import views.GameView;
 
 import javax.swing.*;
