@@ -104,7 +104,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		if (labelTimer == null){
 			return;
 		}
-		int seconds =  (int)BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getCurrentTime();
+		int seconds =  (int) BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getTime();
 		int min = seconds/60;
 		int second = seconds - (min*60);
 

@@ -193,6 +193,7 @@ public class RunningMap extends JPanel implements Runnable {
     {
         if(!isPaused) {
             superPanel.countdown();
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setTime(intervalTime);
             for (int i = 0; i < 17; i++) {
                 for (int j = 0; j < 12; j++) {
                     if (map_obj[j][i] instanceof DynamicTile) {

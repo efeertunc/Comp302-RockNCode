@@ -15,7 +15,7 @@ import java.util.Random;
 public class Building {
 
 	private ObjectTile[][] map_obj;
-	private int time;
+	private double time;
 	private Position keyPos;
 	private Avatar avatar;
 	private BuildingType type;
@@ -31,7 +31,7 @@ public class Building {
 	// when the map is set from database, or when the map is created by the user during the game.
 	public void setMap_obj(ObjectTile[][] map) {
 		this.map_obj = map;
-		this.time = getNumofObstacles(map) * 5;
+		this.time = (double) getNumofObstacles(map) * 5;
 	}
 
 	// returns the number of obstacles in the map
@@ -201,11 +201,14 @@ public class Building {
 		keyPos=null;
 	}
 
-	public int getTime() {
+	public double getTime() {
 		return time;
 	}
 
-	public void setTime(int time) {
-		this.time = time;
+	public void setTime(double intervalTime) {
+		time -=  intervalTime/1000000000;
+		if (time < 0) {
+			time = 0;
+		}
 	}
 }
