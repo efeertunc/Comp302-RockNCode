@@ -20,13 +20,8 @@ import domain.gameObjects.ObjectTile;
 import domain.TileManager;
 
 public class BuildingMap extends JPanel {
-    ArrayList<Integer> xlist = new ArrayList<Integer>();
-    ArrayList<Integer> ylist = new ArrayList<Integer>();
-    ArrayList<Integer> objtype = new ArrayList<Integer>();
     TileManager tm;
     JPanel panel;
-
-    Point startPoint;
     private ObjectTile[][] map;
 
     public BuildingMap(JPanel panel) {
@@ -46,21 +41,17 @@ public class BuildingMap extends JPanel {
 
     }
 
-
-
     public void design() {
         this.setBackground(Color.PINK);
         this.setLayout(null);
         this.setBorder(new LineBorder(new Color(255, 120, 241)));
         this.setBounds(0, 70, 900, 630);
         panel.add(this);
-
     }
 
 
     @Override
     public void paintComponent(Graphics g) {
-
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
         draw(g2D);
@@ -159,9 +150,6 @@ public class BuildingMap extends JPanel {
             //Here, we check whether this location is empty or not, by looking at lists
             // For database, we can check in map later.
            if (!inMap(x_new, y_new,map)) {
-               xlist.add(x_new);
-               ylist.add(y_new);
-               objtype.add(b);
                updateMap(unparseX(x_new), unparseY(y_new), b);
                repaint();
                int[] a=new int[3];
@@ -174,50 +162,17 @@ public class BuildingMap extends JPanel {
         }
 
         public void emptyMap () {
-
-            xlist = new ArrayList<Integer>();
-            ylist = new ArrayList<Integer>();
-            objtype = new ArrayList<Integer>();
             map = initial_map();
             repaint();
 
         }
 
-        public void undoLast () {
-
-            int size = xlist.size();
-            if (size != 0) {
-                int a = unparseY(ylist.get(size - 1));
-                int b = unparseX(xlist.get(size - 1));
-                map[a][b] = new EmptyTile(b,a,tm.objects[4].getImage());
-                xlist.remove(size - 1);
-                ylist.remove(size - 1);
-                objtype.remove(size - 1);
-
-                repaint();
-            } else {
-                JOptionPane.showMessageDialog(null, "There is not any object to delete!");
-            }
-
-        }
 
         public void printArray (ArrayList < Integer > arr) {
             for (int i = 0; i < arr.size(); i++) {
                 System.out.printf(" %d ", arr.get(i));
             }
             System.out.println();
-        }
-
-        public ArrayList<Integer> getXlist () {
-            return xlist;
-        }
-
-        public ArrayList<Integer> getYlist () {
-            return ylist;
-        }
-
-        public ArrayList<Integer> getObjtype () {
-            return objtype;
         }
 
         public ObjectTile[][] getMap () {
@@ -282,7 +237,6 @@ public class BuildingMap extends JPanel {
             if (map[unparseY(y)][unparseX(x)].getImage()!= tm.objects[4].getImage()){
                 return true;
             }
-
         return false;
     }
     public void setMap(ObjectTile[][] map) {

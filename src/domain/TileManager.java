@@ -11,10 +11,7 @@ public class TileManager {
     public ObjectTile[] objects = new ObjectTile[11];
 
     public TileManager() {
-        super();
-
         getTileImage();
-
     }
 
     public void getTileImage() {
