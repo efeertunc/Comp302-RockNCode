@@ -11,9 +11,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import factory.PanelType;
+import factory.ViewType;
 import helperComponents.Direction;
 import domain.controllers.RunController;
+import domain.gameObjects.avatar.Avatar;
 import domain.building.BuildingTracker;
+import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
 
@@ -188,6 +192,9 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		if (keyCode == KeyEvent.VK_RIGHT)
 		{
 			runController.movePlayer(Direction.fourDir.right);
+			if((RunningMap.getMap_obj()[10][16] instanceof Avatar) && runController.getAvatar().isHasKey()){
+				nextLevel();
+			}
 		}
 		if (keyCode == KeyEvent.VK_DOWN)
 		{
@@ -203,5 +210,20 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	public void keyReleased(KeyEvent keyEvent) {
 
 	}
+	public void nextLevel() {
+		//runController.getAvatar().setHasKey(false);
+		if (BuildingTracker.getCurrentIndex()!= 5) {
+			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
+			runController.initialize();
+			RunningMap.setMap_obj(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());
+		}
+		else{
+			EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
+					EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Win));
+		}
+	}
 
+	public RunController getRunController() {
+		return runController;
+	}
 }

@@ -10,6 +10,7 @@ public class Avatar extends DynamicTile {
     private int life;
     private int time;
     private double currentTime;
+    private boolean hasKey;
     private Bag bag;
 
     public Avatar(int life, int time, int x, int y, int image)
@@ -19,6 +20,7 @@ public class Avatar extends DynamicTile {
         currentTime = (double) time;
         setPosition(new Position(x,y));
         setImage(image);
+        hasKey=false;
     }
     public int getTime() {
         return time;
@@ -28,8 +30,9 @@ public class Avatar extends DynamicTile {
         return currentTime;
     }
 
-    public boolean move(int x, int y, Building building) {
-        if (x >= 0 && x < 17 && y >= 0 && y < 12) //tile exists
+    public void move(int x, int y, Building building)
+    {
+        if (x>=0 && x<17 && y>=0 && y<12) //tile exists
         {
             if (building.getMap_obj()[y][x] instanceof EmptyTile) //tile empty
             {
@@ -37,20 +40,18 @@ public class Avatar extends DynamicTile {
                 int oldY = getPosition().getY();
                 building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, EscapeFromKoc.getInstance().tm.objects[4].getImage());
                 building.getMap_obj()[y][x] = this;
-                getPosition().setPos(x, y);
-                if (building.getMap_obj()[y][x] instanceof Avatar) {
-                    return true;
-                } else {
-                    return false;
-                }
+                getPosition().setPos(x,y);
             }
         }
-        else{
-            throw new IllegalArgumentException("Map_obj out of bounds");
-        }
-        return false;
     }
 
+    public boolean isHasKey() {
+        return hasKey;
+    }
+
+    public void setHasKey(boolean hasKey) {
+        this.hasKey = hasKey;
+    }
 
     public boolean searchKey(int x, int y, Building building)
     {
@@ -65,6 +66,7 @@ public class Avatar extends DynamicTile {
                     System.out.println("KEY HAS BEEN FOUND");
                     setImage(EscapeFromKoc.getInstance().tm.getObjects()[6].getImage());
                     building.deleteKey();
+                    hasKey=true;
                     return true;
                 }
             }
