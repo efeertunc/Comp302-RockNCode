@@ -32,15 +32,10 @@ public class ObjectTileFactory {
 
         switch (ObjectType) {
             case "Avatar":
-                //int life = dataSnapshot.child("life").getValue(Integer.class);
-                //int time = dataSnapshot.child("time").getValue(Integer.class);
                 return new Avatar(0, 60, x, y, image);
             case "EmptyTile":
                 return new EmptyTile(x, y, image);
             case "Obstacle":
-                //int uix = (int) dataSnapshot.child("position").child("uix").getValue(Integer.class);
-                //int uiy = (int) dataSnapshot.child("position").child("uiy").getValue(Integer.class);
-                //Key key = new Key(finalI);
                 int type = dataSnapshot.child("type").getValue(Integer.class);
                 return new Obstacle(type,x ,y,image);
             case "TimeWasterAlien":

@@ -33,7 +33,7 @@ class moveTest {
     @BeforeEach
     void create() {
         map1 = new ObjectTile[12][17];
-        Building building = new Building(map, new ArrayList<>() ,new ArrayList<>(),new ArrayList<>() , BuildingType.CASE,3);
+        Building building = new Building(map, BuildingType.CASE,3);
         building.setMap(map1);
     }
     @DisplayName("move throws IllegalArgumentException when y < 0 or x < 0 ")

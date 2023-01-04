@@ -11,7 +11,7 @@ public class BuildController {
 	
 	private BuildingTracker buildingList;
 
-	
+
 	public BuildController() {
 		buildingList = new BuildingTracker();
 	}

@@ -86,9 +86,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel.setVisible(true);
 
 		labelTimer.setText("01:00");
-		second = 0;
-		minute = 1;
-
 	}
 
 
@@ -104,7 +101,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	}
 
 	public void countdown(){
-		if(labelTimer == null){
+		if (labelTimer == null){
 			return;
 		}
 		int seconds =  (int)BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getCurrentTime();
@@ -126,7 +123,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 			runController.getSound().stopMusic();
 		}
 	}
-
 
 	@Override
 	public void initialize() {
@@ -162,26 +158,11 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		runController.pause();
 	}
 
-	public void printArray(ArrayList<Integer> arr) {
-		for (int i = 0; i < arr.size(); i++) {
-			System.out.printf(" %d ", arr.get(i));
-		}
-		System.out.println();
-	}
-
-	public void printArr(int[][] arr) {
-		for (int i = 0; i < 12; i++) {
-			for (int j = 0; j < 17; j++) {
-				System.out.printf("%d", arr[i][j]);
-			}
-			System.out.println();
-		}
-	}
-
 	@Override
 	public void keyTyped(KeyEvent keyEvent) {
 
 	}
+
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
 		int keyCode = keyEvent.getKeyCode();
@@ -211,7 +192,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 	}
 	public void nextLevel() {
-		//runController.getAvatar().setHasKey(false);
 		if (BuildingTracker.getCurrentIndex()!= 5) {
 			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
 			runController.initialize();
