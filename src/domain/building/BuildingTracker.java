@@ -17,9 +17,6 @@ public class BuildingTracker {
 				map[i][j] = 0;
 			}
 		}
-		ArrayList<Integer> xlist = new ArrayList<Integer>();
-		ArrayList<Integer> ylist = new ArrayList<Integer>();
-		ArrayList<Integer> objtype = new ArrayList<Integer>();
 		Building omerB = new Building(new int [12][17], BuildingType.OMER, 5);
 		buildingList.add(0,omerB);
 		Building caseB = new Building(new int [12][17], BuildingType.CASE, 1);
@@ -37,11 +34,9 @@ public class BuildingTracker {
 		
 	}
 
-
 	public static ArrayList<Building> getBuildingList() {
 		return buildingList;
 	}
-
 
 	public static void initialize() {
 		Building omerB = new Building(new int [12][17],  BuildingType.OMER, 5);
@@ -60,20 +55,12 @@ public class BuildingTracker {
 		currentIndex = 0;
 	}
 
-
 	public static int getCurrentIndex() {
 		return currentIndex;
 	}
 
-
 	public static void setCurrentIndex(int currentIndex1) {
 		currentIndex = currentIndex1;
 	}
-	
-	
-	
-	
-
-	
 
 }

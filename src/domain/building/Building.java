@@ -37,6 +37,7 @@ public class Building {
 	// returns the number of obstacles in the map
 	public int getNumofObstacles(ObjectTile[][] map) {
 		int num = 0;
+
 		for (ObjectTile[] objectTiles : map) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (objectTiles[j] instanceof Obstacle) {
@@ -44,6 +45,7 @@ public class Building {
 				}
 			}
 		}
+
 		return num;
 	}
 

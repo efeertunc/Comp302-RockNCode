@@ -13,8 +13,7 @@ public class Avatar extends DynamicTile {
     private boolean hasKey;
     private Bag bag;
 
-    public Avatar(int life, int time, int x, int y, int image)
-    {
+    public Avatar(int life, int time, int x, int y, int image) {
         this.life = life;
         this.time = time;
         currentTime = (double) time;
@@ -44,6 +43,7 @@ public class Avatar extends DynamicTile {
             }
         }
     }
+
 
     public boolean isHasKey() {
         return hasKey;

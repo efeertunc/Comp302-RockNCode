@@ -35,8 +35,7 @@ public class RunController {
 				EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Pause));
 	}
 
-	public void movePlayer(Direction.fourDir dir)
-	{
+	public void movePlayer(Direction.fourDir dir) {
 		int avatarX = avatar.getPosition().getX();
 		int avatarY = avatar.getPosition().getY();
 		switch (dir){
@@ -47,10 +46,10 @@ public class RunController {
 				avatar.move(avatarX + 1, avatarY, currentBuilding);
 				break;
 			case down:
-				avatar.move(avatarX,avatarY+1 , currentBuilding);
+				avatar.move(avatarX, avatarY+1 , currentBuilding);
 				break;
 			case left:
-				avatar.move(avatarX-1,avatarY , currentBuilding);
+				avatar.move(avatarX-1, avatarY , currentBuilding);
 				break;
 			default:
 				System.out.println("Error on moveplayer switch statement");
