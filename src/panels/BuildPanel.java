@@ -70,7 +70,6 @@ public class BuildPanel implements IPanel {
 			// override only those which interests us
 			@Override // I override only one method for presentation
 			public void mousePressed(MouseEvent e) {
-
 				int x = e.getX() - 30;
 				int y = e.getY()-20 ;
 				System.out.printf("x: %d  y:  %d\n",x,y);
@@ -81,7 +80,6 @@ public class BuildPanel implements IPanel {
 				if (BuildingMap.getObjectCount() >= BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
 					textPane2.setBackground(Color.GREEN);
 				}
-
 			}
 
 		});
@@ -190,9 +188,6 @@ public class BuildPanel implements IPanel {
 		startRunModeButton.setBounds(800, 6, 117, 29);
 		startRunModeButton.setVisible(false);
 		panel.add(startRunModeButton);
-
-
-		//BuildingMap.setMapForDB();
 
 		buildingInfo = new JTextField();
 		buildingInfo.setHorizontalAlignment(SwingConstants.CENTER);
