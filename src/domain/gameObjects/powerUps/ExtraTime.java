@@ -14,4 +14,8 @@ public class ExtraTime extends PowerUp {
     public void decrease() {
 
     }
+    @Override
+    public int getID() {
+        return 0;
+    }
 }

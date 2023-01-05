@@ -8,6 +8,11 @@ public class PlasticBottle extends PowerUp {
     int id=0;
 
     @Override
+    public int getID() {
+        return this.id;
+    }
+
+    @Override
     public void use() {
         //throw bottle
 

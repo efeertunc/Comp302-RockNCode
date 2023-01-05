@@ -13,7 +13,10 @@ public class HintPower extends PowerUp {
     }
 
     int id= 2;
-
+    @Override
+    public int getID() {
+        return this.id;
+    }
     @Override
     public void use() {
 

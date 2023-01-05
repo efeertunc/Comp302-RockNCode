@@ -19,11 +19,12 @@ public class Bag {
     }
 
     public void addPowerUp(PowerUp powerUp) {
-      bag[powerUp.id].increment();
+      bag[powerUp.getID()].increment();
+
     }
 
     public void removePowerUp(PowerUp powerUp) {
-        bag[powerUp.id].decrease();
+        bag[powerUp.getID()].decrease();
     }
 
     public boolean consistsBottle() {

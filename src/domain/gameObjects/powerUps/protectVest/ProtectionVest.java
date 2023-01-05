@@ -7,7 +7,10 @@ public class ProtectionVest extends PowerUp {
 
     private int numVest=0;
     int id=1;
-
+    @Override
+    public int getID() {
+        return this.id;
+    }
     @Override
     public void use() {
 

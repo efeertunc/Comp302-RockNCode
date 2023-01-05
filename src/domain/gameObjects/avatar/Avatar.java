@@ -7,6 +7,7 @@ import domain.gameObjects.powerUps.bottle.BottleState;
 import domain.gameObjects.powerUps.bottle.HoldBottle;
 import domain.gameObjects.powerUps.bottle.HoldNothing;
 import domain.gameObjects.powerUps.protectVest.HasNoVest;
+import domain.gameObjects.powerUps.protectVest.HasVest;
 import domain.gameObjects.powerUps.protectVest.VestState;
 import factory.PanelType;
 import factory.ViewType;
@@ -29,6 +30,8 @@ public class Avatar extends DynamicTile {
     private BottleState bottleState;
     private VestState vestState;
 
+
+
     public Avatar(int life, int time, int x, int y, int image) {
         this.life = life;
         this.time = time;
@@ -43,6 +46,9 @@ public class Avatar extends DynamicTile {
         bag = new Bag();
     }
 
+    public Bag getBag() {
+        return bag;
+    }
 
     public void doAction(int keyCode) {
         switch (keyCode) {
@@ -62,18 +68,27 @@ public class Avatar extends DynamicTile {
      * it is called when the player presses the AWSD keys while avatar is holding nothing
      * @param dir Direction of the movement
      */
-    public void move(Direction.fourDir dir) {
+    public String move(Direction.fourDir dir) {
+
+
         int avatarX = getPosition().getX();
         int avatarY = getPosition().getY();
         Building currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
 
-        switch (dir) {
-            case up -> updatePosition(avatarX, avatarY - 1, currentBuilding);
-            case right -> updatePosition(avatarX + 1, avatarY, currentBuilding);
-            case down -> updatePosition(avatarX, avatarY + 1, currentBuilding);
-            case left -> updatePosition(avatarX - 1, avatarY, currentBuilding);
-            default -> System.out.println("Error on moveplayer switch statement");
+        if (avatarX>=0 && avatarX<17 && avatarY>=0 && avatarY<12) {
+            switch (dir) {
+                case up -> updatePosition(avatarX, avatarY - 1, currentBuilding);
+                case right -> updatePosition(avatarX + 1, avatarY, currentBuilding);
+                case down -> updatePosition(avatarX, avatarY + 1, currentBuilding);
+                case left -> updatePosition(avatarX - 1, avatarY, currentBuilding);
+                default -> System.out.println("Error on moveplayer switch statement");
+            }
+            return "Updated position  x: " + getPosition().getX() + " y: " +getPosition().getY();
         }
+        else{
+            throw new NullPointerException("Out of map area");
+        }
+
     }
 
 
@@ -83,11 +98,11 @@ public class Avatar extends DynamicTile {
      * @param y new y position
      * @param building current building that the avatar is in
      */
-    public void updatePosition(int x, int y, Building building) {
+    public boolean updatePosition(int x, int y, Building building) {
         if ((hasKey) && (this.getPosition().getX() == 16) && (this.getPosition().getY() == 10) && (x == 17) && (y == 10)) {
             ((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().nextLevel();
+            return true;
         }
-
         if (x>=0 && x<17 && y>=0 && y<12) { // tile exists
             System.out.println("avatar x: " + this.getPosition().getX() + "avatar y: " + this.getPosition().getY());
             if (building.getMap_obj()[y][x] instanceof EmptyTile) { // tile empty{
@@ -96,8 +111,13 @@ public class Avatar extends DynamicTile {
                 building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, 4);
                 building.getMap_obj()[y][x] = this;
                 getPosition().setPos(x,y);
+                return true;
             }
         }
+        else{
+            throw new NullPointerException("Out of map area");
+        }
+        return false;
     }
 
 
@@ -135,32 +155,42 @@ public class Avatar extends DynamicTile {
     public String throwBottle(Direction.fourDir dir) {
         System.out.println("Bottle has been thrown");
         changeBottleState(); // after avatar throws bottle successfully, he holds nothing
-        return "Bottle has been thrown" + dir.toString();
+        return "Bottle has been thrown " + dir.toString();
     }
 
     /**
      * it is called when the player presses the P key
      */
-    private void changeVestState() {
+    public boolean changeVestState() {
+
         if ((vestState instanceof HasNoVest) && (bag.consistsVest())) {
-            bottleState = new HoldBottle();
+            System.out.println(vestState);
+            vestState = new HasVest();
+
+            return true;
         }
-        else if (bottleState instanceof HoldBottle) {
-            bottleState = new HoldNothing();
+        else if (vestState instanceof HasVest) {
+            System.out.println(vestState);
+            vestState = new HasNoVest();
+            return false;
         }
+        return false;
     }
 
 
     /**
      * it is called when the player presses the B key to change the bottle state
      */
-    private void changeBottleState() {
+    public boolean changeBottleState() {
         if ((bottleState instanceof HoldNothing) && bag.consistsBottle()) {
             bottleState = new HoldBottle();
+            return true;
         }
         else if (bottleState instanceof HoldBottle) {
             bottleState = new HoldNothing();
+            return false;
         }
+        return false;
     }
 
     @Override
@@ -198,6 +228,13 @@ public class Avatar extends DynamicTile {
 
     public void addLife(int i) {
         setLife(getLife() + i);
+    }
+
+    public boolean repOk(){
+        if(life>0 && life<4 && time<1000 && time>0){
+            return true;
+        }
+        return false;
     }
 
 }

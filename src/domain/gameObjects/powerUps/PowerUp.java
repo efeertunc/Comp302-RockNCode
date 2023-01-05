@@ -1,7 +1,7 @@
 package domain.gameObjects.powerUps;
 
 public abstract class PowerUp {
-    public int id;
+    public abstract int getID();
 
 
     public abstract void use();
