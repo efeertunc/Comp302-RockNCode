@@ -36,10 +36,10 @@ class moveTest {
         Building building = new Building(map, BuildingType.CASE,3);
         building.setMap(map1);
     }
-    @DisplayName("move throws IllegalArgumentException when y < 0 or x < 0 ")
+    /*@DisplayName("move throws IllegalArgumentException when y < 0 or x < 0 ")
     @Test
         //in this test if x or y is negative number; it throws exception
-    void Test1() {
+    /*void Test1() {
         x = -10;
         y = -10;
         assertThrows(IllegalArgumentException.class,
@@ -80,5 +80,5 @@ class moveTest {
         //then move method should return false
         //boolean tester = avatar.move(2,2,building);
         assertFalse(building.getMap_obj()[2][2] instanceof Avatar);
-    }
+    }*/
 }

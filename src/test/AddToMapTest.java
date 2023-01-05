@@ -1,6 +1,5 @@
 package test;
 
-import domain.TileManager;
 import domain.gameObjects.ObjectTile;
 import domain.gameObjects.obstacle.Obstacle;
 import factory.PanelType;
@@ -15,7 +14,6 @@ import javax.swing.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class AddToMapTest {
-    TileManager tm= new TileManager();
     JPanel panel= new JPanel();
     BuildingMap buildingMap= new BuildingMap(panel);
 
