@@ -50,6 +50,8 @@ public class TileManager {
             objects[10] = new ObjectTile();
             objects[10].setImage(10);
 
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

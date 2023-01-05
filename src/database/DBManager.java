@@ -1,5 +1,7 @@
 package database;
 
+import domain.gameObjects.alien.blind.BlindAlien;
+import domain.gameObjects.alien.shooter.ShooterAlien;
 import models.Account;
 import models.Constants;
 import models.Player;
@@ -404,7 +406,12 @@ public final class DBManager implements IDatabaseAdapter{
                         }
                         if (objectTile instanceof TimeWasterAlien){
                             mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "TimeWasterAlien", objectTile);
-
+                        }
+                        if (objectTile instanceof ShooterAlien){
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "ShooterAlien", objectTile);
+                        }
+                        if (objectTile instanceof BlindAlien){
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "BlindAlien", objectTile);
                         }
                     }
                 }

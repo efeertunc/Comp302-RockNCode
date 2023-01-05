@@ -29,7 +29,9 @@ public interface Constants {
     }
 
     abstract  class ImageConstants{
-        public static final BufferedImage ALIEN;
+        public static final BufferedImage ALIEN_TIMEWASTER;
+        public static final BufferedImage ALIEN_SHOOTER;
+        public static final BufferedImage ALIEN_BLIND;
         public static final BufferedImage CHAIR;
         public static final BufferedImage BIN;
         public static final BufferedImage TABLE;
@@ -43,7 +45,9 @@ public interface Constants {
 
         static {
             try {
-                ALIEN = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienTimeWaster.png")));
+                ALIEN_TIMEWASTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienTimeWaster.png")));
+                ALIEN_BLIND = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienBlind.png")));
+                ALIEN_SHOOTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienShooter.png")));
                 CHAIR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/chair_200.png")));
                 BIN = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/bin.png")));
                 TABLE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/table1.png")));

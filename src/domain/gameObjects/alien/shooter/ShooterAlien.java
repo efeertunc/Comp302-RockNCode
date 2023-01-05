@@ -35,7 +35,6 @@ public class ShooterAlien extends Alien {
             attack();
             ready = false;
             counter= (double)cooldown;
-            System.out.println("attack");
         }
         counter -= intervalTime/1000000000;
         if (counter <= 0)

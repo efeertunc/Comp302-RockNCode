@@ -1,6 +1,8 @@
 package domain.building;
 
 import domain.gameObjects.alien.Alien;
+import domain.gameObjects.alien.blind.BlindAlien;
+import domain.gameObjects.alien.shooter.ShooterAlien;
 import domain.gameObjects.alien.timeWaster.TimeWasterAlien;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
@@ -150,7 +152,7 @@ public class Building {
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		avatar = new Avatar(3,60, emptyTiles.get(selectedEmptyTile).getPosition().getX(), emptyTiles.get(selectedEmptyTile).getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[5].getImage());
+		avatar = new Avatar(10,60, emptyTiles.get(selectedEmptyTile).getPosition().getX(), emptyTiles.get(selectedEmptyTile).getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[5].getImage());
 		map_obj[avatar.getPosition().getY()][avatar.getPosition().getX()] = avatar;
 		return avatar;
 	}
@@ -167,20 +169,6 @@ public class Building {
 
 	public void generateAlien()
 	{
-		for (int i = 0; i < 17; i++)
-		{
-			for (int j = 0; j <12; j++)
-			{
-				if (map_obj[j][i] instanceof Alien)
-				{
-					TimeWasterAlien aaa = (TimeWasterAlien) map_obj[j][i];
-					TimeWasterAlien alien = new TimeWasterAlien(map_obj[j][i].getPosition().getX(),map_obj[j][i].getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[7].getImage());
-					map_obj[alien.getPosition().getY()][alien.getPosition().getX()] = alien;
-					return;
-				}
-			}
-		}
-
 		ArrayList<EmptyTile> emptyTiles = new ArrayList<EmptyTile>();
 		for (int i = 0; i < 17; i++)
 		{
@@ -194,7 +182,22 @@ public class Building {
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		TimeWasterAlien alien = new TimeWasterAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[7].getImage());
+		int alienType = rand.nextInt(3);
+		Alien alien;
+		switch(alienType){
+			case 0:
+				alien = new TimeWasterAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), 7);
+				break;
+			case 1:
+				alien = new ShooterAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), 9);
+				break;
+			case 2:
+				alien = new BlindAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), 10);
+				break;
+			default:
+				alien=null;
+				System.out.println("Alien is not generated!");
+		}
 		map_obj[alien.getPosition().getY()][alien.getPosition().getX()] = alien;
 	}
 

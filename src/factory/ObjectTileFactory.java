@@ -1,5 +1,7 @@
 package factory;
 
+import domain.gameObjects.alien.blind.BlindAlien;
+import domain.gameObjects.alien.shooter.ShooterAlien;
 import domain.gameObjects.alien.timeWaster.TimeWasterAlien;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
@@ -32,7 +34,7 @@ public class ObjectTileFactory {
 
         switch (ObjectType) {
             case "Avatar":
-                return new Avatar(0, 60, x, y, image);
+                return new Avatar(10, 60, x, y, image);
             case "EmptyTile":
                 return new EmptyTile(x, y, image);
             case "Obstacle":
@@ -40,6 +42,10 @@ public class ObjectTileFactory {
                 return new Obstacle(type,x ,y,image);
             case "TimeWasterAlien":
                 return new TimeWasterAlien(x,y,image);
+            case "ShooterAlien":
+                return new ShooterAlien(x,y,image);
+            case "BlindAlien":
+                return new BlindAlien(x,y,image);
         }
         return null;
     }
