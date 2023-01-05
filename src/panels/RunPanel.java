@@ -192,8 +192,11 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		if (keyCode == KeyEvent.VK_RIGHT)
 		{
 			runController.movePlayer(Direction.fourDir.right);
-			if((RunningMap.getMap_obj()[10][16] instanceof Avatar) && runController.getAvatar().isHasKey()){
-				nextLevel();
+			if((RunningMap.getMap_obj()[10][16] instanceof Avatar)){
+			if(RunningMap.getMap_obj()[10][16].getImage()==6)	{
+					nextLevel();
+				}
+
 			}
 		}
 		if (keyCode == KeyEvent.VK_DOWN)
