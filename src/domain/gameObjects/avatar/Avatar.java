@@ -43,24 +43,27 @@ public class Avatar extends DynamicTile {
         }
     }
 
-    public boolean searchKey(int x, int y, Building building)
+    public boolean searchKey(int x, int y, Building building) throws IllegalArgumentException
     {
+        if (x<0 || y < 0)
+        {
+            throw new IllegalArgumentException("Indexes cannot be negative");
+        }
         int xDiff = Math.abs(getPosition().getX() - x);
         int yDiff = Math.abs(getPosition().getY() - y);
-        if (xDiff <= 1 && yDiff <= 1) //reachable
+        if (xDiff > 1 || yDiff>1)
         {
-            if (building.checkObstacle(x,y) != null)//it's obstacle
-            {
-                if (building.checkObstacle(x,y).getKey() != null) //hasKey
-                {
-                    System.out.println("KEY HAS BEEN FOUND");
-                    setImage(EscapeFromKoc.getInstance().tm.getObjects()[6].getImage());
-                    building.deleteKey();
-                    return true;
-                }
-            }
+            throw new NullPointerException("Obstacle is out of reach");
         }
-        return false;
+            if (building.checkObstacle(x,y) == null)//it's obstacle
+            {
+                throw new NullPointerException("There is no obstacle");
+            }
+            if (building.checkObstacle(x,y).getKey() == null) //hasKey
+            {
+                return false;
+            }
+            return true;
     }
 
     @Override
