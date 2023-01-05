@@ -132,9 +132,10 @@ public class Avatar extends DynamicTile {
      * it is called when the player presses the B key, and presses the AWSD keys while holding a bottle
      * @param dir Direction of the throws
      */
-    public void throwBottle(Direction.fourDir dir) {
+    public String throwBottle(Direction.fourDir dir) {
         System.out.println("Bottle has been thrown");
         changeBottleState(); // after avatar throws bottle successfully, he holds nothing
+        return "Bottle has been thrown" + dir.toString();
     }
 
     /**
