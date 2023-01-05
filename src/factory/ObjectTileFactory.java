@@ -1,6 +1,6 @@
 package factory;
 
-import domain.gameObjects.alien.TimeWasterAlien;
+import domain.gameObjects.alien.timeWaster.TimeWasterAlien;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
 import helperComponents.Position;

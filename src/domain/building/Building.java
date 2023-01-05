@@ -1,7 +1,7 @@
 package domain.building;
 
 import domain.gameObjects.alien.Alien;
-import domain.gameObjects.alien.TimeWasterAlien;
+import domain.gameObjects.alien.timeWaster.TimeWasterAlien;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
 import helperComponents.Position;
@@ -173,6 +173,7 @@ public class Building {
 			{
 				if (map_obj[j][i] instanceof Alien)
 				{
+					TimeWasterAlien aaa = (TimeWasterAlien) map_obj[j][i];
 					TimeWasterAlien alien = new TimeWasterAlien(map_obj[j][i].getPosition().getX(),map_obj[j][i].getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[7].getImage());
 					map_obj[alien.getPosition().getY()][alien.getPosition().getX()] = alien;
 					return;

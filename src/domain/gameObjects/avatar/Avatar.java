@@ -1,5 +1,6 @@
 package domain.gameObjects.avatar;
 
+import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import domain.gameObjects.EmptyTile;
 import helperComponents.Position;
@@ -74,6 +75,16 @@ public class Avatar extends DynamicTile {
         return false;
     }
 
+    public void takeDamage(int damage)
+    {
+        life-=damage;
+        if (life <=0)
+        {
+            vanish();
+        }
+        System.out.println("Avatar damage taken: "+ damage);
+        System.out.printf("avatar remaining lives: " + life);
+    }
     @Override
     public void update(double intervalTime) {
         currentTime -=  intervalTime/1000000000;
@@ -81,5 +92,12 @@ public class Avatar extends DynamicTile {
         {
             currentTime = 0;
         }
+    }
+
+    public void vanish()
+    {
+        Building b = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
+        b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[4].getImage());
+        System.out.println("Player Vanished");
     }
 }

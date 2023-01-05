@@ -11,7 +11,7 @@ import domain.building.BuildingTracker;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.EmptyTile;
 import domain.gameObjects.obstacle.Obstacle;
-import domain.gameObjects.alien.TimeWasterAlien;
+import domain.gameObjects.alien.timeWaster.TimeWasterAlien;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
