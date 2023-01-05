@@ -21,7 +21,14 @@ import javax.print.attribute.standard.MediaSize;
 import java.awt.event.KeyEvent;
 
 public class Avatar extends DynamicTile {
-
+    /**
+     * OVERVIEW: This class is a DynamicTile which is an ObjectTile datatype. This class is used for
+     * defining the Avatar object in the map. Dynamic attribute makes its movement easier. Also, this class
+     * have the life,time, currenttime, bag , haskey  and state (bottlestate and veststate) attributes.
+     *The rep invariant is life>0 && life<4 && time<1000 && time>0
+     *
+     *
+     **/
     private int life;
     private int time;
     private double currentTime;
@@ -51,6 +58,10 @@ public class Avatar extends DynamicTile {
     }
 
     public void doAction(int keyCode) {
+        // REQUIRES: keyCode is one of the KeyEvent types.
+        // EFFECTS: According to key types, changes the states or uses the hint or throw the bottle
+        // to that direction
+
         switch (keyCode) {
             case KeyEvent.VK_B -> changeBottleState();
             case KeyEvent.VK_P -> changeVestState();
@@ -128,6 +139,9 @@ public class Avatar extends DynamicTile {
      * @param building current building that the avatar is in
      */
     public boolean searchKey(int x, int y, Building building) {
+        // REQUIRES: 12>=x>=0 and 17>=y>=0 and building is not null.
+        // MODIFIES:
+        // EFFECTS:
         int xDiff = Math.abs(getPosition().getX() - x);
         int yDiff = Math.abs(getPosition().getY() - y);
         if (xDiff <= 1 && yDiff <= 1) //reachable
@@ -153,6 +167,9 @@ public class Avatar extends DynamicTile {
      * @param dir Direction of the throws
      */
     public String throwBottle(Direction.fourDir dir) {
+        // REQUIRES: Avatar is in bottlestate.
+        // MODIFIES: changes the bottlestate of the Avatar.
+        // EFFECTS: the bottle is thrown and shown in the map.
         System.out.println("Bottle has been thrown");
         changeBottleState(); // after avatar throws bottle successfully, he holds nothing
         return "Bottle has been thrown " + dir.toString();
@@ -162,7 +179,8 @@ public class Avatar extends DynamicTile {
      * it is called when the player presses the P key
      */
     public boolean changeVestState() {
-
+        // REQUIRES: bag is initialized earlier. Inıtıal states are defined.
+        // MODIFIES:  changes the veststate of the Avatar.
         if ((vestState instanceof HasNoVest) && (bag.consistsVest())) {
             System.out.println(vestState);
             vestState = new HasVest();
@@ -182,6 +200,8 @@ public class Avatar extends DynamicTile {
      * it is called when the player presses the B key to change the bottle state
      */
     public boolean changeBottleState() {
+        // REQUIRES: bag is initialized earlier. Inıtıal states are defined.
+        // MODIFIES:  changes the bottlestate of the Avatar.
         if ((bottleState instanceof HoldNothing) && bag.consistsBottle()) {
             bottleState = new HoldBottle();
             return true;
@@ -195,6 +215,9 @@ public class Avatar extends DynamicTile {
 
     @Override
     public void update(double intervalTime) {
+        // REQUIRES: intervalTime is nonnegative double.
+        // MODIFIES:  updates the currentTime by decreasing.
+        //EFFECTS: If currentTime reaches 0, sets it to 0 forever.
         currentTime -=  intervalTime/1000000000;
         if (currentTime < 0)
         {
@@ -227,6 +250,8 @@ public class Avatar extends DynamicTile {
     }
 
     public void addLife(int i) {
+        // REQUIRES: i is between 0 and 3.
+        // MODIFIES: Updates the remaining life of the avatar.
         setLife(getLife() + i);
     }
 
