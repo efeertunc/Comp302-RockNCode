@@ -5,8 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import main.EscapeFromKoc;
@@ -22,6 +21,17 @@ public class RunningMap extends JPanel implements Runnable {
     private ObjectTile[][] map_obj;
     int FPS = 60;
     public boolean isPaused;
+    private int originalTileSize = 48; // 48x48 tile
+    private double scale = 1;
+
+    public double getScale() {
+        return scale;
+    }
+
+    public void setScale(double scale) {
+        this.scale = scale;
+    }
+
     JPanel panel;
 
     RunPanel superPanel;
@@ -74,6 +84,8 @@ public class RunningMap extends JPanel implements Runnable {
         this.setBorder(new LineBorder(new Color(255, 120, 241)));
         this.setBounds(0, 70, 900, 630);
         panel.add(this);
+
+
     }
 
 
@@ -94,6 +106,10 @@ public class RunningMap extends JPanel implements Runnable {
         }
         if (thread.isAlive())
         {
+            int x;
+            int y;
+            int weight;
+            int height;
         for (int i = 0 ; i< 17; i ++) {
             for (int j = 0; j < 12; j++) {
                 if (map_obj[j][i] == null){
@@ -103,41 +119,35 @@ public class RunningMap extends JPanel implements Runnable {
                 //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
                 int imageId = map_obj[j][i].getImage();
                 if (imageId != -1) {
+                    x=(int)(parseX(i)*scale);
+                    y=(int)(parseY(j)*scale);
+                    weight=(int) (originalTileSize * scale);
                     if (imageId == 0) {
-                        g2D.drawImage(Constants.ImageConstants.SHELVE, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.SHELVE, x,y, weight,weight, null);
                     }
                     if (imageId == 1) {
-                        g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.CHAIR, x,y, weight,weight, null);
                     }
                     if (imageId == 2) {
-                        g2D.drawImage(Constants.ImageConstants.BIN, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.BIN,  x,y, weight,weight, null);
                     }
                     if (imageId == 3) {
-                        g2D.drawImage(Constants.ImageConstants.TABLE, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.TABLE,  x,y, weight,weight, null);
                     }
                     if (imageId == 4) {
-                        g2D.drawImage(Constants.ImageConstants.EMPTY, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.EMPTY,  x,y, weight,weight, null);
                     }
                     if (imageId == 5) {
-                        g2D.drawImage(Constants.ImageConstants.AVATAR, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.AVATAR,  x,y, weight,weight,null);
                     }
                     if (imageId == 6) {
-                        g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY,  x,y, weight,weight, null);
                     }
                     if (imageId == 7) {
-                        g2D.drawImage(Constants.ImageConstants.ALIEN, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.ALIEN, x,y, weight,weight, null);
                     }
                     if (imageId == 8) {
-                        g2D.drawImage(Constants.ImageConstants.KEY, parseX(i), parseY(j), 48 + 5,
-                                48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.KEY, x,y, weight,weight,null);
                     }
                 }
             }
