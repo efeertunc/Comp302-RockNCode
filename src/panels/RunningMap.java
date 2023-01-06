@@ -61,11 +61,11 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
 
     private int parseX(int x)
     {
-        return 42 + x*48;
+        return (int)((42 + x*48)*scale);
     }
     private int parseY(int y)
     {
-        return 27 + y*48;
+        return (int)((27 + y*48)*scale);
     }
     @Override
     public void design() {
@@ -110,8 +110,8 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
                 //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
                 int imageId = map_obj[j][i].getImage();
                 if (imageId != -1) {
-                    x=(int)(parseX(i)*scale);
-                    y=(int)(parseY(j)*scale);
+                    x=parseX(i);
+                    y=parseY(j);
                     weight=(int) (originalTileSize * scale);
                     if (imageId == 0) {
                         g2D.drawImage(Constants.ImageConstants.SHELVE, x,y, weight,weight, null);

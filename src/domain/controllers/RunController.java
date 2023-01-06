@@ -32,6 +32,7 @@ public class RunController {
 	{
 		int avatarX = avatar.getPosition().getX();
 		int avatarY = avatar.getPosition().getY();
+		System.out.println("Direction is "+dir);
 		switch (dir){
 			case up:
 				avatar.move(avatarX, avatarY - 1,currentBuilding);

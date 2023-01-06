@@ -33,6 +33,7 @@ public class Avatar extends DynamicTile {
         {
             if (building.getMap_obj()[y][x] instanceof EmptyTile) //tile empty
             {
+                System.out.println("moved");
                 int oldX = getPosition().getX();
                 int oldY = getPosition().getY();
                 building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, EscapeFromKoc.getInstance().tm.objects[4].getImage());

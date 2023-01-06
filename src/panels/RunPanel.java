@@ -160,11 +160,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 			public void actionPerformed(ActionEvent e) {
 				scale= RunningMap.getScale()*1.05;
 				RunningMap.setScale(scale);
-				panel.setBounds(0, 0, (int) (1290 * scale), (int) (700 * scale)); // (12x17 grids)
-				RunningMap.setBounds(0, 70, (int) (900 * scale), (int) (630 * scale));
-				zoom.setBounds((int) (700 * scale), 10, (int) (120* scale), (int) (23 * scale));
-				zoomout.setBounds((int) (700 * scale+120* scale), 10, (int) (120 * scale), (int) (23 * scale));
-				playerPanel.setBounds((int) (900 * scale+10), 70, (int) (380 * scale), (int) (630 * scale));
+				arangeScale(scale);
 
 				repaint();
 			}
@@ -175,11 +171,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 			public void actionPerformed(ActionEvent e) {
 				scale= RunningMap.getScale()*0.95;
 				RunningMap.setScale(scale);
-				panel.setBounds(0, 0, (int) (1290 * scale), (int) (700 * scale)); // (12x17 grids)
-				RunningMap.setBounds(0, 70, (int) (900 * scale), (int) (630 * scale));
-				zoomout.setBounds((int) (700 * scale+120* scale), 10, (int) (120 * scale), (int) (23 * scale));
-				zoom.setBounds((int) (700 * scale), 10, (int) (120* scale), (int) (23 * scale));
-				playerPanel.setBounds((int) (900 * scale+10), 70, (int) (380 * scale), (int) (630 * scale));
+				arangeScale(scale);
 				repaint();
 			}
 		});
@@ -220,6 +212,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		if (keyCode == KeyEvent.VK_UP)
 		{
 			runController.movePlayer(Direction.fourDir.up);
+			System.out.println("girdii");
 		}
 		if (keyCode == KeyEvent.VK_RIGHT)
 		{
@@ -239,5 +232,13 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	public void keyReleased(KeyEvent keyEvent) {
 
 	}
+	private void arangeScale(Double scale){
+		panel.setBounds(0, 0, (int) (1290 * scale), (int) (700 * scale)); // (12x17 grids)
+		RunningMap.setBounds(0, 70, (int) (900 * scale), (int) (630 * scale));
+		zoomout.setBounds((int) (700 * scale+120* scale), 10, (int) (120 * scale), (int) (23 * scale));
+		zoom.setBounds((int) (700 * scale), 10, (int) (120* scale), (int) (23 * scale));
+		playerPanel.setBounds((int) (900 * scale+10), 70, (int) (380 * scale), (int) (630 * scale));
+	}
+
 
 }
