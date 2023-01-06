@@ -32,7 +32,9 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	private JPanel playerPanel;
 
 	public RunningMap RunningMap;
-	
+	JButton zoom;
+	JButton zoomout;
+	Double scale;
 	private RunController runController;
 
 	
@@ -40,8 +42,10 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		System.out.println("RunPanel");
 		putPaneltoFrame(appView.getFrame());	
 		this.runController = new RunController();
+
 		initialize();
 		design();
+
 		
 	}
 
@@ -65,16 +69,9 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
 		playerPanel.setBounds(910, 70, 380, 630);
 		panel.add(playerPanel);
-		
-		
-		playerPanel = new JPanel();
-		playerPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
-		playerPanel.setBounds(325, 44, 107, 292);
-		panel.add(playerPanel);
-
 
 		labelTimer = new JLabel("");
-		labelTimer.setBounds(800, 100, 180, 70);
+		labelTimer.setBounds(80, 100, 180, 70);
 		labelTimer.setHorizontalAlignment(JLabel.CENTER);
 		labelTimer.setFont(font1);
 
@@ -84,6 +81,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		labelTimer.setText("01:00");
 		second = 0;
 		minute = 1;
+
 
 	}
 
@@ -149,6 +147,44 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		});
 
 		RunningMap = new RunningMap(panel,this);
+		scale= RunningMap.getScale();
+		zoom = new JButton("Zoom in");
+		zoom.setBounds(700, 10, 120, 23);
+		panel.add(zoom);
+		zoomout = new JButton("Zoom out");
+		zoomout.setBounds(800, 10, 120, 23);
+		panel.add(zoomout);
+		zoom.addActionListener(new ActionListener() {
+			// add them to building
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				scale= RunningMap.getScale()*1.05;
+				RunningMap.setScale(scale);
+				panel.setBounds(0, 0, (int) (1290 * scale), (int) (700 * scale)); // (12x17 grids)
+				RunningMap.setBounds(0, 70, (int) (900 * scale), (int) (630 * scale));
+				zoom.setBounds((int) (700 * scale), 10, (int) (120* scale), (int) (23 * scale));
+				zoomout.setBounds((int) (700 * scale+120* scale), 10, (int) (120 * scale), (int) (23 * scale));
+				playerPanel.setBounds((int) (900 * scale+10), 70, (int) (380 * scale), (int) (630 * scale));
+
+				repaint();
+			}
+		});
+		zoomout.addActionListener(new ActionListener() {
+			// add them to building
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				scale= RunningMap.getScale()*0.95;
+				RunningMap.setScale(scale);
+				panel.setBounds(0, 0, (int) (1290 * scale), (int) (700 * scale)); // (12x17 grids)
+				RunningMap.setBounds(0, 70, (int) (900 * scale), (int) (630 * scale));
+				zoomout.setBounds((int) (700 * scale+120* scale), 10, (int) (120 * scale), (int) (23 * scale));
+				zoom.setBounds((int) (700 * scale), 10, (int) (120* scale), (int) (23 * scale));
+				playerPanel.setBounds((int) (900 * scale+10), 70, (int) (380 * scale), (int) (630 * scale));
+				repaint();
+			}
+		});
+
+		panel.setBounds(0, 0, 1290, 700);
 		RunningMap.startThread();
 	}
 
