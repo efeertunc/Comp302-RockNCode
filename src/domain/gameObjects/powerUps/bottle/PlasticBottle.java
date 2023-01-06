@@ -22,6 +22,10 @@ public class PlasticBottle extends PowerUp {
         return numBottle;
     }
 
+    public void setNumBottle(int x) {
+        this.numBottle = x;
+    }
+
     @Override
     public void increment() {
         this.numBottle +=1;

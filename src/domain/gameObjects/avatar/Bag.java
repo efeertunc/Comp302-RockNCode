@@ -9,35 +9,38 @@ import java.util.ArrayList;
 
 public class Bag {
 
-    private PowerUp[] bag = new PowerUp[3];
+    private PowerUp[] powerUpList = new PowerUp[3];
 
     public Bag() {
-        bag[0] = new PlasticBottle();
-        bag[1]= new ProtectionVest();
-        bag[2]= new HintPower();
+        powerUpList[0] = new PlasticBottle();
+        powerUpList[1]= new ProtectionVest();
+        powerUpList[2]= new HintPower();
 
     }
 
     public void addPowerUp(PowerUp powerUp) {
-      bag[powerUp.getID()].increment();
+      powerUpList[powerUp.getID()].increment();
 
     }
 
     public void removePowerUp(PowerUp powerUp) {
-        bag[powerUp.getID()].decrease();
+        powerUpList[powerUp.getID()].decrease();
     }
 
     public boolean consistsBottle() {
-        for (PowerUp powerUp : bag) {
+        for (PowerUp powerUp : powerUpList) {
             if (powerUp instanceof PlasticBottle) {
-                return true;
+                if (((PlasticBottle) powerUp).getNumBottle() > 0) {
+                    return true;
+
+                }
             }
         }
         return false;
     }
 
     public boolean consistsVest() {
-        int a=((ProtectionVest) bag[1]).getNumVest();
+        int a=((ProtectionVest) powerUpList[1]).getNumVest();
         if (a==0){
             return false;
         }
@@ -45,7 +48,7 @@ public class Bag {
     }
 
     public boolean consistsHint() {
-        int a=((HintPower) bag[1]).getNumHint();
+        int a=((HintPower) powerUpList[1]).getNumHint();
         if (a==0){
             return false;
         }
@@ -53,6 +56,10 @@ public class Bag {
     }
 
     public void useHint() {
+    }
+
+    public PowerUp[] getPowerUpList() {
+        return powerUpList;
     }
 
 

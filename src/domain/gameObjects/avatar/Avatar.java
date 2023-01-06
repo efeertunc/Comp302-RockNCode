@@ -183,6 +183,8 @@ public class Avatar extends DynamicTile {
      */
     public boolean changeBottleState() {
         if ((bottleState instanceof HoldNothing) && bag.consistsBottle()) {
+
+            System.out.println(bag.consistsBottle());
             bottleState = new HoldBottle();
             return true;
         }
