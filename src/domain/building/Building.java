@@ -150,7 +150,7 @@ public class Building {
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		avatar = new Avatar(3,60, emptyTiles.get(selectedEmptyTile).getPosition().getX(), emptyTiles.get(selectedEmptyTile).getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[5].getImage());
+		avatar = new Avatar(3,60, emptyTiles.get(selectedEmptyTile).getPosition().getX(), emptyTiles.get(selectedEmptyTile).getPosition().getY(), 5);
 		map_obj[avatar.getPosition().getY()][avatar.getPosition().getX()] = avatar;
 		return avatar;
 	}
@@ -173,7 +173,7 @@ public class Building {
 			{
 				if (map_obj[j][i] instanceof Alien)
 				{
-					TimeWasterAlien alien = new TimeWasterAlien(map_obj[j][i].getPosition().getX(),map_obj[j][i].getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[7].getImage());
+					TimeWasterAlien alien = new TimeWasterAlien(map_obj[j][i].getPosition().getX(),map_obj[j][i].getPosition().getY(), 7);
 					map_obj[alien.getPosition().getY()][alien.getPosition().getX()] = alien;
 					return;
 				}
@@ -193,7 +193,7 @@ public class Building {
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		TimeWasterAlien alien = new TimeWasterAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[7].getImage());
+		TimeWasterAlien alien = new TimeWasterAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), 7);
 		map_obj[alien.getPosition().getY()][alien.getPosition().getX()] = alien;
 	}
 

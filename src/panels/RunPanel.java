@@ -166,31 +166,14 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
 		int keyCode = keyEvent.getKeyCode();
-		if (keyCode == KeyEvent.VK_UP)
-		{
-			runController.movePlayer(Direction.fourDir.up);
-		}
-		if (keyCode == KeyEvent.VK_RIGHT)
-		{
-			runController.movePlayer(Direction.fourDir.right);
-			if((RunningMap.getMap_obj()[10][16] instanceof Avatar) && runController.getAvatar().isHasKey()){
-				nextLevel();
-			}
-		}
-		if (keyCode == KeyEvent.VK_DOWN)
-		{
-			runController.movePlayer(Direction.fourDir.down);
-		}
-		if (keyCode == KeyEvent.VK_LEFT)
-		{
-			runController.movePlayer(Direction.fourDir.left);
-		}
+		runController.doAction(keyCode);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent keyEvent) {
-
 	}
+
+	/*
 	public void nextLevel() {
 		if (BuildingTracker.getCurrentIndex()!= 5) {
 			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
@@ -201,9 +184,13 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 			EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
 					EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Win));
 		}
-	}
+	}*/
 
 	public RunController getRunController() {
 		return runController;
+	}
+
+	public RunningMap getRunningMap() {
+		return RunningMap;
 	}
 }
