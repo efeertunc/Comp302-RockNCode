@@ -151,19 +151,23 @@ public class Avatar extends DynamicTile {
      * @param y y position of the search area
      * @param building current building that the avatar is in
      */
-    public boolean searchKey(int x, int y, Building building) {
+    public boolean searchKey(int x, int y, Building building) throws IllegalArgumentException {
         // REQUIRES: 12>=x>=0 and 17>=y>=0 and building is not null.
         // MODIFIES: Changes the image of the avatar if the key is found. Changes the haskey attribute.
         // Deletes the key in that building
         // EFFECTS: Effect of drawing the opened door.
+
+        if (x<0 || y < 0) {
+            throw new IllegalArgumentException("Indexes cannot be negative");
+        }
         int xDiff = Math.abs(getPosition().getX() - x);
         int yDiff = Math.abs(getPosition().getY() - y);
-        if (xDiff <= 1 && yDiff <= 1) //reachable
-        {
-            if (building.checkObstacle(x,y) != null)//it's obstacle
-            {
-                if (building.checkObstacle(x,y).getKey() != null) //hasKey
-                {
+        if (xDiff > 1 || yDiff>1) {
+            throw new NullPointerException("Obstacle is out of reach");
+        }
+        if (building.checkObstacle(x,y) == null)//it's obstacle {
+
+        if (building.checkObstacle(x,y).getKey() != null) { //hasKey
                     System.out.println("KEY HAS BEEN FOUND");
                     setImage(6);
                     building.deleteKey();
@@ -171,8 +175,10 @@ public class Avatar extends DynamicTile {
                     return true;
                 }
             }
-        }
-        return false;
+            if (building.checkObstacle(x,y).getKey() == null) { //hasKey 
+                return false;
+            }
+            return true;
     }
 
 
