@@ -1,5 +1,7 @@
 package main;
 
+import domain.building.Building;
+
 import javax.swing.*;
 
 public interface IPanel {

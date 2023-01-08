@@ -18,6 +18,8 @@ import main.IPanel;
 import domain.gameObjects.ObjectTile;
 
 public class RunningMap extends JPanel implements Runnable {
+
+    private ObjectTile[][] map_obj;
     int FPS = 60;
     public boolean isPaused;
     JPanel panel;
@@ -27,6 +29,8 @@ public class RunningMap extends JPanel implements Runnable {
     Thread thread;
     AlienGenerator generator;  //TEST PURPOSES
 
+
+
     public ObjectTile[][] getMap_obj() {
         return map_obj;
     }
@@ -35,7 +39,7 @@ public class RunningMap extends JPanel implements Runnable {
         this.map_obj = map_obj;
     }
 
-    private ObjectTile[][] map_obj;
+
     public RunningMap(JPanel panel, RunPanel _panel) {
         this.superPanel=_panel;
         this.panel = panel;
