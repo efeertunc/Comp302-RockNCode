@@ -5,6 +5,9 @@ import domain.building.BuildingTracker;
 
 public class ExtraLife extends PowerUp {
 
+    private int id;
+    private int numExtraLife;
+
     @Override
     public void use() {
         if (BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getLife() < 5) {
@@ -12,15 +15,20 @@ public class ExtraLife extends PowerUp {
         }
     }
     @Override
-    public void increment() {
+    public void increment() {}
 
+    @Override
+    public void decrease() {}
+
+    @Override
+    public int getNum() {
+        return numExtraLife;
     }
+
     @Override
     public int getID() {
-        return 0;
+        return id;
     }
-    @Override
-    public void decrease() {
 
-    }
+
 }

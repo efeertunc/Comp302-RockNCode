@@ -3,6 +3,7 @@ package domain.gameObjects.avatar;
 import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import domain.gameObjects.EmptyTile;
+import domain.gameObjects.powerUps.PowerUpTypes;
 import domain.gameObjects.powerUps.bottle.BottleState;
 import domain.gameObjects.powerUps.bottle.HoldBottle;
 import domain.gameObjects.powerUps.bottle.HoldNothing;
@@ -15,9 +16,9 @@ import helperComponents.Direction;
 import helperComponents.Position;
 import domain.building.Building;
 import main.EscapeFromKoc;
+import models.Constants;
 import panels.RunPanel;
 
-import javax.print.attribute.standard.MediaSize;
 import java.awt.event.KeyEvent;
 
 public class Avatar extends DynamicTile {
@@ -35,6 +36,9 @@ public class Avatar extends DynamicTile {
     private BottleState bottleState;
     private VestState vestState;
 
+    private int vestTime;
+
+    private AvatarObserver avatarObserver;
 
 
     public Avatar(int life, int time, int x, int y, int image) {
@@ -48,8 +52,17 @@ public class Avatar extends DynamicTile {
         // sonradan değişebilir
         bottleState = new HoldNothing();
         vestState = new HasNoVest();
-        bag = new Bag();
+
+
+        this.bag = new Bag();
+        vestTime = 0; /// bunun databaseden alınması lazım
+
     }
+
+    public void setAvatarObserver(AvatarObserver avatarObserver) {
+        this.avatarObserver = avatarObserver;
+    }
+
 
     public Bag getBag() {
         return bag;
@@ -59,11 +72,10 @@ public class Avatar extends DynamicTile {
         // REQUIRES: keyCode is one of the KeyEvent types.
         // EFFECTS: According to key types, changes the states or uses the hint or throw the bottle
         // to that direction
-
         switch (keyCode) {
-            case KeyEvent.VK_B -> changeBottleState();
-            case KeyEvent.VK_P -> changeVestState();
-            case KeyEvent.VK_H -> bag.useHint();
+            case KeyEvent.VK_B -> bag.usePowerUp(PowerUpTypes.BOTTLE);
+            case KeyEvent.VK_P -> bag.usePowerUp(PowerUpTypes.VEST);
+            case KeyEvent.VK_H -> bag.usePowerUp(PowerUpTypes.HINT);
             case KeyEvent.VK_UP -> bottleState.moveOrThrow(Direction.fourDir.up);
             case KeyEvent.VK_RIGHT -> bottleState.moveOrThrow(Direction.fourDir.right);
             case KeyEvent.VK_DOWN -> bottleState.moveOrThrow(Direction.fourDir.down);
@@ -181,7 +193,7 @@ public class Avatar extends DynamicTile {
     public boolean changeVestState() {
         // REQUIRES: bag is initialized earlier. Inıtıal states are defined.
         // MODIFIES:  changes the veststate of the Avatar.
-        if ((vestState instanceof HasNoVest) && (bag.consistsVest())) {
+        if ((vestState instanceof HasNoVest) && (bag.consistsOf(PowerUpTypes.VEST))) {
             System.out.println(vestState);
             vestState = new HasVest();
 
@@ -202,9 +214,9 @@ public class Avatar extends DynamicTile {
     public boolean changeBottleState() {
         // REQUIRES: bag is initialized earlier. Inıtıal states are defined.
         // MODIFIES:  changes the bottlestate of the Avatar.
-        if ((bottleState instanceof HoldNothing) && bag.consistsBottle()) {
 
-            System.out.println(bag.consistsBottle());
+        if ((bottleState instanceof HoldNothing) && bag.consistsOf(PowerUpTypes.BOTTLE)) {
+
             bottleState = new HoldBottle();
             return true;
         }
@@ -249,7 +261,10 @@ public class Avatar extends DynamicTile {
 
     public void setLife(int life) {
         this.life = life;
+        avatarObserver.updateLife_inPlayerPanel(this.life);
     }
+
+
 
     public void addLife(int i) {
         // REQUIRES: i is between 0 and 3.
@@ -258,10 +273,26 @@ public class Avatar extends DynamicTile {
     }
 
     public boolean repOk(){
-        if(life>0 && life<4 && time<1000 && time>0){
-            return true;
-        }
-        return false;
+        return life > 0 && life < 4 && time < 1000 && time > 0;
     }
 
+
+    private void notifyAvatarObserver() {
+    }
+
+    public BottleState getBottleState() {
+        return bottleState;
+    }
+
+    public VestState getVestState() {
+        return vestState;
+    }
+
+    public int getVestTime() {
+        return vestTime;
+    }
+
+    public void setVestTime(int vestTime) {
+        this.vestTime = vestTime;
+    }
 }

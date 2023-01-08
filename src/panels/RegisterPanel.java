@@ -16,6 +16,7 @@ import main.IAppView;
 import views.AuthView;
 
 public class RegisterPanel implements IPanel {
+    private IAppView authView;
     private JTextField newUsername;
     private JTextField userHint;
     private JPasswordField newPassword;
@@ -25,12 +26,13 @@ public class RegisterPanel implements IPanel {
     private JButton prevPage;
     private JLabel info;
     public RegisterPanel(IAppView appView) {
+        this.authView = appView;
         putPaneltoFrame(appView.getFrame());
         initialize();
         design();
     }
     private void createAccount() {
-        ((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().registerClick(
+        ((AuthView) authView).getAuthController().registerClick(
                 newUsername.getText().trim(), newPassword.getText().trim(), confirmPass.getText().trim(),
                 userHint.getText().trim());
     }

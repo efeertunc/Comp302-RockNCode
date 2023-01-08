@@ -1,11 +1,20 @@
 package domain.gameObjects.powerUps.bottle;
 
 
+import domain.building.BuildingTracker;
 import domain.gameObjects.powerUps.PowerUp;
 
 public class PlasticBottle extends PowerUp {
-    private int numBottle=0;
-    int id=0;
+
+    private int id;
+    private int numBottle;
+
+
+    public PlasticBottle(int numBottle) {
+        id = 0;
+        this.numBottle = numBottle;
+
+    }
 
     @Override
     public int getID() {
@@ -14,12 +23,7 @@ public class PlasticBottle extends PowerUp {
 
     @Override
     public void use() {
-        //throw bottle
-
-    }
-
-    public int getNumBottle() {
-        return numBottle;
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().changeBottleState();
     }
 
     public void setNumBottle(int x) {
@@ -33,6 +37,11 @@ public class PlasticBottle extends PowerUp {
     @Override
     public void decrease(){
        this.numBottle-=1;
+    }
+
+    @Override
+    public int getNum() {
+        return this.numBottle;
     }
 
 }

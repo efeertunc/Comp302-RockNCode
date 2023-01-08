@@ -23,16 +23,12 @@ import main.IPanel;
 
 
 public class RunPanel extends JPanel implements IPanel, KeyListener{
-	Timer timer;
-	JFrame windowTimer;
 	JLabel labelTimer;
 	Font font1 = new Font("Arial", Font.PLAIN, 15);
 	private JPanel panel;
 	
 	private JButton pauseButton;
-	String showSecond, showMinute;
-	DecimalFormat dFormat = new DecimalFormat("00");
-	int second, minute;
+
 	private JPanel playerPanel;
 
 	public RunningMap RunningMap;
@@ -63,15 +59,13 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		panel.add(pauseButton);
 
 
-		playerPanel = new JPanel();
 		playerPanel.setBackground(Color.ORANGE);
 		playerPanel.setLayout(null);
 		playerPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
 		playerPanel.setBounds(910, 70, 380, 630);
 		panel.add(playerPanel);
 		
-		
-		playerPanel = new JPanel();
+
 		playerPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
 		playerPanel.setBounds(325, 44, 107, 292);
 		panel.add(playerPanel);
@@ -148,6 +142,8 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 		});
 
+		playerPanel = new PlayerPanel();
+
 		RunningMap = new RunningMap(panel,this);
 		RunningMap.startThread();
 	}
@@ -159,9 +155,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	}
 
 	@Override
-	public void keyTyped(KeyEvent keyEvent) {
-
-	}
+	public void keyTyped(KeyEvent keyEvent) {}
 
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
@@ -172,19 +166,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	@Override
 	public void keyReleased(KeyEvent keyEvent) {
 	}
-
-	/*
-	public void nextLevel() {
-		if (BuildingTracker.getCurrentIndex()!= 5) {
-			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
-			runController.initialize();
-			RunningMap.setMap_obj(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());
-		}
-		else{
-			EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
-					EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Win));
-		}
-	}*/
 
 	public RunController getRunController() {
 		return runController;

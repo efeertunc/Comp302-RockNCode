@@ -1,16 +1,11 @@
 package test;
 
-import domain.building.Building;
 import domain.building.BuildingTracker;
-import domain.building.BuildingType;
-import domain.controllers.BuildController;
 import domain.gameObjects.EmptyTile;
 import domain.gameObjects.ObjectTile;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.avatar.Bag;
-import domain.gameObjects.powerUps.bottle.BottleState;
-import domain.gameObjects.powerUps.bottle.PlasticBottle;
-import domain.gameObjects.powerUps.protectVest.ProtectionVest;
+import domain.gameObjects.powerUps.PowerUpTypes;
 import helperComponents.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +42,7 @@ public class AvatarTest {
     void changeVestStateTest() {
         assertFalse(avatar.changeVestState());
         assertTrue(avatar.repOk());
-        avatar.getBag().addPowerUp(new ProtectionVest());
+        avatar.getBag().addPowerUp(PowerUpTypes.VEST);
         assertTrue(avatar.changeVestState());
         assertTrue(avatar.repOk());
         assertFalse(avatar.changeVestState());
@@ -58,7 +53,7 @@ public class AvatarTest {
     void changeBottleStateTest() {
         assertFalse(avatar.changeBottleState());
         assertTrue(avatar.repOk());
-        avatar.getBag().addPowerUp(new PlasticBottle());
+        avatar.getBag().addPowerUp(PowerUpTypes.BOTTLE);
         assertTrue(avatar.changeBottleState());
         assertTrue(avatar.repOk());
         assertFalse(avatar.changeBottleState());
