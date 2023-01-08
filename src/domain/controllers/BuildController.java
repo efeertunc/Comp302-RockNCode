@@ -11,7 +11,6 @@ public class BuildController {
 	
 	private BuildingTracker buildingList;
 
-	
 	public BuildController() {
 		buildingList = new BuildingTracker();
 	}
@@ -41,7 +40,6 @@ public class BuildController {
 				EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run));
 
 		EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run).showPanel(true);
-
 
 	}
 

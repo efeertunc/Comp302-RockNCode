@@ -8,15 +8,17 @@ import java.awt.Point;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import main.EscapeFromKoc;
 import models.Constants;
 import domain.*;
 import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import main.IPanel;
 import domain.gameObjects.ObjectTile;
-import domain.TileManager;
 
-public class RunningMap extends JPanel implements IPanel , Runnable {
+public class RunningMap extends JPanel implements Runnable {
+
+    private ObjectTile[][] map_obj;
     int FPS = 60;
     public boolean isPaused;
     private int originalTileSize = 48; // 48x48 tile
@@ -33,28 +35,36 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     JPanel panel;
 
     RunPanel superPanel;
-
-    TileManager tm;
     Point startPoint;
     Thread thread;
     AlienGenerator generator;  //TEST PURPOSES
-    private ObjectTile[][] map_obj;
+
+
+
+    public ObjectTile[][] getMap_obj() {
+        return map_obj;
+    }
+
+    public void setMap_obj(ObjectTile[][] map_obj) {
+        this.map_obj = map_obj;
+    }
+
+
     public RunningMap(JPanel panel, RunPanel _panel) {
         this.superPanel=_panel;
         this.panel = panel;
-        tm = new TileManager();
         initialize();
         map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
         //initialize();
         design();
     }
 
-    @Override
+
     public void showPanel(Boolean show) {
         this.setVisible(show);
     }
 
-    @Override
+
     public void initialize() {
         generator = new AlienGenerator();
     }
@@ -66,8 +76,10 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     private int parseY(int y)
     {
         return (int)((27 + y*48)*scale);
+
+
     }
-    @Override
+
     public void design() {
         this.setBackground(Color.PINK);
         this.setLayout(null);
@@ -78,14 +90,6 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
 
     }
 
-    @Override
-    public void putPaneltoFrame(JFrame frame) {
-        //
-
-    }
-    public void setMap(int[][] map) {
-       //
-    }
 
     public void paintComponent(Graphics g) {
 
@@ -95,6 +99,7 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
     }
 
     public void draw(Graphics2D g2D) {
+
         if (thread.isAlive())
         {
             int x;
@@ -129,10 +134,17 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
                         g2D.drawImage(Constants.ImageConstants.EMPTY,  x,y, weight,weight, null);
                     }
                     if (imageId == 5) {
+
                         g2D.drawImage(Constants.ImageConstants.AVATAR,  x,y, weight,weight,null);
+                        g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, (int)(810*scale), (int)(470*scale),(int)(150*scale),
+                               (int)(110*scale), null);
                     }
                     if (imageId == 6) {
                         g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY,  x,y, weight,weight, null);
+                         g2D.drawImage(Constants.ImageConstants.OPENDOOR, (int)(810*scale), (int)(470*scale),(int)(110*scale),
+                                (int)(110*scale), null);
+                      
+         
                     }
                     if (imageId == 7) {
                         g2D.drawImage(Constants.ImageConstants.ALIEN, x,y, weight,weight, null);
@@ -146,18 +158,6 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
         }
         }
     }
-    public void printArr(ObjectTile[][] arr) {
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 17; j++) {
-                System.out.printf("%d", arr[i][j].getID());
-            }
-            System.out.println();
-        }
-    }
-    public void printAll(){
-        System.out.printf("All the information for %s \n",BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
-        printArr(map_obj);
-    }
 
 
     public void startThread()
@@ -165,6 +165,8 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
         thread = new Thread(this);
         thread.start();
     }
+
+
     @Override
     public void run() {
 
@@ -190,10 +192,10 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
         }
     }
 
-    public void update(double intervalTime)
-    {
+    public void update(double intervalTime) {
         if(!isPaused) {
             superPanel.countdown();
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setTime(intervalTime);
             for (int i = 0; i < 17; i++) {
                 for (int j = 0; j < 12; j++) {
                     if (map_obj[j][i] instanceof DynamicTile) {
@@ -204,6 +206,4 @@ public class RunningMap extends JPanel implements IPanel , Runnable {
             generator.generateAlien(intervalTime);
         }
     }
-
-
 }

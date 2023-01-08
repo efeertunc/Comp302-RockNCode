@@ -30,9 +30,7 @@ public class MenuPanel implements IPanel{
 		this.menuController = new MenuController();
 		initialize();
 		design();
-		
 	}
-	
 
 	
 	private void play() {
@@ -49,8 +47,6 @@ public class MenuPanel implements IPanel{
 	}
 	
 	private void exit() {
-		// TODO Auto-generated method stub
-		
 		menuController.exit();
 	}
 	

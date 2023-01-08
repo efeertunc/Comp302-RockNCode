@@ -16,15 +16,12 @@ public class AuthView implements IAppView {
     private final IPanel ForgotPass;
 
 
-
     public AuthView() {
         authController = new AuthController();
         putFrametoGame();
-        CreateAccount = PanelFactory.getInstance().createPanel(PanelType.Register, this);
         authPanel = PanelFactory.getInstance().createPanel(PanelType.Login, this);
+        CreateAccount = PanelFactory.getInstance().createPanel(PanelType.Register, this);
         ForgotPass = PanelFactory.getInstance().createPanel(PanelType.ForgotPass, this);
-
-
     }
 
     @Override
@@ -45,7 +42,6 @@ public class AuthView implements IAppView {
 
     @Override
     public IPanel getPanel(PanelType panel) {
-
         return switch (panel) {
             case Login -> authPanel;
             case Register ->  CreateAccount;
