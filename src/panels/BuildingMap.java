@@ -109,7 +109,7 @@ public class BuildingMap extends JPanel {
         //EFFECTS: If x,y and b are in feasible range, add them to lists and update map.
         //MODIFIES: x_list, y_list, objtype and lastly map.
 
-        // !!!!!!!!!!!!!!!!!!!!!! abi burayı kontrol et boku yemeyelim !!!!!!!!!!!!!!!!!!!!!!!!
+        // number of objtypes
         if (b>12){
             return null;
         }

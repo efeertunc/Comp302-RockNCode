@@ -27,8 +27,6 @@ public class Avatar extends DynamicTile {
      * defining the Avatar object in the map. Dynamic attribute makes its movement easier. Also, this class
      * have the life,time, currenttime, bag , haskey  and state (bottlestate and veststate) attributes.
      *The rep invariant is life>0 && life<4 && time<1000 && time>0
-     *
-     *
      **/
     private int life;
     private int time;
@@ -92,8 +90,9 @@ public class Avatar extends DynamicTile {
      * @param dir Direction of the movement
      */
     public String move(Direction.fourDir dir) {
-
-
+        //REQUIRES: Avatar is not null and have a feasible location.
+        // MODIFIES: Updates the position of the avatar.
+        // EFFECTS: Effect of drawing the avatar in the new location.
         int avatarX = getPosition().getX();
         int avatarY = getPosition().getY();
         Building currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
@@ -152,8 +151,9 @@ public class Avatar extends DynamicTile {
      */
     public boolean searchKey(int x, int y, Building building) {
         // REQUIRES: 12>=x>=0 and 17>=y>=0 and building is not null.
-        // MODIFIES:
-        // EFFECTS:
+        // MODIFIES: Changes the image of the avatar if the key is found. Changes the haskey attribute.
+        // Deletes the key in that building
+        // EFFECTS: Effect of drawing the opened door.
         int xDiff = Math.abs(getPosition().getX() - x);
         int yDiff = Math.abs(getPosition().getY() - y);
         if (xDiff <= 1 && yDiff <= 1) //reachable
@@ -214,7 +214,9 @@ public class Avatar extends DynamicTile {
     public boolean changeBottleState() {
         // REQUIRES: bag is initialized earlier. Inıtıal states are defined.
         // MODIFIES:  changes the bottlestate of the Avatar.
+
         if ((bottleState instanceof HoldNothing) && bag.consistsOf(PowerUpTypes.BOTTLE)) {
+
             bottleState = new HoldBottle();
             return true;
         }

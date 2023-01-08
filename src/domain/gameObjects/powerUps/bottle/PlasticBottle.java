@@ -26,6 +26,10 @@ public class PlasticBottle extends PowerUp {
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().changeBottleState();
     }
 
+    public void setNumBottle(int x) {
+        this.numBottle = x;
+    }
+
     @Override
     public void increment() {
         this.numBottle +=1;

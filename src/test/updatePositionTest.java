@@ -88,7 +88,14 @@ class updatePositionTest {
     }
     @Test
     void Test5() {
+        //returns true if place is empty
+        //moves the avatar given place checks one more time if it is moved
 
+        assertTrue(map[10][10] instanceof EmptyTile);
+        assertTrue(avatar.updatePosition(10,10,building));
+        assertTrue(building.getMap_obj()[10][10] instanceof Avatar);
+        assertTrue(map[9][9] instanceof EmptyTile);
+        assertFalse(building.getMap_obj()[9][9] instanceof Avatar);
     }
 
 
