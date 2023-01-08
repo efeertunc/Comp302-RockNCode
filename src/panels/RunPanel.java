@@ -80,9 +80,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 		labelTimer.setText("01:00");
 
-		second = 0;
-		minute = 1;
-
 
 	}
 
