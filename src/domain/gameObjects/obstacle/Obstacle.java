@@ -31,7 +31,7 @@ public class Obstacle extends ObjectTile {
     {
         this.key = new Key(id);
         savedImage = getImage();
-        setImage(EscapeFromKoc.getInstance().tm.objects[8].getImage());
+        setImage(8);
     }
     public void deleteKey()
     {

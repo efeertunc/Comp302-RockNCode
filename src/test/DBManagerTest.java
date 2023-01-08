@@ -1,9 +1,6 @@
-/*
 package test;
 
-import Models.Account;
-import Utilities.DBManager.DBManager;
-import Utilities.DBManager.DBObserver;
+import database.DBManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DBManagerTest implements DBObserver {
+class DBManagerTest {
     DBManager dbManager;
     @BeforeEach
     void init() throws Exception {
@@ -33,47 +30,54 @@ class DBManagerTest implements DBObserver {
     void test2() {
         assertThrows(NullPointerException.class,
                 () -> {
-                    dbManager.checkAllRequiredFields("user", null);
+                    dbManager.checkAllRequiredFields("username", null);
+                });
+    }
+
+    @Test
+    @DisplayName("throws NullPointerException when username is null")
+    void test3() {
+        assertThrows(NullPointerException.class,
+                () -> {
+                    dbManager.checkAllRequiredFields(null, "password");
                 });
     }
 
     @Test
     @DisplayName("throws IllegalArgumentException when password length is less than 6")
-    void test3() {
-        assertTrue(dbManager.checkAllRequiredFields("sdsdsdsdsd", "12345ffff"));
+    void test4() {
+        assertThrows(IllegalArgumentException.class,
+                () -> {
+                    dbManager.checkAllRequiredFields("username", "orange","12345","12345");
+                });
+    }
+
+    @Test
+    @DisplayName("throws IllegalArgumentException when first password does not equal second password")
+    void test5() {
+        assertThrows(IllegalArgumentException.class,
+                () -> {
+                    dbManager.checkAllRequiredFields("username", "orange","123456","012345");
+                });
+    }
+
+    @Test
+    @DisplayName("throws IllegalArgumentException when username length is less than 6")
+    void test6() {
+        assertThrows(IllegalArgumentException.class,
+                () -> {
+                    dbManager.checkAllRequiredFields("12345", "orange","123456","123456");
+                });
+    }
+
+    @Test
+    @DisplayName("return true when all inputs are valid")
+    void test7() {
+        assertTrue(dbManager.checkAllRequiredFields("username", "orange","123456","123456"));
     }
 
     @AfterEach
     void tearDown() {
+        dbManager.closeFirebase();
     }
-
-    @Override
-    public void loginAccepted(Account user, String response) {
-
-    }
-
-    @Override
-    public void loginRejected(String response) {
-
-    }
-
-    @Override
-    public void registerAccepted(Account user, String response) {
-
-    }
-
-    @Override
-    public void registerRejected(String response) {
-
-    }
-
-    @Override
-    public void changePasswordAccepted(String response) {
-
-    }
-
-    @Override
-    public void changePasswordRejected(String response) {
-
-    }
-}*/
+}

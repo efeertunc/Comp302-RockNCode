@@ -6,7 +6,6 @@ import database.IDatabaseAdapter;
 import factory.PanelType;
 import factory.ViewFactory;
 import factory.ViewType;
-import domain.TileManager;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -26,7 +25,7 @@ public class EscapeFromKoc {
             }
         });
     }
-    public TileManager tm;
+
     private static EscapeFromKoc instance;
     private IDatabaseAdapter databaseManager;
 
@@ -36,9 +35,7 @@ public class EscapeFromKoc {
     private IPanel curPanel;
     private IPanel oldPanel;
 
-    private EscapeFromKoc() {
-        tm = new TileManager();
-    }
+    private EscapeFromKoc() {}
 
     public static EscapeFromKoc getInstance() {
         if (instance == null) {
@@ -51,6 +48,7 @@ public class EscapeFromKoc {
         if (!checkInternetConnection()) {
             System.out.println("Lütfen internete bağlı olduğunuzdan emin olup tekrar deneyin.");
         } else {
+
             databaseManager = new DBManager();
             databaseManager.connectDB();
 

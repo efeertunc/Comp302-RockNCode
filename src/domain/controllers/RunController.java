@@ -8,6 +8,10 @@ import domain.SoundManager;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
+import panels.RunPanel;
+import panels.RunningMap;
+
+import java.awt.event.KeyEvent;
 
 public class RunController {
 	private Building currentBuilding;
@@ -24,38 +28,36 @@ public class RunController {
 		initialize();
 	}
 	public void initialize() {
-		currentBuilding = BuildingTracker.getBuildingList()
-				.get(BuildingTracker.getCurrentIndex());
+		currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
 		currentBuilding.setKey();
 		avatar = currentBuilding.setAvatar();
 		currentBuilding.generateAlien();
 	}
+
 	public void pause() {
 		EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
 				EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Pause));
 	}
 
-	public void movePlayer(Direction.fourDir dir)
-	{
-		int avatarX = avatar.getPosition().getX();
-		int avatarY = avatar.getPosition().getY();
-		switch (dir){
-			case up:
-				avatar.move(avatarX, avatarY - 1,currentBuilding);
-				break;
-			case right:
-				avatar.move(avatarX + 1, avatarY, currentBuilding);
-				break;
-			case down:
-				avatar.move(avatarX,avatarY+1 , currentBuilding);
-				break;
-			case left:
-				avatar.move(avatarX-1,avatarY , currentBuilding);
-				break;
-			default:
-				System.out.println("Error on moveplayer switch statement");
+	public void doAction(int keyCode) {
+		avatar.doAction(keyCode);
+	}
+
+
+	public void nextLevel() {
+		if (BuildingTracker.getCurrentIndex()!= 5) {
+			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
+			initialize();
+
+			((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).
+					getRunningMap().setMap_obj(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());
+		}
+		else{
+			EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
+													EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Win));
 		}
 	}
+
 
 	public void searchKey(int x, int y)
 	{
@@ -74,4 +76,6 @@ public class RunController {
 	public SoundManager getSound() {
 		return sound;
 	}
+
+
 }

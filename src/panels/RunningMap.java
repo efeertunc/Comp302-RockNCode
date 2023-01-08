@@ -16,19 +16,20 @@ import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import main.IPanel;
 import domain.gameObjects.ObjectTile;
-import domain.TileManager;
 
 public class RunningMap extends JPanel implements Runnable {
+
+    private ObjectTile[][] map_obj;
     int FPS = 60;
     public boolean isPaused;
     JPanel panel;
 
     RunPanel superPanel;
-
-    TileManager tm;
     Point startPoint;
     Thread thread;
     AlienGenerator generator;  //TEST PURPOSES
+
+
 
     public ObjectTile[][] getMap_obj() {
         return map_obj;
@@ -38,11 +39,10 @@ public class RunningMap extends JPanel implements Runnable {
         this.map_obj = map_obj;
     }
 
-    private ObjectTile[][] map_obj;
+
     public RunningMap(JPanel panel, RunPanel _panel) {
         this.superPanel=_panel;
         this.panel = panel;
-        tm = new TileManager();
         initialize();
         map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
         //initialize();
@@ -59,12 +59,12 @@ public class RunningMap extends JPanel implements Runnable {
         generator = new AlienGenerator();
     }
 
-    private int parseX(int x)
-    {
+    private int parseX(int x) {
         return 42 + x*48;
     }
-    private int parseY(int y)
-    {
+
+
+    private int parseY(int y) {
         return 27 + y*48;
     }
 
@@ -143,18 +143,6 @@ public class RunningMap extends JPanel implements Runnable {
         }
         }
     }
-    public void printArr(ObjectTile[][] arr) {
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 17; j++) {
-                System.out.printf("%d", arr[i][j].getID());
-            }
-            System.out.println();
-        }
-    }
-    public void printAll(){
-        System.out.printf("All the information for %s \n",BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
-        printArr(map_obj);
-    }
 
 
     public void startThread()
@@ -162,6 +150,8 @@ public class RunningMap extends JPanel implements Runnable {
         thread = new Thread(this);
         thread.start();
     }
+
+
     @Override
     public void run() {
 
@@ -187,10 +177,10 @@ public class RunningMap extends JPanel implements Runnable {
         }
     }
 
-    public void update(double intervalTime)
-    {
+    public void update(double intervalTime) {
         if(!isPaused) {
             superPanel.countdown();
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setTime(intervalTime);
             for (int i = 0; i < 17; i++) {
                 for (int j = 0; j < 12; j++) {
                     if (map_obj[j][i] instanceof DynamicTile) {
@@ -201,6 +191,4 @@ public class RunningMap extends JPanel implements Runnable {
             generator.generateAlien(intervalTime);
         }
     }
-
-
 }

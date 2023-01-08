@@ -15,6 +15,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class LoginPanel implements IPanel {
+    private IAppView authView;
     private JPanel panel;
     private JButton forgotPass;
     private JTextField loginUsername;
@@ -24,13 +25,14 @@ public class LoginPanel implements IPanel {
     private JButton createAccountButton;
 
     public LoginPanel(IAppView appView) {
+        this.authView = appView;
         putPaneltoFrame(appView.getFrame());
         initialize();
         design();
     }
 
     private void login() {
-        ((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().loginClick(
+        ((AuthView) authView).getAuthController().loginClick(
                 loginUsername.getText().trim(), loginPasswordField.getText().trim());
     }
 
@@ -65,13 +67,13 @@ public class LoginPanel implements IPanel {
         createAccountButton = new JButton("Create New Account");
         createAccountButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().goRegisterPanel();
+                ((AuthView) authView).getAuthController().goRegisterPanel();
             }
         });
 
         forgotPass.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().goForgotPasswordPanel();
+                ((AuthView) authView).getAuthController().goForgotPasswordPanel();
             }
         });
 

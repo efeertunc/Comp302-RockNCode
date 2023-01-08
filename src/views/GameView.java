@@ -20,10 +20,7 @@ public class GameView implements IAppView {
     private IPanel pausePanel;
     private IPanel winGamePanel;
 
-    private final AuthController authController;
-
     public GameView() {
-        authController = new AuthController();
         putFrametoGame();
         menuPanel = PanelFactory.getInstance().createPanel(PanelType.Menu, this);
         buildPanel = PanelFactory.getInstance().createPanel(PanelType.Build, this);
@@ -70,10 +67,5 @@ public class GameView implements IAppView {
     public JFrame getFrame() {
         return this.frame;
     }
-
-    public AuthController getAuthController() {
-        return authController;
-    }
-
 
 }
