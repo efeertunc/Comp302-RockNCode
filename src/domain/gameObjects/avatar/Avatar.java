@@ -68,6 +68,7 @@ public class Avatar extends DynamicTile {
         return bag;
     }
 
+
     public void doAction(int keyCode) {
         // REQUIRES: keyCode is one of the KeyEvent types.
         // EFFECTS: According to key types, changes the states or uses the hint or throw the bottle
@@ -128,6 +129,7 @@ public class Avatar extends DynamicTile {
         if (x>=0 && x<17 && y>=0 && y<12) { // tile exists
             System.out.println("avatar x: " + this.getPosition().getX() + "avatar y: " + this.getPosition().getY());
             if (building.getMap_obj()[y][x] instanceof EmptyTile) { // tile empty{
+
                 int oldX = getPosition().getX();
                 int oldY = getPosition().getY();
                 building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, 4);
@@ -149,19 +151,23 @@ public class Avatar extends DynamicTile {
      * @param y y position of the search area
      * @param building current building that the avatar is in
      */
-    public boolean searchKey(int x, int y, Building building) {
+    public boolean searchKey(int x, int y, Building building) throws IllegalArgumentException {
         // REQUIRES: 12>=x>=0 and 17>=y>=0 and building is not null.
         // MODIFIES: Changes the image of the avatar if the key is found. Changes the haskey attribute.
         // Deletes the key in that building
         // EFFECTS: Effect of drawing the opened door.
+
+        if (x<0 || y < 0) {
+            throw new IllegalArgumentException("Indexes cannot be negative");
+        }
         int xDiff = Math.abs(getPosition().getX() - x);
         int yDiff = Math.abs(getPosition().getY() - y);
-        if (xDiff <= 1 && yDiff <= 1) //reachable
-        {
-            if (building.checkObstacle(x,y) != null)//it's obstacle
-            {
-                if (building.checkObstacle(x,y).getKey() != null) //hasKey
-                {
+        if (xDiff > 1 || yDiff>1) {
+            throw new NullPointerException("Obstacle is out of reach");
+        }
+        if (building.checkObstacle(x,y) == null) { //it's obstacle
+
+        if (building.checkObstacle(x,y).getKey() != null) { //hasKey
                     System.out.println("KEY HAS BEEN FOUND");
                     setImage(6);
                     building.deleteKey();
@@ -169,8 +175,10 @@ public class Avatar extends DynamicTile {
                     return true;
                 }
             }
-        }
-        return false;
+            if (building.checkObstacle(x,y).getKey() == null) { //hasKey 
+                return false;
+            }
+            return true;
     }
 
 
@@ -214,7 +222,9 @@ public class Avatar extends DynamicTile {
     public boolean changeBottleState() {
         // REQUIRES: bag is initialized earlier. Inıtıal states are defined.
         // MODIFIES:  changes the bottlestate of the Avatar.
+
         if ((bottleState instanceof HoldNothing) && bag.consistsOf(PowerUpTypes.BOTTLE)) {
+
             bottleState = new HoldBottle();
             return true;
         }

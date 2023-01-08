@@ -20,13 +20,16 @@ public class Bag {
         bag.put(PowerUpTypes.HINT, new HintPower(0));
     }
 
+
     public Bag(HashMap<PowerUpTypes, PowerUp> bag) {
         this.bag = bag;
     }
 
+
     public void addPowerUp(PowerUpTypes powerUp) {
         bag.get(powerUp).increment();
     }
+
 
     public void decreasePowerUp(PowerUpTypes powerUp) {
         bag.get(powerUp).decrease();
@@ -46,12 +49,14 @@ public class Bag {
         if (consistsOf(powerUp)) {
             bag.get(powerUp).use();
             decreasePowerUp(powerUp);
+
         }
     }
 
     public HashMap<PowerUpTypes, PowerUp> getPowers() {
         return bag;
     }
+
 
 
 }

@@ -69,13 +69,15 @@ public class RunningMap extends JPanel implements Runnable {
         generator = new AlienGenerator();
     }
 
-    private int parseX(int x) {
-        return 42 + x*48;
+    private int parseX(int x)
+    {
+        return (int)((42 + x*48)*scale);
     }
+    private int parseY(int y)
+    {
+        return (int)((27 + y*48)*scale);
 
 
-    private int parseY(int y) {
-        return 27 + y*48;
     }
 
     public void design() {
@@ -97,13 +99,7 @@ public class RunningMap extends JPanel implements Runnable {
     }
 
     public void draw(Graphics2D g2D) {
-        if (superPanel.getRunController().getAvatar().isHasKey()) {
-            g2D.drawImage(Constants.ImageConstants.OPENDOOR, 810, 470, 110,
-                    110, null);
-        } else {
-            g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, 810, 470, 150,
-                    110, null);
-        }
+
         if (thread.isAlive())
         {
             int x;
@@ -119,8 +115,8 @@ public class RunningMap extends JPanel implements Runnable {
                 //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
                 int imageId = map_obj[j][i].getImage();
                 if (imageId != -1) {
-                    x=(int)(parseX(i)*scale);
-                    y=(int)(parseY(j)*scale);
+                    x=parseX(i);
+                    y=parseY(j);
                     weight=(int) (originalTileSize * scale);
                     if (imageId == 0) {
                         g2D.drawImage(Constants.ImageConstants.SHELVE, x,y, weight,weight, null);
@@ -138,10 +134,17 @@ public class RunningMap extends JPanel implements Runnable {
                         g2D.drawImage(Constants.ImageConstants.EMPTY,  x,y, weight,weight, null);
                     }
                     if (imageId == 5) {
+
                         g2D.drawImage(Constants.ImageConstants.AVATAR,  x,y, weight,weight,null);
+                        g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, (int)(810*scale), (int)(470*scale),(int)(150*scale),
+                               (int)(110*scale), null);
                     }
                     if (imageId == 6) {
                         g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY,  x,y, weight,weight, null);
+                         g2D.drawImage(Constants.ImageConstants.OPENDOOR, (int)(810*scale), (int)(470*scale),(int)(110*scale),
+                                (int)(110*scale), null);
+                      
+         
                     }
                     if (imageId == 7) {
                         g2D.drawImage(Constants.ImageConstants.ALIEN, x,y, weight,weight, null);

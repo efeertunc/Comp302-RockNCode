@@ -29,6 +29,7 @@ public class AvatarTest {
         ((PlasticBottle)avatar.getBag().getPowerUpList()[0]).setNumBottle(0);
 
 
+
     }
 
     @Test
