@@ -11,4 +11,5 @@ public interface IPanel {
     public void design();
 
     void putPaneltoFrame(JFrame frame);
+
 }

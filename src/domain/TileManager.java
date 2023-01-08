@@ -8,13 +8,10 @@ public class TileManager {
     private final int scale = 3;
     private int tileSize = originalTileSize * scale; // 48x48 tile //her parça
 
-    public ObjectTile[] objects = new ObjectTile[9];
+    public ObjectTile[] objects = new ObjectTile[11];
 
     public TileManager() {
-        super();
-
         getTileImage();
-
     }
 
     public void getTileImage() {
@@ -46,6 +43,12 @@ public class TileManager {
 
             objects[8] = new ObjectTile();
             objects[8].setImage(8);
+
+            objects[9] = new ObjectTile();
+            objects[9].setImage(9);
+
+            objects[10] = new ObjectTile();
+            objects[10].setImage(10);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -11,9 +11,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import factory.PanelType;
+import factory.ViewType;
 import helperComponents.Direction;
 import domain.controllers.RunController;
+import domain.gameObjects.avatar.Avatar;
 import domain.building.BuildingTracker;
+import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
 
@@ -82,9 +86,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel.setVisible(true);
 
 		labelTimer.setText("01:00");
-		second = 0;
-		minute = 1;
-
 	}
 
 
@@ -100,10 +101,10 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	}
 
 	public void countdown(){
-		if(labelTimer == null){
+		if (labelTimer == null){
 			return;
 		}
-		int seconds =  (int)BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getCurrentTime();
+		int seconds =  (int) BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getTime();
 		int min = seconds/60;
 		int second = seconds - (min*60);
 
@@ -122,7 +123,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 			runController.getSound().stopMusic();
 		}
 	}
-
 
 	@Override
 	public void initialize() {
@@ -158,26 +158,11 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		runController.pause();
 	}
 
-	public void printArray(ArrayList<Integer> arr) {
-		for (int i = 0; i < arr.size(); i++) {
-			System.out.printf(" %d ", arr.get(i));
-		}
-		System.out.println();
-	}
-
-	public void printArr(int[][] arr) {
-		for (int i = 0; i < 12; i++) {
-			for (int j = 0; j < 17; j++) {
-				System.out.printf("%d", arr[i][j]);
-			}
-			System.out.println();
-		}
-	}
-
 	@Override
 	public void keyTyped(KeyEvent keyEvent) {
 
 	}
+
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
 		int keyCode = keyEvent.getKeyCode();
@@ -188,6 +173,9 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		if (keyCode == KeyEvent.VK_RIGHT)
 		{
 			runController.movePlayer(Direction.fourDir.right);
+			if((RunningMap.getMap_obj()[10][16] instanceof Avatar) && runController.getAvatar().isHasKey()){
+				nextLevel();
+			}
 		}
 		if (keyCode == KeyEvent.VK_DOWN)
 		{
@@ -203,5 +191,19 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	public void keyReleased(KeyEvent keyEvent) {
 
 	}
+	public void nextLevel() {
+		if (BuildingTracker.getCurrentIndex()!= 5) {
+			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
+			runController.initialize();
+			RunningMap.setMap_obj(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());
+		}
+		else{
+			EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
+					EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Win));
+		}
+	}
 
+	public RunController getRunController() {
+		return runController;
+	}
 }

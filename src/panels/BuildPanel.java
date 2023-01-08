@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,7 +33,6 @@ import views.AuthView;
 public class BuildPanel implements IPanel {
 	private JComboBox comboBox;
 	private JPanel panel;
-	private JButton undoLastButton;
 	private JButton emptyMapButton;
 
 	private JButton helpButton;
@@ -55,7 +53,6 @@ public class BuildPanel implements IPanel {
 
 	public BuildPanel(IAppView appView) {
 		putPaneltoFrame(appView.getFrame());
-
 		this.buildController = new BuildController();
 		initialize();
 		design();
@@ -73,7 +70,6 @@ public class BuildPanel implements IPanel {
 			// override only those which interests us
 			@Override // I override only one method for presentation
 			public void mousePressed(MouseEvent e) {
-
 				int x = e.getX() - 30;
 				int y = e.getY()-20 ;
 				System.out.printf("x: %d  y:  %d\n",x,y);
@@ -84,25 +80,12 @@ public class BuildPanel implements IPanel {
 				if (BuildingMap.getObjectCount() >= BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
 					textPane2.setBackground(Color.GREEN);
 				}
-
 			}
 
 		});
 
-		undoLastButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				BuildingMap.undoLast();
-				if (BuildingMap.objtype.size() < BuildingTracker.getBuildingList()
-						.get(BuildingTracker.getCurrentIndex()).getMinReq()) {
-					textPane2.setBackground(Color.RED);
-				}
-
-			}
-		});
 		emptyMapButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				BuildingMap.emptyMap();
@@ -179,24 +162,10 @@ public class BuildPanel implements IPanel {
 		panel.setBorder(new LineBorder(Color.BLACK));
 	}
 
-	public void printArray(ArrayList<Integer> arr) {
-		for (int i = 0; i < arr.size(); i++) {
-			System.out.printf(" %d ", arr.get(i));
-		}
-		System.out.println();
-	}
-
-	public void printArr(int[][] arr) {
-		for (int i = 0; i < 12; i++) {
-			for (int j = 0; j < 17; j++) {
-				System.out.printf("%d", arr[i][j]);
-			}
-			System.out.println();
-		}
-	}
 	public void setBuildingLists() {
 		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap_obj(BuildingMap.getMap());
 	}
+
 	@Override
 	public void design() {
 
@@ -220,9 +189,6 @@ public class BuildPanel implements IPanel {
 		startRunModeButton.setVisible(false);
 		panel.add(startRunModeButton);
 
-		BuildingMap = new BuildingMap(panel);
-		//BuildingMap.setMapForDB();
-
 		buildingInfo = new JTextField();
 		buildingInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		buildingInfo.setBounds(300, 0, 130, 26);
@@ -234,10 +200,6 @@ public class BuildPanel implements IPanel {
 		objectPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
 		objectPanel.setBounds(910, 70, 380, 630);
 		panel.add(objectPanel);
-
-		undoLastButton = new JButton("Undo Last");
-		undoLastButton.setBounds(10, 440, 119, 23);
-		objectPanel.add(undoLastButton);
 
 		emptyMapButton = new JButton("Empty Map");
 		emptyMapButton.setBounds(10, 470, 119, 23);
@@ -297,7 +259,6 @@ public class BuildPanel implements IPanel {
 		JLabel objLabel3 = new JLabel(img3);
 		objLabel3.setBounds(140, 170, 270, 250);
 		objectPanel.add(objLabel3);
-
 	}
 
 	public void setText(){
@@ -337,6 +298,8 @@ public class BuildPanel implements IPanel {
 	@Override
 	public void initialize() {
 
+		BuildingMap = new BuildingMap(panel);
+
 		helpButton = new JButton("Help");
 		helpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -366,16 +329,5 @@ public class BuildPanel implements IPanel {
 			}
 		});
 	}
-	public void playMusic(int index) {
-		sound.setFile(index);
-		sound.play();
-		sound.loop();
-	}
-	public void stopMusic() {
-		sound.stop();
-	}
-
-
-
 
 }

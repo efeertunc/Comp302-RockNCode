@@ -34,7 +34,7 @@ public class TimeWasterAlien extends Alien{
         }
         else
         {
-            System.out.println("Behavior is already assigned");
+            //System.out.println("Behavior is already assigned");
             if (!behavior.getClass().isAssignableFrom(newBehavior.getClass()))
             {
                 behavior = newBehavior;
@@ -44,11 +44,12 @@ public class TimeWasterAlien extends Alien{
         }
     }
 
-    public void updateBehavior()
-    {
-        Avatar avatar= BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar();
-        double percentage = avatar.getCurrentTime()/avatar.getTime() * 100;
-        if (percentage >=70)
+    public void updateBehavior() {
+
+        Building building = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
+        double percentage = (building.getTime()/(5 * building.getNumofObstacles(building.getMap_obj()))) * 100;
+
+        if (percentage >= 70)
         {
             setBehavior(new TimeWasteHard(this));
         }
