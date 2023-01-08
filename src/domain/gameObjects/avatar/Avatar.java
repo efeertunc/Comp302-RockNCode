@@ -165,7 +165,7 @@ public class Avatar extends DynamicTile {
         if (xDiff > 1 || yDiff>1) {
             throw new NullPointerException("Obstacle is out of reach");
         }
-        if (building.checkObstacle(x,y) == null)//it's obstacle {
+        if (building.checkObstacle(x,y) == null) { //it's obstacle
 
         if (building.checkObstacle(x,y).getKey() != null) { //hasKey
                     System.out.println("KEY HAS BEEN FOUND");

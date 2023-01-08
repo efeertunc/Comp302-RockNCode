@@ -1,8 +1,9 @@
-package domain.gameObjects.avatar;
+package test;
 
 import domain.building.Building;
 import domain.building.BuildingType;
 import domain.gameObjects.ObjectTile;
+import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
 import helperComponents.Position;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,9 +32,9 @@ class searchKeyTest {
         map1 = new ObjectTile[12][17];
         map1[0][0] = new Obstacle(0,0,0,0); //obstacle added
         map1[1][1] = new Obstacle(0,0,0,0); //obstacle added
-        building = new Building(map, new ArrayList<>() ,new ArrayList<>(),new ArrayList<>() , BuildingType.CASE,3);
+        building = new Building(map, BuildingType.CASE,3);
         building.setMap(map1);
-        ((Obstacle)building.getMap()[0][0]).generateKey(0); //obstacle marked with key
+        ((Obstacle)building.getMap_obj()[0][0]).generateKey(0); //obstacle marked with key
     }
 
 
