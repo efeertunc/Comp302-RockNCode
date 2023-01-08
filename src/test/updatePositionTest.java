@@ -98,7 +98,4 @@ class updatePositionTest {
         assertFalse(building.getMap_obj()[9][9] instanceof Avatar);
     }
 
-
-
-
 }
