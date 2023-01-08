@@ -36,13 +36,13 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	JButton zoomout;
 	Double scale;
 	private RunController runController;
-
+	JFrame frame;
 	
 	public RunPanel(IAppView appView) {
 		System.out.println("RunPanel");
 		putPaneltoFrame(appView.getFrame());	
 		this.runController = new RunController();
-
+		frame=appView.getFrame();
 		initialize();
 		design();
 
@@ -209,6 +209,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
 		int keyCode = keyEvent.getKeyCode();
+		System.out.println("key pressed");
 		if (keyCode == KeyEvent.VK_UP)
 		{
 			runController.movePlayer(Direction.fourDir.up);
@@ -234,6 +235,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	}
 	private void arangeScale(Double scale){
 		panel.setBounds(0, 0, (int) (1290 * scale), (int) (700 * scale)); // (12x17 grids)
+		frame.add(panel);
 		RunningMap.setBounds(0, 70, (int) (900 * scale), (int) (630 * scale));
 		zoomout.setBounds((int) (700 * scale+120* scale), 10, (int) (120 * scale), (int) (23 * scale));
 		zoom.setBounds((int) (700 * scale), 10, (int) (120* scale), (int) (23 * scale));
