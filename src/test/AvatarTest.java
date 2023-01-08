@@ -26,9 +26,6 @@ public class AvatarTest {
         map = new ObjectTile[12][17];
         avatar = new Avatar(2,10,10,10,3);
         bag = avatar.getBag();
-        ((PlasticBottle)avatar.getBag().getPowerUpList()[0]).setNumBottle(0);
-
-
 
     }
 
