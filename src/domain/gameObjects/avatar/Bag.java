@@ -1,58 +1,56 @@
 package domain.gameObjects.avatar;
 
+import domain.building.BuildingTracker;
 import domain.gameObjects.powerUps.HintPower;
 import domain.gameObjects.powerUps.PowerUp;
+import domain.gameObjects.powerUps.PowerUpTypes;
 import domain.gameObjects.powerUps.bottle.PlasticBottle;
 import domain.gameObjects.powerUps.protectVest.ProtectionVest;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Bag {
 
-    private PowerUp[] bag = new PowerUp[3];
+    private final HashMap<PowerUpTypes, PowerUp> bag;
 
-    public Bag() {
-        bag[0] = new PlasticBottle();
-        bag[1]= new ProtectionVest();
-        bag[2]= new HintPower();
-
+    public Bag(){
+        bag = new HashMap<PowerUpTypes, PowerUp>();
+        bag.put(PowerUpTypes.BOTTLE, new PlasticBottle(0));
+        bag.put(PowerUpTypes.VEST, new ProtectionVest(0));
+        bag.put(PowerUpTypes.HINT, new HintPower(0));
     }
 
-    public void addPowerUp(PowerUp powerUp) {
-      bag[powerUp.getID()].increment();
-
+    public Bag(HashMap<PowerUpTypes, PowerUp> bag) {
+        this.bag = bag;
     }
 
-    public void removePowerUp(PowerUp powerUp) {
-        bag[powerUp.getID()].decrease();
+    public void addPowerUp(PowerUpTypes powerUp) {
+        bag.get(powerUp).increment();
     }
 
-    public boolean consistsBottle() {
-        for (PowerUp powerUp : bag) {
-            if (powerUp instanceof PlasticBottle) {
-                return true;
-            }
+    public void decreasePowerUp(PowerUpTypes powerUp) {
+        bag.get(powerUp).decrease();
+    }
+
+
+    public boolean consistsOf(PowerUpTypes powerUp){
+        return bag.get(powerUp).getNum() > 0;
+    }
+
+
+    public PowerUp getPower(PowerUpTypes powerUp){
+        return bag.get(powerUp);
+    }
+
+    public void usePowerUp(PowerUpTypes powerUp) {
+        if (consistsOf(powerUp)) {
+            bag.get(powerUp).use();
+            decreasePowerUp(powerUp);
         }
-        return false;
     }
 
-    public boolean consistsVest() {
-        int a=((ProtectionVest) bag[1]).getNumVest();
-        if (a==0){
-            return false;
-        }
-        return true;
-    }
-
-    public boolean consistsHint() {
-        int a=((HintPower) bag[1]).getNumHint();
-        if (a==0){
-            return false;
-        }
-        return true;
-    }
-
-    public void useHint() {
+    public HashMap<PowerUpTypes, PowerUp> getPowers() {
+        return bag;
     }
 
 
