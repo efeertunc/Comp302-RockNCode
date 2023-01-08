@@ -34,7 +34,8 @@ class searchKeyTest {
         map1[1][1] = new Obstacle(0,0,0,0); //obstacle added
         building = new Building(map, BuildingType.CASE,3);
         building.setMap(map1);
-        ((Obstacle)building.getMap_obj()[0][0]).generateKey(0); //obstacle marked with key
+        ((Obstacle) building.getMap_obj()[0][0]).generateKey(0); //obstacle marked with key
+        building.setKeyPos(new Position(0,0));
     }
 
 
