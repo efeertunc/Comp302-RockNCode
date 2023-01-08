@@ -1,4 +1,4 @@
-package domain.gameObjects.alien;
+package domain.gameObjects.alien.timeWaster;
 
 public class TimeWasteIndecisive implements TimeWasteBehavior{
 

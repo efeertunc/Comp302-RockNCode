@@ -143,14 +143,21 @@ public class RunningMap extends JPanel implements Runnable {
                         g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY,  x,y, weight,weight, null);
                          g2D.drawImage(Constants.ImageConstants.OPENDOOR, (int)(810*scale), (int)(470*scale),(int)(110*scale),
                                 (int)(110*scale), null);
-                      
-         
+
+
                     }
                     if (imageId == 7) {
-                        g2D.drawImage(Constants.ImageConstants.ALIEN, x,y, weight,weight, null);
+                        g2D.drawImage(Constants.ImageConstants.ALIEN_TIMEWASTER, x,y, weight,weight, null);
                     }
                     if (imageId == 8) {
                         g2D.drawImage(Constants.ImageConstants.KEY, x,y, weight,weight,null);
+                        g2D.drawImage(Constants.ImageConstants.KEY, x,y, weight,weight,null);
+                    }
+                    if (imageId == 9) {
+                        g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER, x,y, weight,weight,null);
+                    }
+                    if (imageId == 10){
+                        g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND, x,y, weight,weight,null);
                     }
                 }
             }

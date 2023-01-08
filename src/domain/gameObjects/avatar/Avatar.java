@@ -15,9 +15,9 @@ import factory.ViewType;
 import helperComponents.Direction;
 import helperComponents.Position;
 import domain.building.Building;
-import main.EscapeFromKoc;
 import models.Constants;
 import panels.RunPanel;
+import main.EscapeFromKoc;
 
 import java.awt.event.KeyEvent;
 
@@ -175,7 +175,7 @@ public class Avatar extends DynamicTile {
                     return true;
                 }
             }
-            if (building.checkObstacle(x,y).getKey() == null) { //hasKey 
+            if (building.checkObstacle(x,y).getKey() == null) { //hasKey
                 return false;
             }
             return true;
@@ -235,6 +235,16 @@ public class Avatar extends DynamicTile {
         return false;
     }
 
+    public void takeDamage(int damage)
+    {
+        life-=damage;
+        if (life <=0)
+        {
+            vanish();
+        }
+        System.out.println("Avatar damage taken: "+ damage);
+        System.out.printf("avatar remaining lives: " + life);
+    }
     @Override
     public void update(double intervalTime) {
         // REQUIRES: intervalTime is nonnegative double.
@@ -302,5 +312,12 @@ public class Avatar extends DynamicTile {
 
     public void setVestTime(int vestTime) {
         this.vestTime = vestTime;
+    }
+
+    public void vanish()
+    {
+        Building b = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
+        b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), 4);
+        System.out.println("Player Vanished");
     }
 }
