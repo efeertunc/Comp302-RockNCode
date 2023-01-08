@@ -15,9 +15,9 @@ import factory.ViewType;
 import helperComponents.Direction;
 import helperComponents.Position;
 import domain.building.Building;
-import main.EscapeFromKoc;
 import models.Constants;
 import panels.RunPanel;
+import main.EscapeFromKoc;
 
 import java.awt.event.KeyEvent;
 
@@ -317,7 +317,7 @@ public class Avatar extends DynamicTile {
     public void vanish()
     {
         Building b = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
-        b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[4].getImage());
+        b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), 4);
         System.out.println("Player Vanished");
     }
 }

@@ -8,7 +8,6 @@ import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
 import helperComponents.Position;
 import domain.gameObjects.*;
-import main.EscapeFromKoc;
 import domain.gameObjects.ObjectTile;
 
 import java.util.ArrayList;

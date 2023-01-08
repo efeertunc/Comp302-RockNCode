@@ -17,7 +17,6 @@ import domain.gameObjects.EmptyTile;
 import domain.gameObjects.obstacle.Obstacle;
 import main.IPanel;
 import domain.gameObjects.ObjectTile;
-import domain.TileManager;
 
 public class BuildingMap extends JPanel {
     JPanel panel;

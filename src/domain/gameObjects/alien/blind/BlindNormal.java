@@ -123,7 +123,7 @@ public class BlindNormal implements BlindBehavior{
             {
                 int oldX = alien.getPosition().getX();
                 int oldY = alien.getPosition().getY();
-                building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, EscapeFromKoc.getInstance().tm.objects[4].getImage());
+                building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, 4);
                 building.getMap_obj()[y][x] = alien;
                 alien.getPosition().setPos(x,y);
             }
