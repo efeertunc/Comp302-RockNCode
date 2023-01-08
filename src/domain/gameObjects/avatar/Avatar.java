@@ -162,23 +162,26 @@ public class Avatar extends DynamicTile {
         }
         int xDiff = Math.abs(getPosition().getX() - x);
         int yDiff = Math.abs(getPosition().getY() - y);
+
         if (xDiff > 1 || yDiff>1) {
             throw new NullPointerException("Obstacle is out of reach");
         }
         if (building.checkObstacle(x,y) == null) { //it's obstacle
 
+            throw new NullPointerException("There is no obstacle in that position");
+        }
+
         if (building.checkObstacle(x,y).getKey() != null) { //hasKey
-                    System.out.println("KEY HAS BEEN FOUND");
-                    setImage(6);
-                    building.deleteKey();
-                    hasKey=true;
-                    return true;
-                }
-            }
-            if (building.checkObstacle(x,y).getKey() == null) { //hasKey
-                return false;
-            }
+        
+            System.out.println("KEY HAS BEEN FOUND");
+            setImage(6);
+            building.deleteKey();
+            hasKey=true;
+
             return true;
+        }
+
+        return false;
     }
 
 

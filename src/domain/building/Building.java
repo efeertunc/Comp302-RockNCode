@@ -122,6 +122,10 @@ public class Building {
 		return keyPos;
 	}
 
+	public Position setKeyPos(Position keyPos) {
+		return this.keyPos = keyPos;
+	}
+
 	public Avatar setAvatar()
 	{
 
