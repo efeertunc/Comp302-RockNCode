@@ -68,6 +68,7 @@ public class Avatar extends DynamicTile {
         return bag;
     }
 
+
     public void doAction(int keyCode) {
         // REQUIRES: keyCode is one of the KeyEvent types.
         // EFFECTS: According to key types, changes the states or uses the hint or throw the bottle
@@ -128,6 +129,7 @@ public class Avatar extends DynamicTile {
         if (x>=0 && x<17 && y>=0 && y<12) { // tile exists
             System.out.println("avatar x: " + this.getPosition().getX() + "avatar y: " + this.getPosition().getY());
             if (building.getMap_obj()[y][x] instanceof EmptyTile) { // tile empty{
+
                 int oldX = getPosition().getX();
                 int oldY = getPosition().getY();
                 building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, 4);

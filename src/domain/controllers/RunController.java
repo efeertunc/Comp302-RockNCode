@@ -39,6 +39,7 @@ public class RunController {
 				EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Pause));
 	}
 
+
 	public void doAction(int keyCode) {
 		avatar.doAction(keyCode);
 	}
