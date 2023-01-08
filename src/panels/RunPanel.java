@@ -161,6 +161,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	public void keyPressed(KeyEvent keyEvent) {
 		int keyCode = keyEvent.getKeyCode();
 		runController.doAction(keyCode);
+
 	}
 
 	@Override

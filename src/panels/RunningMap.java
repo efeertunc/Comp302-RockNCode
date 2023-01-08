@@ -85,13 +85,7 @@ public class RunningMap extends JPanel implements Runnable {
     }
 
     public void draw(Graphics2D g2D) {
-        if (superPanel.getRunController().getAvatar().isHasKey()) {
-            g2D.drawImage(Constants.ImageConstants.OPENDOOR, 810, 470, 110,
-                    110, null);
-        } else {
-            g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, 810, 470, 150,
-                    110, null);
-        }
+
         if (thread.isAlive())
         {
         for (int i = 0 ; i< 17; i ++) {
@@ -126,10 +120,14 @@ public class RunningMap extends JPanel implements Runnable {
                     if (imageId == 5) {
                         g2D.drawImage(Constants.ImageConstants.AVATAR, parseX(i), parseY(j), 48 + 5,
                                 48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, 810, 470, 150,
+                                110, null);
                     }
                     if (imageId == 6) {
                         g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY, parseX(i), parseY(j), 48 + 5,
                                 48 + 5, null);
+                        g2D.drawImage(Constants.ImageConstants.OPENDOOR, 810, 470, 110,
+                                110, null);
                     }
                     if (imageId == 7) {
                         g2D.drawImage(Constants.ImageConstants.ALIEN, parseX(i), parseY(j), 48 + 5,
