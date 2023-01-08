@@ -5,6 +5,7 @@ import factory.PanelFactory;
 import factory.PanelType;
 import main.IAppView;
 import main.IPanel;
+import panels.WinGamePanel;
 
 import javax.swing.*;
 
@@ -17,16 +18,15 @@ public class GameView implements IAppView {
     private IPanel runPanel;
     private IPanel helpPanel;
     private IPanel pausePanel;
-
-    private final AuthController authController;
+    private IPanel winGamePanel;
 
     public GameView() {
-        authController = new AuthController();
         putFrametoGame();
         menuPanel = PanelFactory.getInstance().createPanel(PanelType.Menu, this);
         buildPanel = PanelFactory.getInstance().createPanel(PanelType.Build, this);
         helpPanel = PanelFactory.getInstance().createPanel(PanelType.Help, this);
         pausePanel = PanelFactory.getInstance().createPanel(PanelType.Pause, this);
+        winGamePanel = PanelFactory.getInstance().createPanel(PanelType.Win, this);
     }
 
     public void createrunPanel() {
@@ -58,6 +58,7 @@ public class GameView implements IAppView {
             case Run -> runPanel;
             case Pause -> pausePanel;
             case Help -> helpPanel;
+            case Win -> winGamePanel;
             default -> throw new IllegalArgumentException("No such kind of panel type");
         };
     }
@@ -66,10 +67,5 @@ public class GameView implements IAppView {
     public JFrame getFrame() {
         return this.frame;
     }
-
-    public AuthController getAuthController() {
-        return authController;
-    }
-
 
 }

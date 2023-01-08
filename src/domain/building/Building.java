@@ -15,71 +15,60 @@ import java.util.Random;
 public class Building {
 
 	private ObjectTile[][] map_obj;
-	ArrayList<Integer> xlist;
-	ArrayList<Integer> ylist;
-	ArrayList<Integer> objtype;
+	private double time;
 	private Position keyPos;
 	private Avatar avatar;
 	private BuildingType type;
 	private int minReq;
-
 	private boolean isKeyAvailable = false;
 
-	public Building(int[][] map, ArrayList<Integer> xlist, ArrayList<Integer> ylist, ArrayList<Integer> objtype, BuildingType type, int minReq) {
-		this.xlist = xlist;
-		this.ylist = ylist;
-		this.objtype = objtype;
+	public Building(int[][] map, BuildingType type, int minReq) {
 		this.type = type;
 		this.minReq = minReq;
 	}
+
+	// sets the map and the time ,according to number of obstacles in the map,
+	// when the map is set from database, or when the map is created by the user during the game.
 	public void setMap_obj(ObjectTile[][] map) {
 		this.map_obj = map;
+		this.time = (double) getNumofObstacles(map) * 5;
 	}
+
+	// returns the number of obstacles in the map
+	public int getNumofObstacles(ObjectTile[][] map) {
+		int num = 0;
+
+		for (ObjectTile[] objectTiles : map) {
+			for (int j = 0; j < map[0].length; j++) {
+				if (objectTiles[j] instanceof Obstacle) {
+					num++;
+				}
+			}
+		}
+
+		return num;
+	}
+
 	public ObjectTile[][] getMap_obj() {
 		return map_obj ;
 	}
-	public ObjectTile[][] getMap() {
-		return map_obj;
-	}
+
 	public void setMap(ObjectTile[][] map) {
 		this.map_obj = map;
 	}
+
 	public BuildingType getType() {
 		return type;
 	}
+
 	public void setType(BuildingType type) {
 		this.type = type;
 	}
+
 	public int getMinReq() {
 		return minReq;
 	}
-	public void setMinReq(int minReq) {
-		this.minReq = minReq;
-	}
 
-	public ArrayList<Integer> getXlist() {
-		return xlist;
-	}
-
-	public void setXlist(ArrayList<Integer> xlist) {
-		this.xlist = xlist;
-	}
-
-	public ArrayList<Integer> getYlist() {
-		return ylist;
-	}
-
-	public void setYlist(ArrayList<Integer> ylist) {
-		this.ylist = ylist;
-	}
-
-	public ArrayList<Integer> getObjtype() {
-		return objtype;
-	}
-
-	public void setObjtype(ArrayList<Integer> objtype) {
-		this.objtype = objtype;
-	}
 	public void setKey()
 	{
 		if (!isKeyAvailable){
@@ -161,7 +150,7 @@ public class Building {
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		avatar = new Avatar(3,60, emptyTiles.get(selectedEmptyTile).getPosition().getX(), emptyTiles.get(selectedEmptyTile).getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[5].getImage());
+		avatar = new Avatar(3,60, emptyTiles.get(selectedEmptyTile).getPosition().getX(), emptyTiles.get(selectedEmptyTile).getPosition().getY(), 5);
 		map_obj[avatar.getPosition().getY()][avatar.getPosition().getX()] = avatar;
 		return avatar;
 	}
@@ -184,7 +173,7 @@ public class Building {
 			{
 				if (map_obj[j][i] instanceof Alien)
 				{
-					TimeWasterAlien alien = new TimeWasterAlien(map_obj[j][i].getPosition().getX(),map_obj[j][i].getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[7].getImage());
+					TimeWasterAlien alien = new TimeWasterAlien(map_obj[j][i].getPosition().getX(),map_obj[j][i].getPosition().getY(), 7);
 					map_obj[alien.getPosition().getY()][alien.getPosition().getX()] = alien;
 					return;
 				}
@@ -204,7 +193,7 @@ public class Building {
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		TimeWasterAlien alien = new TimeWasterAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[7].getImage());
+		TimeWasterAlien alien = new TimeWasterAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), 7);
 		map_obj[alien.getPosition().getY()][alien.getPosition().getX()] = alien;
 	}
 
@@ -212,5 +201,16 @@ public class Building {
 	{
 		((Obstacle)map_obj[keyPos.getY()][keyPos.getX()]).deleteKey();
 		keyPos=null;
+	}
+
+	public double getTime() {
+		return time;
+	}
+
+	public void setTime(double intervalTime) {
+		time -=  intervalTime/1000000000;
+		if (time < 0) {
+			time = 0;
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package main;
 
+import domain.building.Building;
+
 import javax.swing.*;
 
 public interface IPanel {
@@ -11,4 +13,5 @@ public interface IPanel {
     public void design();
 
     void putPaneltoFrame(JFrame frame);
+
 }

@@ -28,6 +28,7 @@ public class PanelFactory {
             case Run -> new RunPanel(appView);
             case Pause -> new PausePanel(appView);
             case Help -> new HelpPanel(appView);
+            case Win -> new WinGamePanel(appView);
             default -> throw new IllegalArgumentException("No such kind of panel type");
         };
     }

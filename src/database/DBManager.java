@@ -74,63 +74,65 @@ public final class DBManager implements IDatabaseAdapter{
     //Auth Functions
     @Override
     public void loginUser(String username, String password) {
-        if (checkUserLogin(username, password)) {
-            isSaved();
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            isRunningMode();
-            if (isSaved){
-                // DBden gelen mapler alındı.
-                System.out.println("is saved true");
-                getMapForLoadGame();
-                System.out.println("get map is savedden sonra");
-                try {
-                    TimeUnit.SECONDS.sleep(2);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                getLastIndexFromDB();
-
+        if (checkAllRequiredFieldsLogin(username, password)){
+            if (checkUserLogin(username, password)) {
+                isSaved();
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                BuildingTracker.setCurrentIndex(currentIndexFromDB);
-                System.out.println("index : "+ BuildingTracker.getCurrentIndex());
+                isRunningMode();
+                if (isSaved){
+                    // DBden gelen mapler alındı.
+                    System.out.println("is saved true");
+                    getMapForLoadGame();
+                    System.out.println("get map is savedden sonra");
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    getLastIndexFromDB();
 
-                for (int i = 0; i < 6 ; i++){
-                    // Build listesine kendisinin mapi eklendi.
-                    BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    BuildingTracker.setCurrentIndex(currentIndexFromDB);
+                    System.out.println("index : "+ BuildingTracker.getCurrentIndex());
+
+                    for (int i = 0; i < 6 ; i++){
+                        // Build listesine kendisinin mapi eklendi.
+                        BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                    }
+                }else {
+                    //Kayıt yok.
+                    System.out.println("Kayıt yok");
+                    getMapForLoadGame();
+                    System.out.println("kayıt yok 2");
+                    // getMapForLoadGame() fonksiyonu kayıt olmamış mapler için EmptyTile ekledi.
+                    for (int i = 0; i < 6 ; i++){
+                        // Build listesine kendisinin mapi eklendi.
+                        BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                    }
                 }
-            }else {
-                //Kayıt yok.
-                System.out.println("Kayıt yok");
-                getMapForLoadGame();
-                System.out.println("kayıt yok 2");
-                // getMapForLoadGame() fonksiyonu kayıt olmamış mapler için EmptyTile ekledi.
-                for (int i = 0; i < 6 ; i++){
-                    // Build listesine kendisinin mapi eklendi.
-                    BuildingTracker.getBuildingList().get(i).setMap_obj(map.get(i));
+                if (!isRunningMode){
+                    System.out.println("build mode");
+                    ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).loadGameForBuilding();
+
+                }else {
+                    System.out.println("rıunning mode");
+                    ((MenuPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu)).setRunningMode(isRunningMode);
                 }
+
+                notifyAuthObservers(Constants.DatabaseConstants.LOGIN_ACCEPTED);
+            } else {
+                notifyAuthObservers(Constants.DatabaseConstants.LOGIN_REJECTED);
             }
-            if (!isRunningMode){
-                System.out.println("build mode");
-                ((BuildPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Build)).loadGameForBuilding();
-
-            }else {
-                System.out.println("rıunning mode");
-                ((MenuPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Menu)).setRunningMode(isRunningMode);
-
-            }
-
-            notifyAuthObservers(Constants.DatabaseConstants.LOGIN_ACCEPTED);
-        } else {
-            notifyAuthObservers(Constants.DatabaseConstants.LOGIN_REJECTED);
         }
+
     }
 
     @Override
@@ -139,35 +141,20 @@ public final class DBManager implements IDatabaseAdapter{
             notifyAuthObservers(Constants.DatabaseConstants.USERNAME_NOT_AVAILABLE);
             return;
         }
+        if (checkAllRequiredFieldsRegister(username, hint, firstPassword, secondPassword)){
+            String id = database.child("users").push().getKey();
+            Account account = new Account(username, firstPassword, hint, id);
 
-        if (username.length() < 6) {
-            notifyAuthObservers(Constants.DatabaseConstants.USERNAME_LENGTH);
-            return;
+            Map<String, Object> childUpdates = new HashMap<>();
+            Map<String, Object> accountValues = account.toMap();
+
+            childUpdates.put("/users/" + account.getID(), accountValues);
+
+            database.updateChildren(childUpdates, (error, ref) -> notifyAuthObservers(Constants.DatabaseConstants.DATABASE_WRITE_ERROR + " because of" + error.getDetails()));
+
+            Player.getInstance().setAccount(account);
+            notifyAuthObservers(Constants.DatabaseConstants.REGISTER_ACCEPTED);
         }
-
-        if (firstPassword.length() < 6) {
-            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_LENGTH);
-            return;
-        }
-
-        if (!firstPassword.equals(secondPassword)) {
-            notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_SAME_REGISTER);
-            return;
-        }
-
-        String id = database.child("users").push().getKey();
-        Account account = new Account(username, firstPassword, hint, id);
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> accountValues = account.toMap();
-
-        childUpdates.put("/users/" + account.getID(), accountValues);
-
-        database.updateChildren(childUpdates, (error, ref) -> notifyAuthObservers(Constants.DatabaseConstants.DATABASE_WRITE_ERROR + " because of" + error.getDetails()));
-
-        Player.getInstance().setAccount(account);
-        notifyAuthObservers(Constants.DatabaseConstants.REGISTER_ACCEPTED);
-
     }
 
     @Override
@@ -244,6 +231,58 @@ public final class DBManager implements IDatabaseAdapter{
                 notifyAuthObservers(Constants.DatabaseConstants.DATABASE_READ_ERROR);
             }
         });
+    }
+
+    public boolean checkAllRequiredFieldsRegister(String username, String hint, String firstPassword, String secondPassword){
+        try {
+            return checkAllRequiredFields(username, hint, firstPassword, secondPassword);
+        }
+        catch (Exception e) {
+            notifyAuthObservers(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean checkAllRequiredFieldsLogin(String username, String password){
+        try {
+            return checkAllRequiredFields(username, password);
+        }
+        catch (Exception e) {
+            notifyAuthObservers(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean checkAllRequiredFields(String username, String hint, String firstPassword, String secondPassword) {
+        if (username == null || firstPassword == null || secondPassword == null || hint == null) {
+            throw new NullPointerException("Username or password or hint can not be null");
+        }
+        if (username.length() < 6){
+            throw new IllegalArgumentException(Constants.DatabaseConstants.USERNAME_LENGTH);
+        }
+        if (firstPassword.length() < 6){
+            throw new IllegalArgumentException(Constants.DatabaseConstants.PASSWORD_LENGTH);
+        }
+        if (secondPassword.length() < 6){
+            throw new IllegalArgumentException(Constants.DatabaseConstants.PASSWORD_LENGTH);
+        }
+        if (!firstPassword.equals(secondPassword)){
+            throw new IllegalArgumentException(Constants.DatabaseConstants.PASSWORD_SAME_REGISTER);
+        }
+        return true;
+    }
+
+    public boolean checkAllRequiredFields(String username, String password) {
+        if (username == null || password == null ) {
+            throw new NullPointerException("Username or password can not be null");
+        }
+        if (username.length() < 6){
+            throw new IllegalArgumentException(Constants.DatabaseConstants.LOGIN_REJECTED);
+        }
+        if (password.length() < 6){
+            throw new IllegalArgumentException(Constants.DatabaseConstants.LOGIN_REJECTED);
+        }
+        return true;
     }
 
     public void notifyAuthObservers(String response) {
@@ -528,6 +567,10 @@ public final class DBManager implements IDatabaseAdapter{
             }
         }
         return 5;*/
+    }
+
+    public void closeFirebase(){
+        FirebaseApp.getInstance().delete();
     }
 
 }

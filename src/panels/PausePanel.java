@@ -86,7 +86,6 @@ public class PausePanel implements IPanel{
 
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
 		resumeButton = new JButton("Resume Game");
 		resumeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
