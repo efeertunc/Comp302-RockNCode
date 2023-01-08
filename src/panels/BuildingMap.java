@@ -3,11 +3,7 @@ package panels;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -23,7 +19,6 @@ public class BuildingMap extends JPanel {
 
     public BuildingMap(JPanel panel) {
         this.panel = panel;
-
         design();
     }
 
@@ -214,11 +209,9 @@ public class BuildingMap extends JPanel {
         return map;
     }
     public boolean inMap(int x, int y,ObjectTile[][] map) {
-        if (map[unparseY(y)][unparseX(x)].getImage()!= 4){
-            return true;
-        }
-        return false;
+        return map[unparseY(y)][unparseX(x)].getImage() != 4;
     }
+
     public void setMap(ObjectTile[][] map) {
         this.map = map;
     }
