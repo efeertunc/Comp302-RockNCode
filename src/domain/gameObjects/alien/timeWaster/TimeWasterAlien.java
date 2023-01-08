@@ -66,7 +66,7 @@ public class TimeWasterAlien extends Alien {
     public void vanish()
     {
         Building b = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
-        b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), EscapeFromKoc.getInstance().tm.objects[4].getImage());
+        b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), 4);
         System.out.println("Alien Vanished");
     }
 }

@@ -57,7 +57,6 @@ public class BuildPanel implements IPanel {
 		initialize();
 		design();
 		performed();
-
 	}
 
 	public BuildingMap getBuildingMap() {

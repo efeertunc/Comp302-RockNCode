@@ -20,14 +20,11 @@ import domain.gameObjects.ObjectTile;
 import domain.TileManager;
 
 public class BuildingMap extends JPanel {
-    TileManager tm;
     JPanel panel;
     private ObjectTile[][] map;
 
     public BuildingMap(JPanel panel) {
-        tm = new TileManager();
         this.panel = panel;
-
         design();
     }
 
@@ -116,77 +113,73 @@ public class BuildingMap extends JPanel {
         }
     }
 
-        public void updateMap ( int x, int y,int type){
-            map[y][x] = new Obstacle(type,x,y,tm.objects[type].getImage());
-        }
+    public void updateMap (int x, int y, int type) {
+        // eskisi bu bug olursa geri al
+        //map[y][x] = new Obstacle(type, x, y, tm.objects[type].getImage());
+        map[y][x] = new Obstacle(type, x, y, type);
+    }
 
-        public int[] addToMap ( int x, int y, int b){
-            //REQUIRES: y<= 550 and x <= 800 and b<=tm.objects.length-1
-            //EFFECTS: If x,y and b are in feasible range, add them to lists and update map.
-            //MODIFIES: x_list, y_list, objtype and lastly map.
+    public int[] addToMap ( int x, int y, int b){
+        //REQUIRES: y<= 550 and x <= 800 and b<=tm.objects.length-1
+        //EFFECTS: If x,y and b are in feasible range, add them to lists and update map.
+        //MODIFIES: x_list, y_list, objtype and lastly map.
 
-            if (b>tm.objects.length-1){
+        // number of objtypes
+        if (b>12){
             return null;
         }
-            int x_reduced = x % 50;
-            int x_new;
-            if (x > 800) {
-                //x_new = 800;
-                return null;
-            } else {
-                if (x_reduced < 25) {
-                    x_new = x - x_reduced;
+        int x_reduced = x % 50;
+        int x_new;
+        if (x > 800) {
+            //x_new = 800;
+            return null;
+        } else {
+            if (x_reduced < 25) {
+                x_new = x - x_reduced;
 
-                } else {
-                    x_new = x + (50 - x_reduced);
-                }
-            }
-
-            int y_reduced = y % 50;
-            int y_new;
-            if (y > 550) {
-               // y_new = 550;
-                return null;
             } else {
-                if (y_reduced < 25) {
-                    y_new = y - y_reduced;
-                } else {
-                    y_new = y + (50 - y_reduced);
-                }
+                x_new = x + (50 - x_reduced);
             }
-            // x, y between 0-800 and 0-550
-            System.out.printf("x is %d and y is %d",x_new,y_new);
-            //Here, we check whether this location is empty or not, by looking at lists
-            // For database, we can check in map later.
-           if (!inMap(x_new, y_new,map)) {
-               updateMap(unparseX(x_new), unparseY(y_new), b);
-               repaint();
-               int[] a=new int[3];
-               a[0]= unparseX(x_new);
-               a[1]=unparseY(y_new);
-               a[2]= b;
-                return a;
-           }
-        return null;
         }
 
-        public void emptyMap () {
-            map = initial_map();
+        int y_reduced = y % 50;
+        int y_new;
+        if (y > 550) {
+            // y_new = 550;
+            return null;
+        } else {
+            if (y_reduced < 25) {
+                y_new = y - y_reduced;
+            } else {
+                y_new = y + (50 - y_reduced);
+            }
+        }
+        // x, y between 0-800 and 0-550
+        System.out.printf("x is %d and y is %d", x_new, y_new);
+        //Here, we check whether this location is empty or not, by looking at lists
+        // For database, we can check in map later.
+        if (!inMap(x_new, y_new, map)) {
+            updateMap(unparseX(x_new), unparseY(y_new), b);
             repaint();
-
+            int[] a=new int[3];
+            a[0]= unparseX(x_new);
+            a[1]=unparseY(y_new);
+            a[2]= b;
+            return a;
         }
+        return null;
+    }
+
+    public void emptyMap () {
+        map = initial_map();
+        repaint();
+
+    }
 
 
-        public void printArray (ArrayList < Integer > arr) {
-            for (int i = 0; i < arr.size(); i++) {
-                System.out.printf(" %d ", arr.get(i));
-            }
-            System.out.println();
-        }
-
-        public ObjectTile[][] getMap () {
-            return map;
-        }
+    public ObjectTile[][] getMap () {
+        return map;
+    }
 
     public int getObjectCount (){
         int count = 0;
@@ -203,51 +196,37 @@ public class BuildingMap extends JPanel {
         return (17*12) - count;
     }
 
-        private int parseX ( int x)
-        {
-            return  x * 50;
-        }
-        private int parseY ( int y)
-        {
-            return y * 50;
-        }
-        private int unparseX ( int x)
-        {
-            return (x / 50);
-        }
-        private int unparseY ( int y)
-        {
-            return (y / 50);
-        }
-        public void printArr (ObjectTile[][]arr){
-            for (int i = 0; i < 12; i++) {
-                for (int j = 0; j < 17; j++) {
-                    if (arr[i][j] != null) {
-                        System.out.printf("%d ", 1);
-                    } else {
-                        System.out.printf("%s ", 'n');
-                    }
-                }
-                System.out.println();
-            }
-            System.out.println();
-        }
-        public ObjectTile[][] initial_map () {
-            ObjectTile[][] map = new ObjectTile[12][17];
-            for (int i = 0; i < 12; i++) {
-                for (int j = 0; j < 17; j++) {
-                    map[i][j] = new EmptyTile(j,i,tm.objects[4].getImage());
-                    //System.out.println();
-                }
-            }
-            return map;
-        }
-    public boolean inMap(int x, int y,ObjectTile[][] map) {
-            if (map[unparseY(y)][unparseX(x)].getImage()!= tm.objects[4].getImage()){
-                return true;
-            }
-        return false;
+    private int parseX ( int x)
+    {
+        return  x * 50;
     }
+    private int parseY ( int y)
+    {
+        return y * 50;
+    }
+    private int unparseX ( int x)
+    {
+        return (x / 50);
+    }
+    private int unparseY ( int y)
+    {
+        return (y / 50);
+    }
+
+
+    public ObjectTile[][] initial_map () {
+        ObjectTile[][] map = new ObjectTile[12][17];
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 17; j++) {
+                map[i][j] = new EmptyTile(j, i, 4);
+            }
+        }
+        return map;
+    }
+    public boolean inMap(int x, int y,ObjectTile[][] map) {
+        return map[unparseY(y)][unparseX(x)].getImage() != 4;
+    }
+
     public void setMap(ObjectTile[][] map) {
         this.map = map;
     }
