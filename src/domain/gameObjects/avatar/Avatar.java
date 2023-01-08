@@ -172,10 +172,12 @@ public class Avatar extends DynamicTile {
         }
 
         if (building.checkObstacle(x,y).getKey() != null) { //hasKey
+        
             System.out.println("KEY HAS BEEN FOUND");
             setImage(6);
             building.deleteKey();
             hasKey=true;
+
             return true;
         }
 

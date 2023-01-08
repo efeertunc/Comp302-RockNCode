@@ -1,20 +1,19 @@
-package domain.gameObjects.alien;
+package domain.gameObjects.alien.timeWaster;
 
-import domain.gameObjects.avatar.Avatar;
+import domain.gameObjects.alien.Alien;
 import domain.gameObjects.EmptyTile;
 import helperComponents.Position;
 import domain.building.Building;
 import domain.building.BuildingTracker;
 import main.EscapeFromKoc;
 
-public class TimeWasterAlien extends Alien{
+public class TimeWasterAlien extends Alien {
 
     private TimeWasteBehavior behavior;
     private boolean isBehaviorSet = false;
 
     public TimeWasterAlien(int x, int y, int image) {
-        setPosition(new Position(x,y));
-        setImage(image);
+        super(x,y,image);
     }
     @Override
     public void update(double intervalTime) {
