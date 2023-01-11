@@ -23,15 +23,15 @@ public class RunController {
 
 	private SoundManager sound = new SoundManager();
 
-	public RunController()
-	{
+	public RunController() {
 		initialize();
 	}
+
 	public void initialize() {
 		currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
 		currentBuilding.setKey();
 		avatar = currentBuilding.setAvatar();
-		currentBuilding.generateAlien();
+		//currentBuilding.generateAlien();
 	}
 
 	public void pause() {
