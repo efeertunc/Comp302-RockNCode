@@ -7,6 +7,7 @@ import domain.gameObjects.powerUps.PowerUp;
 import domain.gameObjects.powerUps.PowerUpTypes;
 import domain.gameObjects.powerUps.bottle.PlasticBottle;
 import domain.gameObjects.powerUps.protectVest.ProtectionVest;
+import factory.PowerUpFactory;
 
 import java.util.HashMap;
 
@@ -16,9 +17,9 @@ public class Bag  {
 
     public Bag(){
         bag = new HashMap<PowerUpTypes, PowerUp>();
-        bag.put(PowerUpTypes.BOTTLE, new PlasticBottle());
-        bag.put(PowerUpTypes.VEST, new ProtectionVest());
-        bag.put(PowerUpTypes.HINT, new HintPower());
+        bag.put(PowerUpTypes.BOTTLE, PowerUpFactory.createPowerUp(PowerUpTypes.BOTTLE));
+        bag.put(PowerUpTypes.VEST, PowerUpFactory.createPowerUp(PowerUpTypes.VEST));
+        bag.put(PowerUpTypes.HINT, PowerUpFactory.createPowerUp(PowerUpTypes.HINT));
     }
 
 
@@ -29,6 +30,7 @@ public class Bag  {
 
     public void addPowerUp(PowerUpTypes powerUp) {
         ((CollectablePowerUpI) bag.get(powerUp)).increment();
+        System.out.println("Power up added to bag:" + powerUp);
     }
 
 
