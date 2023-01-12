@@ -5,6 +5,8 @@ import factory.PanelFactory;
 import factory.PanelType;
 import main.IAppView;
 import main.IPanel;
+import panels.RunPanel;
+import panels.RunningMap;
 import panels.WinGamePanel;
 
 import javax.swing.*;
@@ -31,6 +33,7 @@ public class GameView implements IAppView {
 
     public void createrunPanel() {
         runPanel = PanelFactory.getInstance().createPanel(PanelType.Run, this);
+        ((RunPanel) runPanel).getRunningMap().startThread();
     }
 
     @Override
@@ -67,5 +70,6 @@ public class GameView implements IAppView {
     public JFrame getFrame() {
         return this.frame;
     }
+
 
 }

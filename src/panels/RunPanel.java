@@ -176,7 +176,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		});
 
 		panel.setBounds(0, 0, 1290, 700);
-		RunningMap.startThread();
 	}
 
 

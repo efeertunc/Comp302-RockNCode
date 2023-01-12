@@ -177,10 +177,12 @@ public class RunningMap extends JPanel implements Runnable {
     @Override
     public void run() {
 
-    double drawInterval = 1000000000 / FPS;
-    double nextDrawTime = System.nanoTime() + drawInterval;
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).generateAlien();
 
-    while (thread != null) {
+        double drawInterval = 1000000000 / FPS;
+        double nextDrawTime = System.nanoTime() + drawInterval;
+
+        while (thread != null) {
 
             update(drawInterval);
             repaint();
