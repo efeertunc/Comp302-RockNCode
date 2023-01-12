@@ -2,6 +2,7 @@ package domain.gameObjects.alien.blind;
 
 import domain.SoundManager;
 import domain.gameObjects.ObjectTile;
+import domain.gameObjects.alien.AlienType;
 import domain.gameObjects.avatar.Avatar;
 import factory.PanelType;
 import factory.ViewType;
@@ -56,7 +57,7 @@ public class BlindAttack implements BlindBehavior{
     public void alienDamage()
     {
         Avatar avatar = ((RunPanel)EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
-        avatar.takeDamage(2);
+        avatar.getVestState().takeDamage(AlienType.BLIND, 2);
         System.out.println("Damage given by blind!");
     }
 }

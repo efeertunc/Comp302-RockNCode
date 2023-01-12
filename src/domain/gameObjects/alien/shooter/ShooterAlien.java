@@ -1,10 +1,7 @@
 package domain.gameObjects.alien.shooter;
 
-import domain.building.BuildingTracker;
-import domain.controllers.RunController;
-import domain.gameObjects.EmptyTile;
-import domain.gameObjects.ObjectTile;
 import domain.gameObjects.alien.Alien;
+import domain.gameObjects.alien.AlienType;
 import domain.gameObjects.avatar.Avatar;
 import factory.PanelType;
 import factory.ViewType;
@@ -51,7 +48,7 @@ public class ShooterAlien extends Alien {
         double distance = Math.sqrt(((double) Math.pow(xDif,2) + Math.pow(yDif,2)));
         if (distance < range)
         {
-            avatar.takeDamage(1);
+            avatar.getVestState().takeDamage(AlienType.SHOOTER, 1);
         }
 
     }
