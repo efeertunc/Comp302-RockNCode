@@ -6,6 +6,8 @@ import domain.gameObjects.alien.shooter.ShooterAlien;
 import domain.gameObjects.alien.timeWaster.TimeWasterAlien;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
+import domain.gameObjects.powerUps.PowerUpTile;
+import domain.gameObjects.powerUps.PowerUpTypes;
 import helperComponents.Position;
 import domain.gameObjects.*;
 import domain.gameObjects.ObjectTile;
@@ -17,6 +19,7 @@ public class Building {
 
 	private ObjectTile[][] map_obj;
 	private double time;
+	private double powerUpTime;
 	private Position keyPos;
 	private Avatar avatar;
 	private BuildingType type;
@@ -33,6 +36,7 @@ public class Building {
 	public void setMap_obj(ObjectTile[][] map) {
 		this.map_obj = map;
 		this.time = (double) getNumofObstacles(map) * 5;
+		this.powerUpTime = this.time;
 	}
 
 	// returns the number of obstacles in the map
@@ -170,6 +174,15 @@ public class Building {
 		return null;
 	}
 
+	public PowerUpTile checkPowerTile(int x, int y) {
+		if (map_obj[y][x] instanceof PowerUpTile)
+		{
+			return (PowerUpTile) map_obj[y][x];
+		}
+		System.out.println("That is not an power up");
+		return null;
+	}
+
 	public void generateAlien()
 	{
 		ArrayList<EmptyTile> emptyTiles = new ArrayList<EmptyTile>();
@@ -210,14 +223,69 @@ public class Building {
 		keyPos=null;
 	}
 
+	public void deletePowerTile(int x, int y) {
+		map_obj[y][x] = new EmptyTile(x,y,4);
+	}
+
 	public double getTime() {
 		return time;
 	}
 
-	public void setTime(double intervalTime) {
+	public void updateTime(double intervalTime) {
 		time -=  intervalTime/1000000000;
 		if (time < 0) {
 			time = 0;
 		}
 	}
+
+	public void updatePowerUpTime(double intervalTime) {
+		powerUpTime -=  intervalTime/1000000000;
+		if (powerUpTime < 0) {
+			powerUpTime = 0;
+		}
+	}
+
+	public void setTime(int powerUpTime) {
+		time += powerUpTime;
+	}
+
+	public void generatePowerTile() {
+		ArrayList<EmptyTile> emptyTileList = new ArrayList<EmptyTile>();
+		for (int i = 0; i < 17; i++)
+		{
+			for (int j = 0; j <12; j++)
+			{
+				if (map_obj[j][i] instanceof EmptyTile)
+				{
+					emptyTileList.add((EmptyTile) map_obj[j][i]);
+				}
+			}
+		}
+		Random rand = new Random();
+		int selectedEmptyTile = rand.nextInt(emptyTileList.size());
+
+		int powerUpType = rand.nextInt(2);
+		ObjectTile powerUpTile;
+		switch(powerUpType){
+			case 0:
+				powerUpTile = new PowerUpTile(PowerUpTypes.EXTRA_TIME, emptyTileList.get(selectedEmptyTile).getPosition().getX(), emptyTileList.get(selectedEmptyTile).getPosition().getY(), 11);
+				break;
+			case 1:
+				powerUpTile =new PowerUpTile(PowerUpTypes.EXTRA_LIFE, emptyTileList.get(selectedEmptyTile).getPosition().getX(), emptyTileList.get(selectedEmptyTile).getPosition().getY(), 12);
+				break;
+			default:
+				powerUpTile=null;
+				System.out.println("Power up is not generated!");
+		}
+		map_obj[powerUpTile.getPosition().getY()][powerUpTile.getPosition().getX()] = powerUpTile;
+	}
+
+	public double getPowerUpTime() {
+		return powerUpTime;
+	}
+
+	public void setPowerUpTime(double powerUpTime) {
+		this.powerUpTime = powerUpTime;
+	}
+
 }

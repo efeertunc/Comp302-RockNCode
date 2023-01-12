@@ -43,6 +43,9 @@ public interface Constants {
         public static final BufferedImage OPENDOOR;
         public static final BufferedImage CLOSEDOOR;
 
+        public static final BufferedImage EXTRATIME;
+        public static final BufferedImage EXTRALIFE;
+
         static {
             try {
                 ALIEN_TIMEWASTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienTimeWaster.png")));
@@ -58,6 +61,8 @@ public interface Constants {
                 SHELVE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/shelve.png")));
                 OPENDOOR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/opened_big.png")));
                 CLOSEDOOR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/closed.png")));
+                EXTRATIME = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/extratime.png")));
+                EXTRALIFE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/life.png")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
