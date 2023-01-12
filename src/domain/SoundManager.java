@@ -20,6 +20,13 @@ public class SoundManager {
         soundUrl[3] = getClass().getResource("/sounds/key.wav");
         soundUrl[4] = getClass().getResource("/sounds/MOP.wav");
 
+        soundUrl[5] = getClass().getResource("/sounds/Avatar Hit.wav");
+        soundUrl[6] = getClass().getResource("/sounds/Shooter Reload.wav");
+        soundUrl[7] = getClass().getResource("/sounds/Shooter Shoot.wav");
+        soundUrl[8] = getClass().getResource("/sounds/Step1.wav");
+        soundUrl[9] = getClass().getResource("/sounds/Step2.wav");
+        soundUrl[10] = getClass().getResource("/sounds/Blind Punch.wav");
+
 
     }
     public void setFile(int index) {
