@@ -17,9 +17,9 @@ public class Bag  {
 
     public Bag(){
         bag = new HashMap<PowerUpTypes, PowerUp>();
-        bag.put(PowerUpTypes.BOTTLE, PowerUpFactory.createPowerUp(PowerUpTypes.BOTTLE));
-        bag.put(PowerUpTypes.VEST, PowerUpFactory.createPowerUp(PowerUpTypes.VEST));
-        bag.put(PowerUpTypes.HINT, PowerUpFactory.createPowerUp(PowerUpTypes.HINT));
+        bag.put(PowerUpTypes.BOTTLE, PowerUpFactory.getInstance().createPowerUp(PowerUpTypes.BOTTLE));
+        bag.put(PowerUpTypes.VEST, PowerUpFactory.getInstance().createPowerUp(PowerUpTypes.VEST));
+        bag.put(PowerUpTypes.HINT, PowerUpFactory.getInstance().createPowerUp(PowerUpTypes.HINT));
     }
 
 

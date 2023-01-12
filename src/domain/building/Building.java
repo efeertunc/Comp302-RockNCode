@@ -264,21 +264,23 @@ public class Building {
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTileList.size());
 
-		int powerUpType = rand.nextInt(3);
+		int powerUpType = rand.nextInt(4);
 		ObjectTile powerUpTile;
+		int emptyX = emptyTileList.get(selectedEmptyTile).getPosition().getX();
+		int emptyY = emptyTileList.get(selectedEmptyTile).getPosition().getY();
 		switch(powerUpType){
-			case 0:
-				powerUpTile = new PowerUpTile(PowerUpTypes.EXTRA_TIME, emptyTileList.get(selectedEmptyTile).getPosition().getX(), emptyTileList.get(selectedEmptyTile).getPosition().getY(), 11);
-				break;
-			case 1:
-				powerUpTile =new PowerUpTile(PowerUpTypes.EXTRA_LIFE, emptyTileList.get(selectedEmptyTile).getPosition().getX(), emptyTileList.get(selectedEmptyTile).getPosition().getY(), 12);
-				break;
-			case 2:
+			case 0 ->
+					powerUpTile = new PowerUpTile(PowerUpTypes.EXTRA_TIME, emptyX, emptyY, 11);
+			case 1 ->
+					powerUpTile = new PowerUpTile(PowerUpTypes.EXTRA_LIFE, emptyX, emptyY, 12);
+			case 2 ->
 				powerUpTile =new PowerUpTile(PowerUpTypes.HINT, emptyTileList.get(selectedEmptyTile).getPosition().getX(), emptyTileList.get(selectedEmptyTile).getPosition().getY(), 13);
-				break;
-			default:
-				powerUpTile=null;
+			case 3 ->
+					powerUpTile = new PowerUpTile(PowerUpTypes.VEST, emptyX, emptyY, 13);
+			default -> {
+				powerUpTile = null;
 				System.out.println("Power up is not generated!");
+			}
 		}
 		map_obj[powerUpTile.getPosition().getY()][powerUpTile.getPosition().getX()] = powerUpTile;
 	}

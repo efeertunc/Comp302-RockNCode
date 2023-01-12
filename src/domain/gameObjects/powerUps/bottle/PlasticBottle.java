@@ -2,13 +2,18 @@ package domain.gameObjects.powerUps.bottle;
 
 
 import domain.building.BuildingTracker;
+import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.powerUps.CollectablePowerUpI;
 import domain.gameObjects.powerUps.PowerUp;
+import domain.gameObjects.powerUps.PowerUpTypes;
 
 public class PlasticBottle extends PowerUp implements CollectablePowerUpI {
 
-    private int id;
     private int numBottle;
+
+    public PlasticBottle() {
+        this.numBottle = 0;
+    }
 
     @Override
     public void use() {
@@ -34,5 +39,7 @@ public class PlasticBottle extends PowerUp implements CollectablePowerUpI {
     public int getNum() {
         return numBottle;
     }
+
+
 }
 

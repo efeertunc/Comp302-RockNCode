@@ -47,6 +47,7 @@ public interface Constants {
         public static final BufferedImage EXTRALIFE;
         public static final BufferedImage BACKGROUND;
         public static final BufferedImage HINT;
+        public static final BufferedImage VEST;
 
         static {
             try {
@@ -67,6 +68,7 @@ public interface Constants {
                 EXTRALIFE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/life.png")));
                 BACKGROUND = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/background.png")));
                 HINT = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/hint.png")));
+                VEST = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/VEST.png")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

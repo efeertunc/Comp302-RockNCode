@@ -9,9 +9,11 @@ import panels.RunningMap;
 
 public class HintPower extends PowerUp implements CollectablePowerUpI {
 
-    private int id;
-
     private int numHint;
+
+    public HintPower() {
+        this.numHint = 0;
+    }
 
     public int getNumHint() {
         return numHint;

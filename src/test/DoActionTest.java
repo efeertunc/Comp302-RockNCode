@@ -89,7 +89,7 @@ public class DoActionTest {
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(map);
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setAvatar();
         avatar.getBag().addPowerUp(PowerUpTypes.VEST);
-        int oldvestTime = avatar.getVestTime();
+        double oldvestTime = avatar.getVestTime();
         avatar.doAction(KeyEvent.VK_P);
         assertEquals(oldvestTime + 20, avatar.getVestTime());
 

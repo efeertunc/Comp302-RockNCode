@@ -8,6 +8,7 @@ import java.awt.Point;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import domain.gameObjects.powerUps.PowerUpTile;
 import models.Constants;
 import domain.*;
 import domain.building.BuildingTracker;
@@ -178,6 +179,9 @@ public class RunningMap extends JPanel implements Runnable {
                     }
                     if (imageId == 13){
                         g2D.drawImage(Constants.ImageConstants.HINT, x,y, weight,weight,null);
+                    }
+                    if (imageId == 14){
+                        g2D.drawImage(Constants.ImageConstants.VEST, x,y, weight,weight,null);
                     }
                 }
             }

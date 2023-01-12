@@ -30,14 +30,14 @@ public class Avatar extends DynamicTile {
      *The rep invariant is life>0 && life<4 && time<1000 && time>0
      **/
     private int life;
-    private int time;
+    private double time;
     private double currentTime;
     private boolean hasKey;
     private Bag bag;
     private BottleState bottleState;
     private VestState vestState;
 
-    private int vestTime;
+    private double vestTime;
 
     private AvatarObserver avatarObserver;
 
@@ -202,8 +202,6 @@ public class Avatar extends DynamicTile {
             //setImage(6);
             powerUpTile.clicked();
             building.deletePowerTile(x, y);
-
-
             return true;
         }
 
@@ -235,12 +233,14 @@ public class Avatar extends DynamicTile {
         if ((vestState instanceof HasNoVest) && (bag.consistsOf(PowerUpTypes.VEST))) {
             System.out.println(vestState);
             vestState = new HasVest();
-
+            setVestTime(20);
+            setImage(2); // it is not correct number
             return true;
         }
         else if (vestState instanceof HasVest) {
             System.out.println(vestState);
             vestState = new HasNoVest();
+            setImage(3); // it is not correct number
             return false;
         }
         return false;
@@ -279,13 +279,25 @@ public class Avatar extends DynamicTile {
         // REQUIRES: intervalTime is nonnegative double.
         // MODIFIES:  updates the currentTime by decreasing.
         //EFFECTS: If currentTime reaches 0, sets it to 0 forever.
+
+        if (vestState instanceof HasVest) {
+            int oldVestTime = ((int) vestTime);
+            vestTime -= intervalTime/1000000000;
+            int newVestTime = ((int) vestTime);
+
+            if ((vestTime <= 0) && (oldVestTime != newVestTime)) {
+                vestTime = 0;
+                changeVestState();
+            }
+        }
+
         currentTime -=  intervalTime/1000000000;
         if (currentTime < 0) {
             currentTime = 0;
         }
     }
 
-    public int getTime() {
+    public double getTime() {
         return time;
     }
 
@@ -334,7 +346,7 @@ public class Avatar extends DynamicTile {
         return vestState;
     }
 
-    public int getVestTime() {
+    public double getVestTime() {
         return vestTime;
     }
 
