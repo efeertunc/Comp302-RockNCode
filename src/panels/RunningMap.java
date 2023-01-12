@@ -28,10 +28,12 @@ public class RunningMap extends JPanel implements Runnable {
         return scale;
     }
 
-    public void setScale(double scale) {
-        this.scale = scale;
+    public void decreaseScale() {
+        this.scale = scale*0.95;
     }
-
+    public void increasecale() {
+        this.scale = scale*1.05;
+    }
     JPanel panel;
 
     RunPanel superPanel;

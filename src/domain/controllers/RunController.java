@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 public class RunController {
 	private Building currentBuilding;
 	private Avatar avatar;
+	private double scale=1;
 
 	public Avatar getAvatar() {
 		return avatar;
@@ -27,6 +28,15 @@ public class RunController {
 	{
 		initialize();
 	}
+
+	public double getScale() {
+		return scale;
+	}
+
+	public void setScale(double scale) {
+		this.scale = scale;
+	}
+
 	public void initialize() {
 		currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
 		currentBuilding.setKey();
@@ -62,9 +72,10 @@ public class RunController {
 
 	public void searchKey(int x, int y)
 	{
-		int indexX = (x-42) / 48;
-		int indexY = (y-97) / 48;
-		if (indexX < 0 || indexX>16 || indexY <0 || indexY >16)
+		int indexX = (int)(x/scale-42) / 48;
+		int indexY = (int)(y/scale-90) / 48;
+		System.out.println("Converted to "+ indexX+" , "+indexY);
+		if (indexX < 0 || indexX>16 || indexY <0 || indexY >11)
 		{
 			System.out.println("MouseClick is outside of the field");
 			return;

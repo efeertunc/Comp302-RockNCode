@@ -160,6 +160,7 @@ public class Avatar extends DynamicTile {
         if (x<0 || y < 0) {
             throw new IllegalArgumentException("Indexes cannot be negative");
         }
+        System.out.println("avatar şurada "+ getPosition().getX() +" , "+ getPosition().getY());
         int xDiff = Math.abs(getPosition().getX() - x);
         int yDiff = Math.abs(getPosition().getY() - y);
 
