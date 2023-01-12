@@ -27,7 +27,6 @@ public class AvatarTest {
         avatar = new Avatar(2,10,10,10,3);
         bag = avatar.getBag();
 
-
     }
 
     @Test

@@ -4,6 +4,7 @@ import domain.building.BuildingTracker;
 import domain.gameObjects.ObjectTile;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.avatar.Bag;
+import domain.gameObjects.powerUps.CollectablePowerUpI;
 import domain.gameObjects.powerUps.PowerUpTypes;
 import domain.gameObjects.powerUps.bottle.BottleState;
 import domain.gameObjects.powerUps.bottle.HoldBottle;
@@ -58,15 +59,15 @@ public class DoActionTest {
     @Test
     @DisplayName("do not changes anything when key event is not from the accepted keys")
     void doActionTest3() {
-        int oldNumBottles = avatar.getBag().getPower(PowerUpTypes.BOTTLE).getNum();
-        int oldNumVests = avatar.getBag().getPower(PowerUpTypes.VEST).getNum();
-        int oldNumHints = avatar.getBag().getPower(PowerUpTypes.HINT).getNum();
+        int oldNumBottles = ((CollectablePowerUpI) avatar.getBag().getPower(PowerUpTypes.BOTTLE)).getNum();
+        int oldNumVests = ((CollectablePowerUpI) avatar.getBag().getPower(PowerUpTypes.VEST)).getNum();
+        int oldNumHints = ((CollectablePowerUpI) avatar.getBag().getPower(PowerUpTypes.HINT)).getNum();
         avatar.doAction(KeyEvent.VK_K);
         assertTrue(avatar.getBottleState() instanceof HoldNothing);
         assertTrue(avatar.getVestState() instanceof HasNoVest);
-        assertEquals(oldNumHints, avatar.getBag().getPower(PowerUpTypes.HINT).getNum());
-        assertEquals(oldNumBottles, avatar.getBag().getPower(PowerUpTypes.BOTTLE).getNum());
-        assertEquals(oldNumVests, avatar.getBag().getPower(PowerUpTypes.VEST).getNum());
+        assertEquals(oldNumHints, ((CollectablePowerUpI) avatar.getBag().getPower(PowerUpTypes.HINT)).getNum());
+        assertEquals(oldNumBottles, ((CollectablePowerUpI) avatar.getBag().getPower(PowerUpTypes.BOTTLE)).getNum());
+        assertEquals(oldNumVests, ((CollectablePowerUpI) avatar.getBag().getPower(PowerUpTypes.VEST)).getNum());
     }
 
 
@@ -74,9 +75,9 @@ public class DoActionTest {
     @DisplayName("changes number of hints when key event is H and there is a hint in bag")
     void doActionTest4() {
         avatar.getBag().addPowerUp(PowerUpTypes.HINT);
-        int oldHintNum = avatar.getBag().getPowers().get(PowerUpTypes.HINT).getNum();
+        int oldHintNum = ((CollectablePowerUpI) avatar.getBag().getPower(PowerUpTypes.HINT)).getNum();
         avatar.doAction(KeyEvent.VK_H);
-        assertEquals(oldHintNum, avatar.getBag().getPowers().get(PowerUpTypes.HINT).getNum() + 1);
+        assertEquals(oldHintNum, ((CollectablePowerUpI) avatar.getBag().getPower(PowerUpTypes.HINT)).getNum() + 1);
     }
 
 

@@ -10,25 +10,12 @@ public class ExtraLife extends PowerUp {
 
     @Override
     public void use() {
+        System.out.println("Life1: "+BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getLife());
+
         if (BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getLife() < 5) {
             BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().addLife(1);
         }
+        System.out.println("Life2: "+BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getLife());
     }
-    @Override
-    public void increment() {}
-
-    @Override
-    public void decrease() {}
-
-    @Override
-    public int getNum() {
-        return numExtraLife;
-    }
-
-    @Override
-    public int getID() {
-        return id;
-    }
-
 
 }

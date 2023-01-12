@@ -3,6 +3,7 @@ package domain.gameObjects.avatar;
 import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import domain.gameObjects.EmptyTile;
+import domain.gameObjects.powerUps.PowerUpTile;
 import domain.gameObjects.powerUps.PowerUpTypes;
 import domain.gameObjects.powerUps.bottle.BottleState;
 import domain.gameObjects.powerUps.bottle.HoldBottle;
@@ -160,7 +161,9 @@ public class Avatar extends DynamicTile {
         if (x<0 || y < 0) {
             throw new IllegalArgumentException("Indexes cannot be negative");
         }
+
         System.out.println("avatar şurada "+ getPosition().getX() +" , "+ getPosition().getY());
+
         int xDiff = Math.abs(getPosition().getX() - x);
         int yDiff = Math.abs(getPosition().getY() - y);
 
@@ -183,6 +186,32 @@ public class Avatar extends DynamicTile {
         }
 
         return false;
+    }
+
+
+    public boolean searchPowerTile(int x, int y, Building building) {
+        if (x<0 || y < 0) {
+            throw new IllegalArgumentException("Indexes cannot be negative");
+        }
+
+        if (building.checkPowerTile(x,y) == null) {
+
+            throw new NullPointerException("There is no power up in that position");
+        }
+
+        PowerUpTile powerUpTile = building.checkPowerTile(x,y);
+        if (powerUpTile != null) {
+            //setImage(6);
+            powerUpTile.clicked();
+            building.deletePowerTile(x, y);
+
+
+            return true;
+        }
+
+        return false;
+
+
     }
 
 
@@ -239,11 +268,9 @@ public class Avatar extends DynamicTile {
         return false;
     }
 
-    public void takeDamage(int damage)
-    {
-        life-=damage;
-        if (life <=0)
-        {
+    public void takeDamage(int damage) {
+        setLife(life-damage);
+        if (life <=0) {
             vanish();
         }
         System.out.println("Avatar damage taken: "+ damage);
@@ -255,8 +282,7 @@ public class Avatar extends DynamicTile {
         // MODIFIES:  updates the currentTime by decreasing.
         //EFFECTS: If currentTime reaches 0, sets it to 0 forever.
         currentTime -=  intervalTime/1000000000;
-        if (currentTime < 0)
-        {
+        if (currentTime < 0) {
             currentTime = 0;
         }
     }
@@ -318,8 +344,7 @@ public class Avatar extends DynamicTile {
         this.vestTime = vestTime;
     }
 
-    public void vanish()
-    {
+    public void vanish() {
         Building b = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
         b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), 4);
         System.out.println("Player Vanished");

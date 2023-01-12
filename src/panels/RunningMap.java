@@ -8,12 +8,10 @@ import java.awt.Point;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import main.EscapeFromKoc;
 import models.Constants;
 import domain.*;
 import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
-import main.IPanel;
 import domain.gameObjects.ObjectTile;
 
 public class RunningMap extends JPanel implements Runnable {
@@ -116,6 +114,7 @@ public class RunningMap extends JPanel implements Runnable {
                 }
                 //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
                 int imageId = map_obj[j][i].getImage();
+                //g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(5), parseY(5), 48 + 5,48 + 5, null);
                 if (imageId != -1) {
                     x=parseX(i);
                     y=parseY(j);
@@ -161,6 +160,12 @@ public class RunningMap extends JPanel implements Runnable {
                     if (imageId == 10){
                         g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND, x,y, weight,weight,null);
                     }
+                    if (imageId == 11){
+                        g2D.drawImage(Constants.ImageConstants.EXTRATIME, x,y, weight,weight,null);
+                    }
+                    if (imageId == 12){
+                        g2D.drawImage(Constants.ImageConstants.EXTRALIFE, x,y, weight,weight,null);
+                    }
                 }
             }
 
@@ -179,10 +184,12 @@ public class RunningMap extends JPanel implements Runnable {
     @Override
     public void run() {
 
-    double drawInterval = 1000000000 / FPS;
-    double nextDrawTime = System.nanoTime() + drawInterval;
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).generateAlien();
 
-    while (thread != null) {
+        double drawInterval = 1000000000 / FPS;
+        double nextDrawTime = System.nanoTime() + drawInterval;
+
+        while (thread != null) {
 
             update(drawInterval);
             repaint();
@@ -204,7 +211,13 @@ public class RunningMap extends JPanel implements Runnable {
     public void update(double intervalTime) {
         if(!isPaused) {
             superPanel.countdown();
-            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setTime(intervalTime);
+            int oldTime = ((int) BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getPowerUpTime());
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).updateTime(intervalTime);
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).updatePowerUpTime(intervalTime);
+            int powerUpTime = ((int) BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getPowerUpTime());
+            if ((powerUpTime % 12 == 0) && (oldTime!= powerUpTime)) {
+                BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).generatePowerTile();
+            }
             for (int i = 0; i < 17; i++) {
                 for (int j = 0; j < 12; j++) {
                     if (map_obj[j][i] instanceof DynamicTile) {
