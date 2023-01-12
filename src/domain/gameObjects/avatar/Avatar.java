@@ -3,6 +3,7 @@ package domain.gameObjects.avatar;
 import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import domain.gameObjects.EmptyTile;
+import domain.gameObjects.powerUps.PowerUpTile;
 import domain.gameObjects.powerUps.PowerUpTypes;
 import domain.gameObjects.powerUps.bottle.BottleState;
 import domain.gameObjects.powerUps.bottle.HoldBottle;
@@ -183,6 +184,32 @@ public class Avatar extends DynamicTile {
         }
 
         return false;
+    }
+
+
+    public boolean searchPowerTile(int x, int y, Building building) {
+        if (x<0 || y < 0) {
+            throw new IllegalArgumentException("Indexes cannot be negative");
+        }
+
+        if (building.checkPowerTile(x,y) == null) {
+
+            throw new NullPointerException("There is no power up in that position");
+        }
+
+        PowerUpTile powerUpTile = building.checkPowerTile(x,y);
+        if (powerUpTile != null) {
+            //setImage(6);
+            powerUpTile.clicked();
+            building.deletePowerTile(x, y);
+
+
+            return true;
+        }
+
+        return false;
+
+
     }
 
 

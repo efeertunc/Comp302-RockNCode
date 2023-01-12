@@ -2,24 +2,13 @@ package domain.gameObjects.powerUps.bottle;
 
 
 import domain.building.BuildingTracker;
+import domain.gameObjects.powerUps.CollectablePowerUpI;
 import domain.gameObjects.powerUps.PowerUp;
 
-public class PlasticBottle extends PowerUp {
+public class PlasticBottle extends PowerUp implements CollectablePowerUpI {
 
     private int id;
     private int numBottle;
-
-
-    public PlasticBottle(int numBottle) {
-        id = 0;
-        this.numBottle = numBottle;
-
-    }
-
-    @Override
-    public int getID() {
-        return this.id;
-    }
 
     @Override
     public void use() {
@@ -30,19 +19,20 @@ public class PlasticBottle extends PowerUp {
         this.numBottle = x;
     }
 
+
     @Override
     public void increment() {
-        this.numBottle +=1;
+        numBottle++;
     }
+
     @Override
-    public void decrease(){
-       this.numBottle-=1;
+    public void decrease() {
+        numBottle--;
     }
 
     @Override
     public int getNum() {
-        return this.numBottle;
+        return numBottle;
     }
-
 }
 

@@ -1,5 +1,8 @@
 package domain.gameObjects.powerUps;
 
+import domain.building.Building;
+import domain.building.BuildingTracker;
+
 public class ExtraTime extends PowerUp {
 
     private int id;
@@ -7,23 +10,10 @@ public class ExtraTime extends PowerUp {
 
     @Override
     public void use() {
-
-    }
-    @Override
-    public void increment() {
-
-    }
-    @Override
-    public void decrease() {
-
-    }
-    @Override
-    public int getID() {
-        return 0;
+        numExtraTime = 5;
+        System.out.println("Extra Time use Function");
+        Building building = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
+        building.setTime(numExtraTime);
     }
 
-    @Override
-    public int getNum() {
-        return 0;
-    }
 }

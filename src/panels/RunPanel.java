@@ -138,10 +138,21 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
-				runController.searchKey(x,y);
+
+				if (e.getButton() == MouseEvent.BUTTON1){
+					System.out.println("Left button clicked");
+					runController.searchKey(x,y);
+				}
+				else if (e.getButton() == MouseEvent.BUTTON3) {
+					System.out.println("Right button clicked");
+					runController.searchPowerUp(x,y);
+				}
+
 			}
 
 		});
+
+
 
 		playerPanel = new PlayerPanel();
 

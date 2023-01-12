@@ -1,6 +1,7 @@
 package domain.gameObjects.avatar;
 
 import domain.building.BuildingTracker;
+import domain.gameObjects.powerUps.CollectablePowerUpI;
 import domain.gameObjects.powerUps.HintPower;
 import domain.gameObjects.powerUps.PowerUp;
 import domain.gameObjects.powerUps.PowerUpTypes;
@@ -9,15 +10,15 @@ import domain.gameObjects.powerUps.protectVest.ProtectionVest;
 
 import java.util.HashMap;
 
-public class Bag {
+public class Bag  {
 
     private final HashMap<PowerUpTypes, PowerUp> bag;
 
     public Bag(){
         bag = new HashMap<PowerUpTypes, PowerUp>();
-        bag.put(PowerUpTypes.BOTTLE, new PlasticBottle(0));
-        bag.put(PowerUpTypes.VEST, new ProtectionVest(0));
-        bag.put(PowerUpTypes.HINT, new HintPower(0));
+        bag.put(PowerUpTypes.BOTTLE, new PlasticBottle());
+        bag.put(PowerUpTypes.VEST, new ProtectionVest());
+        bag.put(PowerUpTypes.HINT, new HintPower());
     }
 
 
@@ -27,17 +28,17 @@ public class Bag {
 
 
     public void addPowerUp(PowerUpTypes powerUp) {
-        bag.get(powerUp).increment();
+        ((CollectablePowerUpI) bag.get(powerUp)).increment();
     }
 
 
     public void decreasePowerUp(PowerUpTypes powerUp) {
-        bag.get(powerUp).decrease();
+        ((CollectablePowerUpI) bag.get(powerUp)).decrease();
     }
 
 
     public boolean consistsOf(PowerUpTypes powerUp){
-        return bag.get(powerUp).getNum() > 0;
+        return ((CollectablePowerUpI) bag.get(powerUp)).getNum() > 0;
     }
 
 
