@@ -264,7 +264,7 @@ public class Building {
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTileList.size());
 
-		int powerUpType = rand.nextInt(2);
+		int powerUpType = rand.nextInt(3);
 		ObjectTile powerUpTile;
 		switch(powerUpType){
 			case 0:
@@ -272,6 +272,9 @@ public class Building {
 				break;
 			case 1:
 				powerUpTile =new PowerUpTile(PowerUpTypes.EXTRA_LIFE, emptyTileList.get(selectedEmptyTile).getPosition().getX(), emptyTileList.get(selectedEmptyTile).getPosition().getY(), 12);
+				break;
+			case 2:
+				powerUpTile =new PowerUpTile(PowerUpTypes.HINT, emptyTileList.get(selectedEmptyTile).getPosition().getX(), emptyTileList.get(selectedEmptyTile).getPosition().getY(), 13);
 				break;
 			default:
 				powerUpTile=null;

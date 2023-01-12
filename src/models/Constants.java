@@ -45,6 +45,8 @@ public interface Constants {
 
         public static final BufferedImage EXTRATIME;
         public static final BufferedImage EXTRALIFE;
+        public static final BufferedImage BACKGROUND;
+        public static final BufferedImage HINT;
 
         static {
             try {
@@ -63,6 +65,8 @@ public interface Constants {
                 CLOSEDOOR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/closed.png")));
                 EXTRATIME = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/extratime.png")));
                 EXTRALIFE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/life.png")));
+                BACKGROUND = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/background.png")));
+                HINT = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/hint.png")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
