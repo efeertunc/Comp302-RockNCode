@@ -144,9 +144,11 @@ public void printAll(Graphics2D g2D,int imageId,int i,int j){
         for (int i = 0; i < 17; i++) {
             for (int j = 0; j < 12; j++) {
                 int imageId = map[j][i].getImage();
+
                 if (imageId != -1) {
                     printAll( g2D,imageId,i, j);
                 }
+
             }
 
         }

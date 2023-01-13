@@ -14,9 +14,7 @@ import panels.RunPanel;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BlindNormal implements BlindBehavior{
-
-    BlindAlien alien;
+public class BlindNormal extends BaseBlindBehavior implements BlindBehavior{
     ArrayList<ObjectTile> adjObjects;
     Random rand;
 
@@ -26,25 +24,14 @@ public class BlindNormal implements BlindBehavior{
 
 
     public BlindNormal(BlindAlien alien){
-        this.alien = alien;
+        super(alien);
         alien.setImage(10);
         adjObjects = new ArrayList<ObjectTile>();
         rand = new Random();
     }
     @Override
     public void action(double interval) {
-        Avatar avatar = ((RunPanel)EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
-        int xDif = Math.abs(avatar.getPosition().getX() - alien.getPosition().getX());
-        int yDif =Math.abs(avatar.getPosition().getY() - alien.getPosition().getY());
-        double distance = Math.sqrt((double)(Math.pow(xDif,2) + Math.pow(yDif,2)));
-        if (distance<= Math.sqrt(2))
-        {
-            alien.setBehavior(new BlindAttack(alien));
-        }
-        else
-        {
-            coroutine(interval);
-        }
+        actionFunction(interval);
     }
 
 
@@ -67,8 +54,8 @@ public class BlindNormal implements BlindBehavior{
         Building building = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
         //top
         adjObjects.clear();
-        int x = alien.getPosition().getX();
-        int y = alien.getPosition().getY() + 1;
+        int x = getAlien().getPosition().getX();
+        int y = getAlien().getPosition().getY() + 1;
         if (x>=0 && x<17 && y>=0 && y<12) //tile exists
         {
             if (building.getMap_obj()[y][x] instanceof EmptyTile) //tile empty
@@ -77,8 +64,8 @@ public class BlindNormal implements BlindBehavior{
             }
         }
         //bot
-        x = alien.getPosition().getX();
-        y = alien.getPosition().getY() - 1;
+        x = getAlien().getPosition().getX();
+        y = getAlien().getPosition().getY() - 1;
         if (x>=0 && x<17 && y>=0 && y<12) //tile exists
         {
             if (building.getMap_obj()[y][x] instanceof EmptyTile) //tile empty
@@ -87,8 +74,8 @@ public class BlindNormal implements BlindBehavior{
             }
         }
         //right
-        x = alien.getPosition().getX()+1;
-        y = alien.getPosition().getY();
+        x = getAlien().getPosition().getX()+1;
+        y = getAlien().getPosition().getY();
         if (x>=0 && x<17 && y>=0 && y<12) //tile exists
         {
             if (building.getMap_obj()[y][x] instanceof EmptyTile) //tile empty
@@ -97,8 +84,8 @@ public class BlindNormal implements BlindBehavior{
             }
         }
         //left
-        x = alien.getPosition().getX() -1;
-        y = alien.getPosition().getY();
+        x = getAlien().getPosition().getX() -1;
+        y = getAlien().getPosition().getY();
         if (x>=0 && x<17 && y>=0 && y<12) //tile exists
         {
             if (building.getMap_obj()[y][x] instanceof EmptyTile) //tile empty
@@ -121,12 +108,22 @@ public class BlindNormal implements BlindBehavior{
         {
             if (building.getMap_obj()[y][x] instanceof EmptyTile) //tile empty
             {
-                int oldX = alien.getPosition().getX();
-                int oldY = alien.getPosition().getY();
+                int oldX = getAlien().getPosition().getX();
+                int oldY = getAlien().getPosition().getY();
                 building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, 4);
-                building.getMap_obj()[y][x] = alien;
-                alien.getPosition().setPos(x,y);
+                building.getMap_obj()[y][x] = getAlien();
+                getAlien().getPosition().setPos(x,y);
             }
         }
+    }
+
+    @Override
+    public void trueStateAction(double interval) {
+        getAlien().setBehavior(new BlindAttack(getAlien()));
+    }
+
+    @Override
+    public void falseStateAction(double interval) {
+        coroutine(interval);
     }
 }

@@ -166,12 +166,16 @@ public class RunningMap extends JPanel implements Runnable {
         if (imageId == 12){
             g2D.drawImage(Constants.ImageConstants.EXTRALIFE, x,y, weight,weight,null);
         }
-
+        if (imageId == 13){
+            g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER_ATTACK, x,y, weight,weight, null);
+        }
+        if (imageId == 14){
+            g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND_ATTACK, x,y, weight,weight, null);
+        }
         if (imageId == 15){
             g2D.drawImage(Constants.ImageConstants.OMER, x,y, weight,weight,null);
         }if (imageId == 16){
             g2D.drawImage(Constants.ImageConstants.CASE, x,y, weight,weight,null);
-
         }
         if (imageId == 17){
             g2D.drawImage(Constants.ImageConstants.SOS, x,y, weight,weight,null);
@@ -226,6 +230,7 @@ public class RunningMap extends JPanel implements Runnable {
                 //g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(5), parseY(5), 48 + 5,48 + 5, null);
                 if (imageId != -1) {
                     printAll(g2D,imageId, i,j);
+
 
                 }
             }
