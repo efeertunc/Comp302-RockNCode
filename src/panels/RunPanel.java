@@ -204,8 +204,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 				int y = e.getY();
 
 				System.out.println("The location presses"+x+" , "+y);
-				runController.searchKey(x,y);
-
 
 				if (e.getButton() == MouseEvent.BUTTON1){
 					System.out.println("Left button clicked");
@@ -215,8 +213,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 					System.out.println("Right button clicked");
 					runController.searchPowerUp(x,y);
 				}
-
-
 			}
 
 		});
