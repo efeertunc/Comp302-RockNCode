@@ -112,6 +112,14 @@ public class RunningMap extends JPanel implements Runnable {
         weight=(int) (originalTileSize * scale);
         int x=parseX(i);
         int y= parseY(j);
+        if (superPanel.getRunController().getAvatar().isHasKey()){
+            g2D.drawImage(Constants.ImageConstants.OPENDOOR, (int)(810*scale), (int)(470*scale),(int)(110*scale),
+                    (int)(110*scale), null);
+        }
+        else{
+            g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, (int)(810*scale), (int)(470*scale),(int)(150*scale),
+                    (int)(110*scale), null);
+        }
         if (imageId == 0) {
             g2D.drawImage(Constants.ImageConstants.SHELVE, x,y, weight,weight, null);
         }
@@ -135,8 +143,7 @@ public class RunningMap extends JPanel implements Runnable {
         }
         if (imageId == 6) {
             g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY,  x,y, weight,weight, null);
-            g2D.drawImage(Constants.ImageConstants.OPENDOOR, (int)(810*scale), (int)(470*scale),(int)(110*scale),
-                    (int)(110*scale), null);
+
 
 
         }
@@ -193,7 +200,6 @@ public class RunningMap extends JPanel implements Runnable {
 
     }
     public void draw(Graphics2D g2D) {
-
 
         if (thread.isAlive())
         {
@@ -293,17 +299,17 @@ public class RunningMap extends JPanel implements Runnable {
             while (input.hasNext()) { // while there is more to read
                 // display each read word and add it to the ArrayList wordList
                 String parses = input.next();
-                System.out.println(parses);
+
                 String[] block = parses.split(",");
                 if (block.length == 1) {
                     tileMap[i][j][0] = Integer.parseInt(block[0]);
-                    System.out.println("len is 1 and " + tileMap[i][j][0]);
+
                     tileMap[i][j][1] = -1;
 
                 } else {
                     tileMap[i][j][0] = Integer.parseInt(block[0]);
                     tileMap[i][j][1] = Integer.parseInt(block[1]);
-                    System.out.println("len is 2 and " + tileMap[i][j][0] + " , " + tileMap[i][j][1]);
+
 
                 }
 

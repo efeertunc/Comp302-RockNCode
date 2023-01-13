@@ -33,6 +33,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	JLabel labelHint;
 	JLabel labelBottle;
 	JLabel labelLife;
+	JLabel keyLabel;
 
 	JLabel labelVest;
 	Font font1 = new Font("Arial", Font.PLAIN, 15);
@@ -72,7 +73,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 
 
-		playerPanel.setBackground(Color.ORANGE);
+		//playerPanel.setBackground(Color.ORANGE);
 		playerPanel.setLayout(null);
 		playerPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
 		playerPanel.setBounds(910, 70, 380, 630);
@@ -91,6 +92,11 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel.add(label1);
 		//avatar.getLife())
 
+		Icon icon = new ImageIcon(this.getClass().getResource("/visual/keyFound.gif"));
+		keyLabel = new JLabel(icon);
+		keyLabel.setBounds(100, 250, 100, 300); // You can use your own values
+		keyLabel.setVisible(runController.getAvatar().isHasKey());
+		playerPanel.add(keyLabel);
 
 		//timer
 		labelTimer = new JLabel("");
@@ -209,8 +215,9 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 				if (e.getButton() == MouseEvent.BUTTON1){
 					System.out.println("Left button clicked");
-					runController.searchKey(x,y);
+					keyLabel.setVisible(runController.getAvatar().isHasKey());
 				}
+
 				else if (e.getButton() == MouseEvent.BUTTON3) {
 					System.out.println("Right button clicked");
 					runController.searchPowerUp(x,y);
@@ -320,7 +327,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		int keyCode = keyEvent.getKeyCode();
 
 		runController.doAction(keyCode);
-
+		keyLabel.setVisible(runController.getAvatar().isHasKey());
 	}
 
 	@Override

@@ -81,19 +81,21 @@ public class RunController {
 	}
 
 
-	public void searchKey(int x, int y)
+	public boolean searchKey(int x, int y)
 	{
-		int indexX = (int)(x/scale-42) / 48;
+		int indexX = (int)(x/scale-20) / 48;
 		int indexY = (int)(y/scale-90) / 48;
 		System.out.println("Converted to "+ indexX+" , "+indexY);
 		if (indexX < 0 || indexX>16 || indexY <0 || indexY >11)
 		{
 			System.out.println("MouseClick is outside of the field");
-			return;
+			return false;
 		}
 		if(avatar.searchKey(indexX , indexY , currentBuilding)){
 			sound.playSoundEffect(0);
+			return true;
 		}
+		return false;
 	}
 
 	public SoundManager getSound() {
@@ -101,17 +103,19 @@ public class RunController {
 	}
 
 
-	public void searchPowerUp(int x, int y) {
-		int indexX = (x-42) / 48;
-		int indexY = (y-97) / 48;
+	public boolean searchPowerUp(int x, int y) {
+		int indexX = (int)(x/scale-42) / 48;
+		int indexY = (int)(y/scale-90) / 48;
 		if (indexX < 0 || indexX>16 || indexY <0 || indexY >16)
 		{
 			System.out.println("MouseClick is outside of the field");
-			return;
+			return false;
 		}
 
 		if(avatar.searchPowerTile(indexX , indexY , currentBuilding)){
 			sound.playSoundEffect(0);
+			return true;
 		}
+		return false;
 	}
 }

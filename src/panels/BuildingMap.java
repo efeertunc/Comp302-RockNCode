@@ -272,17 +272,17 @@ public void printAll(Graphics2D g2D,int imageId,int i,int j){
             while (input.hasNext()) { // while there is more to read
                 // display each read word and add it to the ArrayList wordList
                 String parses = input.next();
-                System.out.println(parses);
+
                 String[] block = parses.split(",");
                 if (block.length == 1) {
                     tileMap[i][j][0] = Integer.parseInt(block[0]);
-                    System.out.println("len is 1 and " + tileMap[i][j][0]);
+
                     tileMap[i][j][1] = -1;
 
                 } else {
                     tileMap[i][j][0] = Integer.parseInt(block[0]);
                     tileMap[i][j][1] = Integer.parseInt(block[1]);
-                    System.out.println("len is 2 and " + tileMap[i][j][0] + " , " + tileMap[i][j][1]);
+
 
                 }
 
