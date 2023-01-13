@@ -83,7 +83,7 @@ public class RunController {
 
 	public boolean searchKey(int x, int y)
 	{
-		int indexX = (int)(x/scale-20) / 48;
+		int indexX = (int)(x/scale-27) / 48;
 		int indexY = (int)(y/scale-90) / 48;
 		System.out.println("Converted to "+ indexX+" , "+indexY);
 		if (indexX < 0 || indexX>16 || indexY <0 || indexY >11)
@@ -104,14 +104,14 @@ public class RunController {
 
 
 	public boolean searchPowerUp(int x, int y) {
-		int indexX = (int)(x/scale-42) / 48;
-		int indexY = (int)(y/scale-90) / 48;
+		int indexX = (int)(x/scale-27) / 48;
+		int indexY = (int)(y/scale-80) / 48;
 		if (indexX < 0 || indexX>16 || indexY <0 || indexY >16)
 		{
 			System.out.println("MouseClick is outside of the field");
 			return false;
 		}
-
+		System.out.println("converted :"+ indexY+ " "+indexX);
 		if(avatar.searchPowerTile(indexX , indexY , currentBuilding)){
 			sound.playSoundEffect(0);
 			return true;

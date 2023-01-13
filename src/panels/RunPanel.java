@@ -213,6 +213,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 				if (e.getButton() == MouseEvent.BUTTON1){
 					System.out.println("Left button clicked");
+					runController.searchKey(x,y);
 					keyLabel.setVisible(runController.getAvatar().isHasKey());
 				}
 
