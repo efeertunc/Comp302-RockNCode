@@ -8,10 +8,12 @@ import domain.SoundManager;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
+import models.Constants;
 import panels.RunPanel;
 import panels.RunningMap;
 
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 
 public class RunController {
 	private Building currentBuilding;
@@ -59,7 +61,15 @@ public class RunController {
 	public void nextLevel() {
 		if (BuildingTracker.getCurrentIndex()!= 5) {
 			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
+
 			initialize();
+			try {
+				((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).
+						getRunningMap().openFile(Constants.FileConstants.fileList[BuildingTracker.getCurrentIndex()]);
+			} catch (FileNotFoundException e) {
+
+
+			}
 
 			((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).
 					getRunningMap().setMap_obj(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());

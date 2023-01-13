@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -28,6 +29,7 @@ import factory.ViewType;
 import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
+import models.Constants;
 import views.AuthView;
 
 public class BuildPanel implements IPanel {
@@ -121,8 +123,14 @@ public class BuildPanel implements IPanel {
 			System.out.println("updateBuildingMap Current Index: "+BuildingTracker.getCurrentIndex());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap_obj(BuildingMap.getMap());
 
+
 			BuildingMap.emptyMap();
 			BuildingTracker.setCurrentIndex(1 + BuildingTracker.getCurrentIndex());
+			try {
+				BuildingMap.openFile(Constants.FileConstants.fileList[BuildingTracker.getCurrentIndex()]);
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException(e);
+			}
 			BuildingMap.setMap(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());
 			String str = "At least "
 					+ Integer.toString(
@@ -141,6 +149,12 @@ public class BuildPanel implements IPanel {
 	}
 	public void loadGameForBuilding() {
 		getBuildingMap().setMapForDB();
+		buildingInfo.setText(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
+		try {
+			BuildingMap.openFile(Constants.FileConstants.fileList[BuildingTracker.getCurrentIndex()]);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 		controlOfNextButton();
 
 	}

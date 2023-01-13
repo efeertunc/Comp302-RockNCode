@@ -66,7 +66,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		BigLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 27));
 		BigLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		BigLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		BigLabel.setBounds(135, 6, 168, 29);
+		BigLabel.setBounds(35, 6, 168, 29);
 		panel.add(BigLabel);
 		
 
@@ -136,8 +136,8 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		label4.setBounds(112, 66, 16, 16); // You can use your own values
 		playerPanel.add(label4);
 
-		pauseButton.setBounds(27, 105, 117, 29);
-
+		pauseButton.setBounds(200, 10, 117, 29);
+		panel.add(pauseButton);
 
 
 		playerPanel.add(labelHint);
