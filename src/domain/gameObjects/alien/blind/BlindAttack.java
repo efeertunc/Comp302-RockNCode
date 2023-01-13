@@ -12,34 +12,21 @@ import panels.RunPanel;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BlindAttack implements BlindBehavior{
+public class BlindAttack extends BaseBlindBehavior implements BlindBehavior{
 
-    BlindAlien alien;
-    private int cooldown = 4;
+    private int cooldown = 2;
     private boolean ready = false;
     private double counter = cooldown;
     private double range = Math.sqrt(2);
 
     public BlindAttack(BlindAlien alien){
-        this.alien = alien;
-        alien.setImage(3);
+        super(alien);
+        alien.setImage(14);
     }
     @Override
     public void action(double interval) {
-        Avatar avatar = ((RunPanel)EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
-        int xDif = Math.abs(avatar.getPosition().getX() - alien.getPosition().getX());
-        int yDif =Math.abs(avatar.getPosition().getY() - alien.getPosition().getY());
-        double distance = Math.sqrt((double)(Math.pow(xDif,2) + Math.pow(yDif,2)));
-        if (distance>range)
-        {
-            alien.setBehavior(new BlindNormal(alien));
-        }
-        else
-        {
-            coroutine(interval);
-        }
+       actionFunction(interval);
     }
-
 
     public void coroutine(double intervalTime) {
         if (ready)
@@ -54,10 +41,22 @@ public class BlindAttack implements BlindBehavior{
             ready=true;
         }
     }
+
     public void alienDamage()
     {
         Avatar avatar = ((RunPanel)EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
+        getAlien().getSound().playSoundEffect(10);
         avatar.getVestState().takeDamage(AlienType.BLIND, 2);
         System.out.println("Damage given by blind!");
+    }
+
+    @Override
+    public void trueStateAction(double interval) {
+        coroutine(interval);
+    }
+
+    @Override
+    public void falseStateAction(double interval) {
+        getAlien().setBehavior(new BlindNormal(getAlien()));
     }
 }

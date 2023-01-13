@@ -9,47 +9,31 @@ import main.EscapeFromKoc;
 import panels.RunPanel;
 
 public class ShooterAlien extends Alien {
-
-    private int cooldown = 1;
-    private boolean ready = false;
-    private double counter = cooldown;
     private int range = 4;
+    ShooterBehavior behavior;
 
 
     public ShooterAlien(int x, int y, int image)
     {
         super(x,y,image);
+        setBehavior(new ShooterAttack(this));
     }
 
     @Override
     public void update(double interval) {
-        shooterAttack(interval);
+        behavior.action(interval);
     }
 
-    public void shooterAttack(double intervalTime) {
-        if (ready)
-        {
-            attack();
-            ready = false;
-            counter= (double)cooldown;
-        }
-        counter -= intervalTime/1000000000;
-        if (counter <= 0)
-        {
-            ready=true;
-        }
-    }
 
-    public void attack()
+
+
+    public void setBehavior(ShooterBehavior behavior)
     {
-        Avatar avatar = ((RunPanel)EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
-        int xDif = Math.abs(avatar.getPosition().getX() - getPosition().getX());
-        int yDif = Math.abs(avatar.getPosition().getY() - getPosition().getY());
-        double distance = Math.sqrt(((double) Math.pow(xDif,2) + Math.pow(yDif,2)));
-        if (distance < range)
-        {
-            avatar.getVestState().takeDamage(AlienType.SHOOTER, 1);
-        }
+        this.behavior = behavior;
+    }
 
+    public int getRange()
+    {
+        return range;
     }
 }

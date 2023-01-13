@@ -198,7 +198,8 @@ public class Building {
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		int alienType = rand.nextInt(3);
+		//int alienType = rand.nextInt(3);
+		int alienType = 1;
 		Alien alien;
 		switch(alienType){
 			case 0:

@@ -32,6 +32,8 @@ public interface Constants {
         public static final BufferedImage ALIEN_TIMEWASTER;
         public static final BufferedImage ALIEN_SHOOTER;
         public static final BufferedImage ALIEN_BLIND;
+        public static final BufferedImage ALIEN_BLIND_ATTACK;
+        public static final BufferedImage ALIEN_SHOOTER_ATTACK;
         public static final BufferedImage CHAIR;
         public static final BufferedImage BIN;
         public static final BufferedImage TABLE;
@@ -54,6 +56,8 @@ public interface Constants {
                 ALIEN_TIMEWASTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienTimeWaster.png")));
                 ALIEN_BLIND = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienBlind.png")));
                 ALIEN_SHOOTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienShooter.png")));
+                ALIEN_SHOOTER_ATTACK = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienShooterAttack.png")));
+                ALIEN_BLIND_ATTACK = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienBlindAttack.png")));
                 CHAIR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/chair_200.png")));
                 BIN = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/bin.png")));
                 TABLE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/table1.png")));

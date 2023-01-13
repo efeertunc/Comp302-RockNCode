@@ -103,6 +103,14 @@ public class BuildingMap extends JPanel {
                                 g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND, parseX(i), parseY(j), 48 + 5,
                                         48 + 5, null);
                             }
+                            if (imageId == 13){
+                                g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER_ATTACK, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
+                            if (imageId == 14){
+                                g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND_ATTACK, parseX(i), parseY(j), 48 + 5,
+                                        48 + 5, null);
+                            }
 
                         }
 

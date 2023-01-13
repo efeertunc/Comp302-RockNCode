@@ -116,6 +116,7 @@ public class RunningMap extends JPanel implements Runnable {
                 }
                 //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
                 int imageId = map_obj[j][i].getImage();
+                //g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(5), parseY(5), 48 + 5,48 + 5, null);
                 if (imageId != -1) {
                     x=parseX(i);
                     y=parseY(j);
@@ -180,9 +181,15 @@ public class RunningMap extends JPanel implements Runnable {
                         g2D.drawImage(Constants.ImageConstants.EXTRALIFE, x,y, weight,weight,null);
                     }
                     if (imageId == 13){
-                        g2D.drawImage(Constants.ImageConstants.HINT, x,y, weight,weight,null);
+                        g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER_ATTACK, x,y, weight,weight, null);
                     }
                     if (imageId == 14){
+                        g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND_ATTACK, x,y, weight,weight, null);
+                    }
+                    if (imageId == 15){
+                        g2D.drawImage(Constants.ImageConstants.HINT, x,y, weight,weight,null);
+                    }
+                    if (imageId == 16){
                         g2D.drawImage(Constants.ImageConstants.VEST, x,y, weight,weight,null);
                     }
                 }
@@ -246,13 +253,5 @@ public class RunningMap extends JPanel implements Runnable {
             }
             generator.generateAlien(intervalTime);
         }
-    }
-
-    public boolean isHintPowerUp() {
-        return isHintPowerUp;
-    }
-
-    public void setHintPowerUp(boolean hintPowerUp) {
-        isHintPowerUp = hintPowerUp;
     }
 }
