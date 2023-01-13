@@ -1,5 +1,6 @@
 package domain.gameObjects.avatar;
 
+import domain.SoundManager;
 import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import domain.gameObjects.EmptyTile;
@@ -21,6 +22,7 @@ import panels.RunPanel;
 import main.EscapeFromKoc;
 
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class Avatar extends DynamicTile {
     /**
@@ -40,6 +42,8 @@ public class Avatar extends DynamicTile {
     private int vestTime;
 
     private AvatarObserver avatarObserver;
+    private SoundManager sound;
+    private Random rand;
 
 
     public Avatar(int life, int time, int x, int y, int image) {
@@ -57,6 +61,8 @@ public class Avatar extends DynamicTile {
 
         this.bag = new Bag();
         vestTime = 0; /// bunun databaseden alınması lazım
+        sound = new SoundManager();
+        rand = new Random();
 
     }
 
@@ -128,7 +134,6 @@ public class Avatar extends DynamicTile {
             return true;
         }
         if (x>=0 && x<17 && y>=0 && y<12) { // tile exists
-            System.out.println("avatar x: " + this.getPosition().getX() + "avatar y: " + this.getPosition().getY());
             if (building.getMap_obj()[y][x] instanceof EmptyTile) { // tile empty{
 
                 int oldX = getPosition().getX();
@@ -136,6 +141,9 @@ public class Avatar extends DynamicTile {
                 building.getMap_obj()[oldY][oldX] = new EmptyTile(oldX, oldY, 4);
                 building.getMap_obj()[y][x] = this;
                 getPosition().setPos(x,y);
+                Random rand = new Random();
+                int selectedSound = rand.nextInt(2);
+                sound.playSoundEffect(selectedSound+8);
                 return true;
             }
         }
@@ -273,8 +281,7 @@ public class Avatar extends DynamicTile {
         if (life <=0) {
             vanish();
         }
-        System.out.println("Avatar damage taken: "+ damage);
-        System.out.printf("avatar remaining lives: " + life);
+        sound.playSoundEffect(5);
     }
     @Override
     public void update(double intervalTime) {
