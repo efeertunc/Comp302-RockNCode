@@ -2,6 +2,7 @@ package domain.gameObjects.alien.shooter;
 
 import domain.building.BuildingTracker;
 import domain.gameObjects.ObjectTile;
+import domain.gameObjects.alien.AlienType;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
 import factory.PanelType;
@@ -43,7 +44,7 @@ public class ShooterAttack extends BaseShooterBehavior implements ShooterBehavio
     {
         Avatar avatar = ((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
         getAlien().getSound().playSoundEffect(7);
-        avatar.takeDamage(1);
+        avatar.getVestState().takeDamage(AlienType.SHOOTER, 1);
     }
 
     @Override
