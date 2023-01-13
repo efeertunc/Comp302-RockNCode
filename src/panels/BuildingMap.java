@@ -52,7 +52,52 @@ public class BuildingMap extends JPanel {
         Graphics2D g2D = (Graphics2D) g;
         draw(g2D);
     }
+public void printAll(Graphics2D g2D,int imageId,int i,int j){
+    if (imageId == 0){
+        g2D.drawImage(Constants.ImageConstants.SHELVE, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
+    if (imageId == 1){
+        g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
+    if (imageId == 2){
+        g2D.drawImage(Constants.ImageConstants.BIN, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
+    if (imageId == 3){
+        g2D.drawImage(Constants.ImageConstants.TABLE, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
+    if (imageId == 4){
+        g2D.drawImage(Constants.ImageConstants.EMPTY, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
+    if (imageId == 5){
+        g2D.drawImage(Constants.ImageConstants.AVATAR, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }if (imageId == 6){
+        g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
+    if (imageId == 7){
+        g2D.drawImage(Constants.ImageConstants.ALIEN_TIMEWASTER, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
+    if (imageId == 8){
+        g2D.drawImage(Constants.ImageConstants.KEY, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
+    if (imageId == 9){
+        g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
+    if (imageId == 10){
+        g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND, parseX(i), parseY(j), 48 + 5,
+                48 + 5, null);
+    }
 
+}
     public void draw(Graphics2D g2D) {
         g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, 810, 470, 150,
                 110, null);
@@ -60,53 +105,8 @@ public class BuildingMap extends JPanel {
             for (int j = 0; j < 12; j++) {
                 int imageId = map[j][i].getImage();
                         if (imageId != -1) {
-                            if (imageId == 0){
-                                g2D.drawImage(Constants.ImageConstants.SHELVE, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-                            if (imageId == 1){
-                                g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-                            if (imageId == 2){
-                                g2D.drawImage(Constants.ImageConstants.BIN, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-                            if (imageId == 3){
-                                g2D.drawImage(Constants.ImageConstants.TABLE, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-                            if (imageId == 4){
-                                g2D.drawImage(Constants.ImageConstants.EMPTY, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-                            if (imageId == 5){
-                                g2D.drawImage(Constants.ImageConstants.AVATAR, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }if (imageId == 6){
-                                g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-                            if (imageId == 7){
-                                g2D.drawImage(Constants.ImageConstants.ALIEN_TIMEWASTER, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-                            if (imageId == 8){
-                                g2D.drawImage(Constants.ImageConstants.KEY, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-                            if (imageId == 9){
-                                g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-                            if (imageId == 10){
-                                g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND, parseX(i), parseY(j), 48 + 5,
-                                        48 + 5, null);
-                            }
-
+                            printAll( g2D,imageId,i, j);
                         }
-
-
             }
 
         }
