@@ -20,7 +20,7 @@ public class RunningMap extends JPanel implements Runnable {
     private ObjectTile[][] map_obj;
     int FPS = 60;
     public boolean isPaused;
-    public boolean isHintPowerUp;
+    private boolean isHintPowerUp;
     private int originalTileSize = 48; // 48x48 tile
     private double scale = 1;
 
@@ -253,5 +253,9 @@ public class RunningMap extends JPanel implements Runnable {
             }
             generator.generateAlien(intervalTime);
         }
+    }
+
+    public void setHintPowerUp(boolean bool) {
+        this.isHintPowerUp = bool;
     }
 }
