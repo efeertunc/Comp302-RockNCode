@@ -5,6 +5,12 @@ import java.awt.Font;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.awt.Insets;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -34,7 +40,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	public RunningMap RunningMap;
 	JButton zoom;
 	JButton zoomout;
-	Double scale;
 	private RunController runController;
 	JFrame frame;
 	
@@ -139,6 +144,10 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 				int x = e.getX();
 				int y = e.getY();
 
+				System.out.println("The location presses"+x+" , "+y);
+				runController.searchKey(x,y);
+
+
 				if (e.getButton() == MouseEvent.BUTTON1){
 					System.out.println("Left button clicked");
 					runController.searchKey(x,y);
@@ -147,6 +156,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 					System.out.println("Right button clicked");
 					runController.searchPowerUp(x,y);
 				}
+
 
 			}
 
@@ -157,20 +167,44 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel = new PlayerPanel();
 
 		RunningMap = new RunningMap(panel,this);
-		scale= RunningMap.getScale();
-		zoom = new JButton("Zoom in");
-		zoom.setBounds(700, 10, 120, 23);
+
+		BufferedImage image = null;
+		try {
+			URL file = getClass().getResource("/visual/zoom.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		ImageIcon icon = new ImageIcon(image);
+		zoom = new JButton(icon);
+		zoom.setBounds(700, 10, 60, 60);
+		zoom.setContentAreaFilled(false);
+		// emptyMapButton.setFocusPainted(false);
+		zoom.setBorderPainted(false);
 		panel.add(zoom);
-		zoomout = new JButton("Zoom out");
-		zoomout.setBounds(800, 10, 120, 23);
+
+		try {
+			URL file = getClass().getResource("/visual/zoomout.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		icon = new ImageIcon(image);
+		zoomout = new JButton(icon);
+		zoomout.setBounds(800, 10, 60, 60);
+		zoomout.setContentAreaFilled(false);
+		// emptyMapButton.setFocusPainted(false);
+		zoomout.setBorderPainted(false);
 		panel.add(zoomout);
+
+
 		zoom.addActionListener(new ActionListener() {
 			// add them to building
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				scale= RunningMap.getScale()*1.05;
-				RunningMap.setScale(scale);
-				arangeScale(scale);
+
+				RunningMap.increasecale();
+				arangeScale(RunningMap.getScale());
 
 				repaint();
 			}
@@ -179,9 +213,8 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 			// add them to building
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				scale= RunningMap.getScale()*0.95;
-				RunningMap.setScale(scale);
-				arangeScale(scale);
+				RunningMap.decreaseScale();
+				arangeScale(RunningMap.getScale());
 				repaint();
 			}
 		});
@@ -214,11 +247,12 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		return runController;
 	}
 	private void arangeScale(Double scale){
+		runController.setScale(scale);
 		panel.setBounds(0, 0, (int) (1290 * scale), (int) (700 * scale)); // (12x17 grids)
 		frame.add(panel);
 		RunningMap.setBounds(0, 70, (int) (900 * scale), (int) (630 * scale));
-		zoomout.setBounds((int) (700 * scale+120* scale), 10, (int) (120 * scale), (int) (23 * scale));
-		zoom.setBounds((int) (700 * scale), 10, (int) (120* scale), (int) (23 * scale));
+		zoomout.setBounds((int) (700 * scale+120* scale), 10, 60, 60);
+		zoom.setBounds((int) (700 * scale), 10, 60,60);
 		playerPanel.setBounds((int) (900 * scale+10), 70, (int) (380 * scale), (int) (630 * scale));
 	}
 
