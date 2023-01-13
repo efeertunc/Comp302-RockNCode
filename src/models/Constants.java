@@ -54,6 +54,7 @@ public interface Constants {
         public static final BufferedImage STONE;
         public static final BufferedImage WOOD;
         public static final BufferedImage POT;
+        public static final BufferedImage ENTER;
         static {
             try {
                 ALIEN_TIMEWASTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienTimeWaster.png")));
@@ -79,7 +80,8 @@ public interface Constants {
                 SNA = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/pink.jpg")));   //20
                 STONE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/stone.png"))); //21
                 WOOD = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/wood.png")));  //22
-                POT = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/flowerpot.png")));  //23
+                POT = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/flowerpot.png"))); //23
+                ENTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/entrance.png")));//24
 
             } catch (IOException e) {
                 throw new RuntimeException(e);

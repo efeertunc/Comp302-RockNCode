@@ -189,15 +189,11 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 	@Override
 	public void initialize() {
+
 		panel.addKeyListener(this);
 		panel.setFocusable(true);
-		pauseButton = new JButton("Pause Game");	
-		pauseButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pauseGame();
 
-			}
-		});
+
 
 		panel.addMouseListener(new MouseAdapter() {// provides empty implementation of all
 			// MouseListener`s methods, allowing us to
@@ -283,6 +279,29 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 				repaint();
 			}
 		});
+
+		try {
+			URL file = getClass().getResource("/visual/pause.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		icon = new ImageIcon(image);
+		pauseButton = new JButton(icon);
+		pauseButton.setBounds(20, 10, 140, 90);
+		pauseButton.setContentAreaFilled(false);
+		// emptyMapButton.setFocusPainted(false);
+		pauseButton.setBorderPainted(false);
+		panel.add(pauseButton);
+
+		pauseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pauseGame();
+
+			}
+		});
+
+
 
 		panel.setBounds(0, 0, 1290, 700);
 	}

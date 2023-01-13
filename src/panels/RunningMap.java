@@ -185,7 +185,10 @@ public class RunningMap extends JPanel implements Runnable {
             g2D.drawImage(Constants.ImageConstants.WOOD,x,y, weight,weight,null);
         }
         if (imageId == 23){
-            g2D.drawImage(Constants.ImageConstants.POT,x,y, (int)(weight*1.3),(int)(weight*1.3),null);
+            g2D.drawImage(Constants.ImageConstants.POT,x,y, (int)(weight*2),(int)(weight*2),null);
+        }
+        if (imageId == 24){
+            g2D.drawImage(Constants.ImageConstants.ENTER,x,y, (int)(weight*0.6),(int)(weight*0.6),null);
         }
 
     }
