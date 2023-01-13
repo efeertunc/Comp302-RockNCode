@@ -39,7 +39,7 @@ public class GameView implements IAppView {
     @Override
     public void putFrametoGame() {
         this.frame = new JFrame();
-        this.frame.setResizable(false);
+        this.frame.setResizable(true);
         this.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLayout(null);

@@ -29,7 +29,7 @@ public class Avatar extends DynamicTile {
      * have the life,time, currenttime, bag , haskey  and state (bottlestate and veststate) attributes.
      *The rep invariant is life>0 && life<4 && time<1000 && time>0
      **/
-    private int life;
+    public int life;
     private int time;
     private double currentTime;
     private boolean hasKey;
