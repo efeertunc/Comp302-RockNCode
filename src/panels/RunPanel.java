@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
+import domain.gameObjects.alien.shooter.ShooterAlien;
 import factory.PanelType;
 import factory.ViewType;
 import helperComponents.Direction;
@@ -24,13 +24,18 @@ import main.IPanel;
 
 public class RunPanel extends JPanel implements IPanel, KeyListener{
 	JLabel labelTimer;
+	JLabel labelHint;
+	JLabel labelBottle;
+	JLabel labelLife;
+
+	JLabel labelVest;
 	Font font1 = new Font("Arial", Font.PLAIN, 15);
 	private JPanel panel;
 	
 	private JButton pauseButton;
 
 	private JPanel playerPanel;
-
+	public Avatar avatar;
 	public RunningMap RunningMap;
 	JButton zoom;
 	JButton zoomout;
@@ -59,8 +64,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		BigLabel.setBounds(135, 6, 168, 29);
 		panel.add(BigLabel);
 		
-		pauseButton.setBounds(6, 6, 117, 29);
-		panel.add(pauseButton);
+
 
 
 		playerPanel.setBackground(Color.ORANGE);
@@ -69,16 +73,75 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel.setBounds(910, 70, 380, 630);
 		panel.add(playerPanel);
 
+		//life
 
+		labelLife = new JLabel("");
+		labelLife.setBounds(27, 27, 61, 16);
+		labelLife.setHorizontalAlignment(JLabel.CENTER);
+		labelLife.setFont(font1);
+		labelLife.setText(Integer.toString(3));
+		Icon imgIcon1 = new ImageIcon(this.getClass().getResource("/visual/life.png"));
+		JLabel label1 = new JLabel(imgIcon1);
+		label1.setBounds(27, 27, 16, 16); // You can use your own values
+		playerPanel.add(label1);
+		//avatar.getLife())
+
+
+		//timer
 		labelTimer = new JLabel("");
-		labelTimer.setBounds(80, 100, 180, 70);
+		labelTimer.setBounds(228, 27, 61, 16);
 		labelTimer.setHorizontalAlignment(JLabel.CENTER);
 		labelTimer.setFont(font1);
 
+
+		//bottle
+		labelBottle = new JLabel("");
+		labelBottle.setBounds(27, 66, 61, 16);
+		labelBottle.setHorizontalAlignment(JLabel.CENTER);
+		labelBottle.setFont(font1);
+		labelBottle.setText(Integer.toString(3));
+
+		Icon imgIcon2 = new ImageIcon(this.getClass().getResource("/visual/bottle.png"));
+		JLabel label2 = new JLabel(imgIcon2);
+		label2.setBounds(27, 66, 16, 16); // You can use your own values
+		playerPanel.add(label2);
+
+		//vest
+		labelVest = new JLabel("");
+		labelVest.setBounds(112, 27, 61, 16);
+		labelVest.setHorizontalAlignment(JLabel.CENTER);
+		labelVest.setFont(font1);
+		labelVest.setText(Integer.toString(3));
+
+		Icon imgIcon3 = new ImageIcon(this.getClass().getResource("/visual/vest.png"));
+		JLabel label3 = new JLabel(imgIcon3);
+		label3.setBounds(112, 27, 16, 16); // You can use your own values
+		playerPanel.add(label3);
+
+
+		//hint
+		labelHint = new JLabel("");
+		labelHint.setBounds(112, 66, 61, 16);
+		labelHint.setHorizontalAlignment(JLabel.CENTER);
+		labelHint.setFont(font1);
+		labelHint.setText(Integer.toString(3));
+
+		Icon imgIcon4 = new ImageIcon(this.getClass().getResource("/visual/quest.png"));
+		JLabel label4 = new JLabel(imgIcon4);
+		label4.setBounds(112, 66, 16, 16); // You can use your own values
+		playerPanel.add(label4);
+
+		pauseButton.setBounds(27, 105, 117, 29);
+
+
+
+		playerPanel.add(labelHint);
+		playerPanel.add(labelVest);
+		playerPanel.add(labelLife);
 		playerPanel.add(labelTimer);
+		playerPanel.add(labelBottle);
 		playerPanel.setVisible(true);
 
-		labelTimer.setText("01:00");
 
 
 	}
@@ -158,12 +221,20 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 		RunningMap = new RunningMap(panel,this);
 		scale= RunningMap.getScale();
+
+		//zoom in/out
+
 		zoom = new JButton("Zoom in");
-		zoom.setBounds(700, 10, 120, 23);
-		panel.add(zoom);
+		zoom.setBounds(27, 144, 120, 23);
+		playerPanel.add(zoom);
 		zoomout = new JButton("Zoom out");
-		zoomout.setBounds(800, 10, 120, 23);
-		panel.add(zoomout);
+		zoomout.setBounds(27, 183, 120, 23);
+		//playerPanel.add(zoomout);
+		//commenti açınca run panel null hatası geliyor
+		// zoom in out için güncelleme yaparız diye bırakıyorum
+
+
+		playerPanel.add(pauseButton);
 		zoom.addActionListener(new ActionListener() {
 			// add them to building
 			@Override
