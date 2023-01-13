@@ -221,6 +221,7 @@ public class RunningMap extends JPanel implements Runnable {
                 if (imageId != -1) {
                     printAll(g2D,imageId, i,j);
 
+
                 }
             }
 

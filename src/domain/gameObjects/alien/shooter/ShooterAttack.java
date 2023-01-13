@@ -1,36 +1,34 @@
-package domain.gameObjects.alien.blind;
+package domain.gameObjects.alien.shooter;
 
-import domain.SoundManager;
+import domain.building.BuildingTracker;
 import domain.gameObjects.ObjectTile;
 import domain.gameObjects.avatar.Avatar;
+import domain.gameObjects.obstacle.Obstacle;
 import factory.PanelType;
 import factory.ViewType;
 import main.EscapeFromKoc;
 import panels.RunPanel;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-public class BlindAttack extends BaseBlindBehavior implements BlindBehavior{
-
-    private int cooldown = 2;
+public class ShooterAttack extends BaseShooterBehavior implements ShooterBehavior{
+    private int cooldown = 1;
     private boolean ready = false;
     private double counter = cooldown;
 
-    public BlindAttack(BlindAlien alien){
+    public ShooterAttack(ShooterAlien alien) {
         super(alien);
-        alien.setImage(14);
-    }
-    @Override
-    public void action(double interval) {
-       actionFunction(interval);
+        alien.setImage(13);
+        getAlien().getSound().playSoundEffect(6);
     }
 
+    @Override
+    public void action(double interval) {
+        actionFunction(interval);
+    }
 
     public void coroutine(double intervalTime) {
         if (ready)
         {
-            alienDamage();
+            attack();
             ready = false;
             counter= (double)cooldown;
         }
@@ -40,12 +38,12 @@ public class BlindAttack extends BaseBlindBehavior implements BlindBehavior{
             ready=true;
         }
     }
-    public void alienDamage()
+
+    public void attack()
     {
-        Avatar avatar = ((RunPanel)EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
-        getAlien().getSound().playSoundEffect(10);
-        avatar.takeDamage(2);
-        System.out.println("Damage given by blind!");
+        Avatar avatar = ((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
+        getAlien().getSound().playSoundEffect(7);
+        avatar.takeDamage(1);
     }
 
     @Override
@@ -55,6 +53,6 @@ public class BlindAttack extends BaseBlindBehavior implements BlindBehavior{
 
     @Override
     public void falseStateAction(double interval) {
-        getAlien().setBehavior(new BlindNormal(getAlien()));
+        getAlien().setBehavior(new ShooterNormal(getAlien()));
     }
 }

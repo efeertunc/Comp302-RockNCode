@@ -17,6 +17,7 @@ import java.util.Random;
 public class BlindAlien extends Alien {
 
     BlindBehavior blindBehavior;
+    private double range = Math.sqrt(2);
 
     public BlindAlien(int x, int y, int image) {
         super(x,y,image);
@@ -29,6 +30,10 @@ public class BlindAlien extends Alien {
     public void setBehavior(BlindBehavior behavior)
     {
         this.blindBehavior = behavior;
+    }
+    public double getRange()
+    {
+        return range;
     }
 
 }
