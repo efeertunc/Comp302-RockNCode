@@ -1,5 +1,7 @@
 package domain.controllers;
 
+import domain.gameObjects.EmptyTile;
+import domain.gameObjects.ObjectTile;
 import helperComponents.Direction;
 import domain.gameObjects.avatar.Avatar;
 import domain.building.Building;
@@ -12,6 +14,8 @@ import panels.RunPanel;
 import panels.RunningMap;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class RunController {
 	private Building currentBuilding;
@@ -41,7 +45,7 @@ public class RunController {
 	public void initialize() {
 		currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
 		currentBuilding.setKey();
-		avatar = currentBuilding.setAvatar();
+		avatar = currentBuilding.setAvatarToMap(new Avatar(3,60, 0, 0, 5));
 		//currentBuilding.generateAlien();
 	}
 
@@ -59,10 +63,13 @@ public class RunController {
 	public void nextLevel() {
 		if (BuildingTracker.getCurrentIndex()!= 5) {
 			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
-			initialize();
+			currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
+			currentBuilding.setKey();
+
+			currentBuilding.setAvatarToMap(avatar);
 
 			((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).
-					getRunningMap().setMap_obj(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());
+					getRunningMap().setMap_obj(currentBuilding.getMap_obj());
 		}
 		else{
 			EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
