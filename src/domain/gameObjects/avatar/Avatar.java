@@ -134,7 +134,6 @@ public class Avatar extends DynamicTile {
             return true;
         }
         if (x>=0 && x<17 && y>=0 && y<12) { // tile exists
-            System.out.println("avatar x: " + this.getPosition().getX() + "avatar y: " + this.getPosition().getY());
             if (building.getMap_obj()[y][x] instanceof EmptyTile) { // tile empty{
 
                 int oldX = getPosition().getX();
@@ -280,8 +279,6 @@ public class Avatar extends DynamicTile {
         if (life <=0) {
             vanish();
         }
-        System.out.println("Avatar damage taken: "+ damage);
-        System.out.printf("avatar remaining lives: " + life);
         sound.playSoundEffect(5);
     }
     @Override

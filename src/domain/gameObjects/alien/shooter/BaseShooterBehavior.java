@@ -76,18 +76,38 @@ public abstract class BaseShooterBehavior {
             int failCount=0;
             for (int lineCast = -1; lineCast<2;lineCast++)
             {
+                y1 = avatar.getPosition().getY();
+                x1 = avatar.getPosition().getX();
                 if (Math.abs(xDif)>= Math.abs(yDif)) //xDif selected
                 {
                     y1 = y1 + lineCast*0.5;
                     m = createLineM(x1,y1,x2,y2);
                     b = createLineB(x1,y1,m);
                     sign = xDif/Math.abs(xDif);
-                    for (int i = 0; i<Math.abs(xDif);i++)
+                    for (int i = 1; i<Math.abs(xDif);i++)
                     {
                         double x3 = x2+i*sign;
                         double y3 = x3*m+b;
                         int indexX = (int)x3;
-                        int indexY = (int)Math.round(y3);
+                        int indexY;
+                        if (Math.abs((Math.ceil(y3)-y3)-0.5)<=0.01) //middle point
+                        {
+                            if (yDif>0)//alien bottom to the line
+                            {
+                                //pick top one
+                                indexY = (int)Math.ceil(y3);
+                            }
+                            else //alien top to the line
+                            {
+                                //pick bottom one
+                                indexY= (int)Math.floor(y3);
+                            }
+                        }
+                        else
+                        {
+                            indexY = (int)Math.round(y3);
+                        }
+                        //System.out.println("xDif: "+xDif+" yDif: "+yDif+" m,b: "+m + " "+ b + " x1,y1: "+x1+" "+y1 + " x2,y2: "+x2+" "+y2+" x3,y3: "+x3+" "+y3+ " indexX, indexY: "+indexX +" "+indexY );
                         if (map_obj[indexY][indexX] instanceof Obstacle)
                         {
                             failCount +=1;
@@ -101,12 +121,31 @@ public abstract class BaseShooterBehavior {
                     m = createLineM(x1,y1,x2,y2);
                     b = createLineB(x1,y1,m);
                     sign = yDif/Math.abs(yDif);
-                    for (int i = 0; i<Math.abs(yDif);i++)
+                    for (int i = 1; i<Math.abs(yDif);i++)
                     {
                         double y3 = y2+i*sign;
-                        double x3 = y3*m+b;
+                        double x3 = (y3-b)/m;
                         int indexY = (int)y3;
-                        int indexX = (int)Math.round(x3);
+                        int indexX;
+                        if (Math.abs((Math.ceil(x3)-x3)-0.5)<=0.01) //middle point
+                        {
+                            if (xDif>0)//alien left to the line
+                            {
+                                //pick right one
+                                indexX = (int)Math.ceil(x3);
+                            }
+                            else //alien right to the line
+                            {
+                                //pick left one
+                                indexX = (int)Math.floor(x3);
+                            }
+                        }
+                        else
+                        {
+                            indexX = (int)Math.round(x3);
+                        }
+                        System.out.println("xDif: "+xDif+" yDif: "+yDif+" m,b: "+m + " "+ b + " x1,y1: "+x1+" "+y1 + " x2,y2: "+x2+" "+y2+" x3,y3: "+x3+" "+y3+ " indexX, indexY: "+indexX +" "+indexY );
+
                         if (map_obj[indexY][indexX] instanceof Obstacle)
                         {
                             failCount +=1;
@@ -115,7 +154,7 @@ public abstract class BaseShooterBehavior {
                     }
                 }
             }
-            if (failCount >=2)
+            if (failCount >2)
             {
                 falseStateAction(interval);
                 return;
@@ -130,11 +169,11 @@ public abstract class BaseShooterBehavior {
 
     public double createLineM(double x1, double y1, double x2, double y2)
     {
-        return (y1-y2)/(x1-x2);
+        return (y2-y1)/(x2-x1);
     }
 
     public double createLineB(double x1, double y1, double m)
     {
-        return y1/(m*x1);
+        return y1 - (m*x1);
     }
 }
