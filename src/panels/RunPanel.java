@@ -5,12 +5,18 @@ import java.awt.Font;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.awt.Insets;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
+import domain.gameObjects.alien.shooter.ShooterAlien;
 import factory.PanelType;
 import factory.ViewType;
 import helperComponents.Direction;
@@ -24,17 +30,21 @@ import main.IPanel;
 
 public class RunPanel extends JPanel implements IPanel, KeyListener{
 	JLabel labelTimer;
+	JLabel labelHint;
+	JLabel labelBottle;
+	JLabel labelLife;
+
+	JLabel labelVest;
 	Font font1 = new Font("Arial", Font.PLAIN, 15);
 	private JPanel panel;
 	
 	private JButton pauseButton;
 
 	private JPanel playerPanel;
-
+	public Avatar avatar;
 	public RunningMap RunningMap;
 	JButton zoom;
 	JButton zoomout;
-	Double scale;
 	private RunController runController;
 	JFrame frame;
 	
@@ -59,8 +69,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		BigLabel.setBounds(135, 6, 168, 29);
 		panel.add(BigLabel);
 		
-		pauseButton.setBounds(6, 6, 117, 29);
-		panel.add(pauseButton);
+
 
 
 		playerPanel.setBackground(Color.ORANGE);
@@ -69,16 +78,75 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel.setBounds(910, 70, 380, 630);
 		panel.add(playerPanel);
 
+		//life
 
+		labelLife = new JLabel("");
+		labelLife.setBounds(27, 27, 61, 16);
+		labelLife.setHorizontalAlignment(JLabel.CENTER);
+		labelLife.setFont(font1);
+		labelLife.setText(Integer.toString(3));
+		Icon imgIcon1 = new ImageIcon(this.getClass().getResource("/visual/life.png"));
+		JLabel label1 = new JLabel(imgIcon1);
+		label1.setBounds(27, 27, 16, 16); // You can use your own values
+		playerPanel.add(label1);
+		//avatar.getLife())
+
+
+		//timer
 		labelTimer = new JLabel("");
-		labelTimer.setBounds(80, 100, 180, 70);
+		labelTimer.setBounds(228, 27, 61, 16);
 		labelTimer.setHorizontalAlignment(JLabel.CENTER);
 		labelTimer.setFont(font1);
 
+
+		//bottle
+		labelBottle = new JLabel("");
+		labelBottle.setBounds(27, 66, 61, 16);
+		labelBottle.setHorizontalAlignment(JLabel.CENTER);
+		labelBottle.setFont(font1);
+		labelBottle.setText(Integer.toString(3));
+
+		Icon imgIcon2 = new ImageIcon(this.getClass().getResource("/visual/bottle.png"));
+		JLabel label2 = new JLabel(imgIcon2);
+		label2.setBounds(27, 66, 16, 16); // You can use your own values
+		playerPanel.add(label2);
+
+		//vest
+		labelVest = new JLabel("");
+		labelVest.setBounds(112, 27, 61, 16);
+		labelVest.setHorizontalAlignment(JLabel.CENTER);
+		labelVest.setFont(font1);
+		labelVest.setText(Integer.toString(3));
+
+		Icon imgIcon3 = new ImageIcon(this.getClass().getResource("/visual/vest.png"));
+		JLabel label3 = new JLabel(imgIcon3);
+		label3.setBounds(112, 27, 16, 16); // You can use your own values
+		playerPanel.add(label3);
+
+
+		//hint
+		labelHint = new JLabel("");
+		labelHint.setBounds(112, 66, 61, 16);
+		labelHint.setHorizontalAlignment(JLabel.CENTER);
+		labelHint.setFont(font1);
+		labelHint.setText(Integer.toString(3));
+
+		Icon imgIcon4 = new ImageIcon(this.getClass().getResource("/visual/quest.png"));
+		JLabel label4 = new JLabel(imgIcon4);
+		label4.setBounds(112, 66, 16, 16); // You can use your own values
+		playerPanel.add(label4);
+
+		pauseButton.setBounds(27, 105, 117, 29);
+
+
+
+		playerPanel.add(labelHint);
+		playerPanel.add(labelVest);
+		playerPanel.add(labelLife);
 		playerPanel.add(labelTimer);
+		playerPanel.add(labelBottle);
 		playerPanel.setVisible(true);
 
-		labelTimer.setText("01:00");
 
 
 	}
@@ -139,6 +207,10 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 				int x = e.getX();
 				int y = e.getY();
 
+				System.out.println("The location presses"+x+" , "+y);
+				runController.searchKey(x,y);
+
+
 				if (e.getButton() == MouseEvent.BUTTON1){
 					System.out.println("Left button clicked");
 					runController.searchKey(x,y);
@@ -147,6 +219,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 					System.out.println("Right button clicked");
 					runController.searchPowerUp(x,y);
 				}
+
 
 			}
 
@@ -157,20 +230,46 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel = new PlayerPanel();
 
 		RunningMap = new RunningMap(panel,this);
-		scale= RunningMap.getScale();
-		zoom = new JButton("Zoom in");
-		zoom.setBounds(700, 10, 120, 23);
+
+
+		BufferedImage image = null;
+		try {
+			URL file = getClass().getResource("/visual/zoom.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		ImageIcon icon = new ImageIcon(image);
+		zoom = new JButton(icon);
+		zoom.setBounds(700, 10, 60, 60);
+		zoom.setContentAreaFilled(false);
+		// emptyMapButton.setFocusPainted(false);
+		zoom.setBorderPainted(false);
 		panel.add(zoom);
-		zoomout = new JButton("Zoom out");
-		zoomout.setBounds(800, 10, 120, 23);
+
+		try {
+			URL file = getClass().getResource("/visual/zoomout.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		icon = new ImageIcon(image);
+		zoomout = new JButton(icon);
+		zoomout.setBounds(800, 10, 60, 60);
+		zoomout.setContentAreaFilled(false);
+		// emptyMapButton.setFocusPainted(false);
+		zoomout.setBorderPainted(false);
 		panel.add(zoomout);
+
+
+
 		zoom.addActionListener(new ActionListener() {
 			// add them to building
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				scale= RunningMap.getScale()*1.05;
-				RunningMap.setScale(scale);
-				arangeScale(scale);
+
+				RunningMap.increasecale();
+				arangeScale(RunningMap.getScale());
 
 				repaint();
 			}
@@ -179,9 +278,8 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 			// add them to building
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				scale= RunningMap.getScale()*0.95;
-				RunningMap.setScale(scale);
-				arangeScale(scale);
+				RunningMap.decreaseScale();
+				arangeScale(RunningMap.getScale());
 				repaint();
 			}
 		});
@@ -214,11 +312,12 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		return runController;
 	}
 	private void arangeScale(Double scale){
+		runController.setScale(scale);
 		panel.setBounds(0, 0, (int) (1290 * scale), (int) (700 * scale)); // (12x17 grids)
 		frame.add(panel);
 		RunningMap.setBounds(0, 70, (int) (900 * scale), (int) (630 * scale));
-		zoomout.setBounds((int) (700 * scale+120* scale), 10, (int) (120 * scale), (int) (23 * scale));
-		zoom.setBounds((int) (700 * scale), 10, (int) (120* scale), (int) (23 * scale));
+		zoomout.setBounds((int) (700 * scale+120* scale), 10, 60, 60);
+		zoom.setBounds((int) (700 * scale), 10, 60,60);
 		playerPanel.setBounds((int) (900 * scale+10), 70, (int) (380 * scale), (int) (630 * scale));
 	}
 

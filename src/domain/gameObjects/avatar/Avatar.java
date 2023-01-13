@@ -29,8 +29,8 @@ public class Avatar extends DynamicTile {
      * have the life,time, currenttime, bag , haskey  and state (bottlestate and veststate) attributes.
      *The rep invariant is life>0 && life<4 && time<1000 && time>0
      **/
-    private int life;
-    private double time;
+    public int life; // neden public?
+    private int time;
     private double currentTime;
     private boolean hasKey;
     private Bag bag;
@@ -161,6 +161,8 @@ public class Avatar extends DynamicTile {
         if (x<0 || y < 0) {
             throw new IllegalArgumentException("Indexes cannot be negative");
         }
+
+        System.out.println("avatar şurada "+ getPosition().getX() +" , "+ getPosition().getY());
 
         int xDiff = Math.abs(getPosition().getX() - x);
         int yDiff = Math.abs(getPosition().getY() - y);

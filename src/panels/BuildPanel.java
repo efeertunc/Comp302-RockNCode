@@ -141,7 +141,6 @@ public class BuildPanel implements IPanel {
 	}
 	public void loadGameForBuilding() {
 		getBuildingMap().setMapForDB();
-		setText();
 		controlOfNextButton();
 
 	}
@@ -156,7 +155,7 @@ public class BuildPanel implements IPanel {
 		panel = new JPanel();
 		frame.add(this.panel);
 		panel.setVisible(false);
-		panel.setBounds(0, 0, 1290, 700);
+		panel.setBounds(0, 0, 1920, 1080);
 		panel.setLayout(null);
 		panel.setBorder(new LineBorder(Color.BLACK));
 	}
@@ -172,21 +171,10 @@ public class BuildPanel implements IPanel {
 		BigLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 		BigLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		BigLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		BigLabel.setBounds(135, 6, 300, 29);
+		BigLabel.setBounds(200, 6, 300, 29);
 		panel.add(BigLabel);
 
-		helpButton.setBounds(6, 6, 117, 29);
-		panel.add(helpButton);
 
-		nextBuildingButton.setBounds(800, 6, 117, 29);
-		panel.add(nextBuildingButton);
-
-		saveGameButton.setBounds(1000, 6, 117, 29);
-		panel.add(saveGameButton);
-
-		startRunModeButton.setBounds(800, 6, 117, 29);
-		startRunModeButton.setVisible(false);
-		panel.add(startRunModeButton);
 
 		buildingInfo = new JTextField();
 		buildingInfo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -199,75 +187,66 @@ public class BuildPanel implements IPanel {
 		objectPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
 		objectPanel.setBounds(910, 70, 380, 630);
 		panel.add(objectPanel);
+		helpButton.setBounds(200, 300, 117, 29);
+		objectPanel.add(helpButton);
+
+		nextBuildingButton.setBounds(70, 300, 117, 29);
+		objectPanel.add(nextBuildingButton);
+
+		saveGameButton.setBounds(200, 350, 117, 29);
+		objectPanel.add(saveGameButton);
+
+		startRunModeButton.setBounds(70, 400, 117, 29);
+		startRunModeButton.setVisible(false);
+		objectPanel.add(startRunModeButton);
 
 		emptyMapButton = new JButton("Empty Map");
-		emptyMapButton.setBounds(10, 470, 119, 23);
+		emptyMapButton.setBounds(70, 350, 119, 23);
 		objectPanel.add(emptyMapButton);
 
 		comboBox = new JComboBox();
-		comboBox.setBounds(10, 390, 138, 22);
+		comboBox.setBounds(200, 400, 138, 22);
 		comboBox.addItem("Shelves");
 		comboBox.addItem("Chair");
 		comboBox.addItem("Recycle Bin");
 		comboBox.addItem("Table");
 		objectPanel.add(comboBox);
 
-		textPane = new JTextPane();
-		textPane.setBackground(Color.ORANGE);
-		textPane.setEditable(false);
-		textPane.setFont(new Font("Sitka Text", Font.PLAIN, 11));
-		textPane.setText("Then, click on the map.");
-		textPane.setBounds(10, 547, 187, 20);
-		objectPanel.add(textPane);
-
-		textPane1 = new JTextPane();
-		textPane1.setBackground(Color.ORANGE);
-		textPane1.setEditable(false);
-		textPane1.setFont(new Font("Sitka Text", Font.PLAIN, 11));
-		textPane1.setText("Please select the type of the object.");
-		textPane1.setBounds(10, 510, 180, 33);
-		objectPanel.add(textPane1);
-
 		textPane2 = new JTextPane();
 		textPane2.setEditable(false);
 		textPane2.setFont(new Font("Sitka Display", Font.BOLD, 11));
 
-		textPane2.setBounds(190, 450, 187, 100);
+		textPane2.setBounds(70, 480, 200, 90);
 		objectPanel.add(textPane2);
+
+		buildingInfo.setText(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
+		textPane2.setText("Please select the type of the object. \nThen, click on the map. \nMake sure to place at least " + Integer.toString(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) + " objects !");
+		textPane2.setBackground(Color.GREEN);
 
 		URL resource = BuildPanel.class.getResource("/visual/shelve.png");
 		ImageIcon img0 = new ImageIcon(resource);
 		JLabel objLabel0 = new JLabel(img0);
-		objLabel0.setBounds(10, 30, 120, 100);
+		objLabel0.setBounds(80, 36, 100, 100);
 		objectPanel.add(objLabel0);
 
 		resource = BuildPanel.class.getResource("/visual/chair_200.png");
 		ImageIcon img1 = new ImageIcon(resource);
 		JLabel objLabel1 = new JLabel(img1);
-		objLabel1.setBounds(200, 9, 120, 200);
+		objLabel1.setBounds(222, 36, 100, 99);
 		objectPanel.add(objLabel1);
 
 		resource = BuildPanel.class.getResource("/visual/table_S.png");
 		ImageIcon img2 = new ImageIcon(resource);
 		JLabel objLabel2 = new JLabel(img2);
-		objLabel2.setBounds(20, 110, 270, 250);
+		objLabel2.setBounds(80, 169, 100, 100);
 		objectPanel.add(objLabel2);
 
 		resource = BuildPanel.class.getResource("/visual/bin_s.png");
 		ImageIcon img3 = new ImageIcon(resource);
 		JLabel objLabel3 = new JLabel(img3);
-		objLabel3.setBounds(140, 170, 270, 250);
+		objLabel3.setBounds(222, 169, 100, 100);
 		objectPanel.add(objLabel3);
-	}
 
-	public void setText(){
-		buildingInfo.setText(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
-		textPane2.setText("Please select at least " + Integer.toString(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) + " objects !");
-		if (BuildingMap.getObjectCount() < BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
-			textPane2.setBackground(Color.RED);
-		}else {
-			textPane2.setBackground(Color.GREEN);
-		}
 	}
 
 	public void controlOfNextButton(){
