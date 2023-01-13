@@ -5,7 +5,6 @@ import domain.building.BuildingTracker;
 
 public class ExtraLife extends PowerUp {
 
-    private int id;
     private int numExtraLife;
 
     @Override

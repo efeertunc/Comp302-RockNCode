@@ -5,7 +5,6 @@ import domain.building.BuildingTracker;
 
 public class ExtraTime extends PowerUp {
 
-    private int id;
     private int numExtraTime;
 
     @Override

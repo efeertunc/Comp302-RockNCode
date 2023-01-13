@@ -51,8 +51,7 @@ public class Bag  {
     public void usePowerUp(PowerUpTypes powerUp) {
         if (consistsOf(powerUp)) {
             bag.get(powerUp).use();
-            decreasePowerUp(powerUp);
-
+            //decreasePowerUp(powerUp);
         }
     }
 

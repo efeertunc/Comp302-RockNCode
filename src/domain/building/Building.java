@@ -130,15 +130,11 @@ public class Building {
 		return this.keyPos = keyPos;
 	}
 
-	public Avatar setAvatar()
-	{
+	public Avatar setAvatarToMap(Avatar eskiAvatar) {
 
-		for (int i = 0; i < 17; i++)
-		{
-			for (int j = 0; j <12; j++)
-			{
-				if (map_obj[j][i] instanceof Avatar)
-				{
+		for (int i = 0; i < 17; i++) {
+			for (int j = 0; j <12; j++) {
+				if (map_obj[j][i] instanceof Avatar) {
 					avatar = (Avatar) map_obj[j][i];
 					return avatar;
 				}
@@ -147,21 +143,22 @@ public class Building {
 
 		ArrayList<EmptyTile> emptyTiles = new ArrayList<EmptyTile>();
 
-		for (int i = 0; i < 17; i++)
-		{
-			for (int j = 0; j <12; j++)
-			{
-				if (map_obj[j][i] instanceof EmptyTile)
-				{
+		for (int i = 0; i < 17; i++) {
+			for (int j = 0; j <12; j++) {
+				if (map_obj[j][i] instanceof EmptyTile) {
 					emptyTiles.add((EmptyTile) map_obj[j][i]);
 				}
 			}
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		avatar = new Avatar(3,60, emptyTiles.get(selectedEmptyTile).getPosition().getX(), emptyTiles.get(selectedEmptyTile).getPosition().getY(), 5);
-		map_obj[avatar.getPosition().getY()][avatar.getPosition().getX()] = avatar;
-		return avatar;
+		int emptyX = emptyTiles.get(selectedEmptyTile).getPosition().getX();
+		int emptyY = emptyTiles.get(selectedEmptyTile).getPosition().getY();
+		Position position = new Position(emptyX, emptyY);
+		eskiAvatar.setPosition(position);
+		map_obj[eskiAvatar.getPosition().getY()][eskiAvatar.getPosition().getX()] = eskiAvatar;
+		avatar = eskiAvatar;
+		return eskiAvatar;
 	}
 
 	public Obstacle checkObstacle(int x, int y)
@@ -198,22 +195,21 @@ public class Building {
 		}
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTiles.size());
-		//int alienType = rand.nextInt(3);
-		int alienType = 1;
+		int alienType = rand.nextInt(3);
 		Alien alien;
-		switch(alienType){
-			case 0:
-				alien = new TimeWasterAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), 7);
-				break;
-			case 1:
-				alien = new ShooterAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), 9);
-				break;
-			case 2:
-				alien = new BlindAlien(emptyTiles.get(selectedEmptyTile).getPosition().getX(),emptyTiles.get(selectedEmptyTile).getPosition().getY(), 10);
-				break;
-			default:
-				alien=null;
+		int emptyX = emptyTiles.get(selectedEmptyTile).getPosition().getX();
+		int emptyY = emptyTiles.get(selectedEmptyTile).getPosition().getY();
+		switch (alienType) {
+			case 0 ->
+					alien = new TimeWasterAlien(emptyX, emptyY, 7);
+			case 1 ->
+					alien = new ShooterAlien(emptyX, emptyY, 9);
+			case 2 ->
+					alien = new BlindAlien(emptyX, emptyY, 10);
+			default -> {
+				alien = null;
 				System.out.println("Alien is not generated!");
+			}
 		}
 		map_obj[alien.getPosition().getY()][alien.getPosition().getX()] = alien;
 	}
@@ -275,9 +271,9 @@ public class Building {
 			case 1 ->
 					powerUpTile = new PowerUpTile(PowerUpTypes.EXTRA_LIFE, emptyX, emptyY, 12);
 			case 2 ->
-				powerUpTile =new PowerUpTile(PowerUpTypes.HINT, emptyTileList.get(selectedEmptyTile).getPosition().getX(), emptyTileList.get(selectedEmptyTile).getPosition().getY(), 13);
+				powerUpTile =new PowerUpTile(PowerUpTypes.HINT, emptyX, emptyY, 15);
 			case 3 ->
-					powerUpTile = new PowerUpTile(PowerUpTypes.VEST, emptyX, emptyY, 13);
+					powerUpTile = new PowerUpTile(PowerUpTypes.VEST, emptyX, emptyY, 16);
 			default -> {
 				powerUpTile = null;
 				System.out.println("Power up is not generated!");

@@ -49,7 +49,7 @@ public class DoActionTest {
         map = new ObjectTile[12][17];
         map[10][10] = avatar;
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(map);
-        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setAvatar();
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setAvatarToMap(avatar);
         avatar.getBag().addPowerUp(PowerUpTypes.BOTTLE);
         avatar.doAction(KeyEvent.VK_B);
         assertTrue(avatar.getBottleState() instanceof HoldBottle);
@@ -87,7 +87,7 @@ public class DoActionTest {
         map = new ObjectTile[12][17];
         map[10][10] = avatar;
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap(map);
-        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setAvatar();
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setAvatarToMap(avatar);
         avatar.getBag().addPowerUp(PowerUpTypes.VEST);
         double oldvestTime = avatar.getVestTime();
         avatar.doAction(KeyEvent.VK_P);

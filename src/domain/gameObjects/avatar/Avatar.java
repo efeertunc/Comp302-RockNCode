@@ -40,6 +40,7 @@ public class Avatar extends DynamicTile {
     private VestState vestState;
 
     private double vestTime;
+    private double hintTime;
 
     private AvatarObserver avatarObserver;
     private SoundManager sound;
@@ -61,6 +62,7 @@ public class Avatar extends DynamicTile {
 
         this.bag = new Bag();
         vestTime = 0; /// bunun databaseden alınması lazım
+        hintTime = 0; /// bunun databaseden alınması lazım
         sound = new SoundManager();
         rand = new Random();
 
@@ -184,7 +186,7 @@ public class Avatar extends DynamicTile {
         }
 
         if (building.checkObstacle(x,y).getKey() != null) { //hasKey
-        
+
             System.out.println("KEY HAS BEEN FOUND");
             setImage(6);
             building.deleteKey();
@@ -230,6 +232,7 @@ public class Avatar extends DynamicTile {
         // MODIFIES: changes the bottlestate of the Avatar.
         // EFFECTS: the bottle is thrown and shown in the map.
         System.out.println("Bottle has been thrown");
+        bag.decreasePowerUp(PowerUpTypes.BOTTLE);
         changeBottleState(); // after avatar throws bottle successfully, he holds nothing
         return "Bottle has been thrown " + dir.toString();
     }
@@ -245,6 +248,7 @@ public class Avatar extends DynamicTile {
             vestState = new HasVest();
             setVestTime(20);
             setImage(2); // it is not correct number
+            bag.decreasePowerUp(PowerUpTypes.VEST);
             return true;
         }
         else if (vestState instanceof HasVest) {
@@ -298,6 +302,15 @@ public class Avatar extends DynamicTile {
                 vestTime = 0;
                 changeVestState();
             }
+        }
+
+        int oldHintTime = ((int) hintTime);
+        hintTime -= intervalTime/1000000000;
+        int newHintTime = ((int) hintTime);
+
+        if ((hintTime <= 0) && (oldHintTime != newHintTime)) {
+            hintTime = 0;
+            setHintTime(hintTime, false);
         }
 
         currentTime -=  intervalTime/1000000000;
@@ -363,9 +376,19 @@ public class Avatar extends DynamicTile {
         this.vestTime = vestTime;
     }
 
+    public double getHintTime() {return hintTime; }
+    public void setHintTime(double hintTime, boolean bool) {
+        this.hintTime = hintTime;
+        if (bool) {
+            bag.decreasePowerUp(PowerUpTypes.HINT);
+        }
+        ((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunningMap().setHintPowerUp(bool);
+    }
+
     public void vanish() {
         Building b = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
         b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), 4);
         System.out.println("Player Vanished");
     }
+
 }

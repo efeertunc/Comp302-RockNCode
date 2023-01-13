@@ -15,19 +15,10 @@ public class HintPower extends PowerUp implements CollectablePowerUpI {
         this.numHint = 0;
     }
 
-    public int getNumHint() {
-        return numHint;
-    }
-
-    public void setNumHint(int numHint) {
-        this.numHint = numHint;
-    }
-
     @Override
     public void use() {
         System.out.println("Hint use Function");
-        ((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunningMap().setHintPowerUp(true);
-        //((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).RunningMap.repaint();
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().setHintTime(10, true);
     }
 
     @Override
