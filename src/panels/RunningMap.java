@@ -154,7 +154,40 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         }
         if (imageId == 8) {
             g2D.drawImage(Constants.ImageConstants.KEY, x,y, weight,weight,null);
-            g2D.drawImage(Constants.ImageConstants.KEY, x,y, weight,weight,null);
+            if (isHintPowerUp){
+                if (i < 15 && j < 9){
+                    // 1. bölge
+                    for (int a = 0; a < 4; a++){
+                        for (int b = 0; b < 4; b++) {
+                            g2D.drawImage(Constants.ImageConstants.BACKGROUND, parseX(i + a), parseY(j + b), weight, weight, null);
+                        }
+                    }
+                }
+                if (i < 15 && j > 8){
+                    // 3. bölge
+                    for (int a = 0; a < 4; a++){
+                        for (int b = 0; b < 4; b++) {
+                            g2D.drawImage(Constants.ImageConstants.BACKGROUND, parseX(i + a), parseY(j - b), weight, weight, null);
+                        }
+                    }
+                }
+                if (i > 14 && j < 9){
+                    // 2. bölge
+                    for (int a = 0; a < 4; a++){
+                        for (int b = 0; b < 4; b++) {
+                            g2D.drawImage(Constants.ImageConstants.BACKGROUND, parseX(i - a), parseY(j + b), weight, weight, null);
+                        }
+                    }
+                }
+                if (i > 14 && j > 8){
+                    // 4. bölge
+                    for (int a = 0; a < 4; a++){
+                        for (int b = 0; b < 4; b++) {
+                            g2D.drawImage(Constants.ImageConstants.BACKGROUND, parseX(i - a), parseY(j - b), weight, weight, null);
+                        }
+                    }
+                }
+        }
         }
         if (imageId == 9) {
             g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER, x,y, weight,weight,null);

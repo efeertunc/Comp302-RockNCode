@@ -157,6 +157,7 @@ public class Building {
 		int emptyY = emptyTiles.get(selectedEmptyTile).getPosition().getY();
 		Position position = new Position(emptyX, emptyY);
 		eskiAvatar.setPosition(position);
+		eskiAvatar.setHasKey(false);
 		map_obj[eskiAvatar.getPosition().getY()][eskiAvatar.getPosition().getX()] = eskiAvatar;
 		avatar = eskiAvatar;
 		return eskiAvatar;
@@ -266,7 +267,7 @@ public class Building {
 		ObjectTile powerUpTile;
 		int emptyX = emptyTileList.get(selectedEmptyTile).getPosition().getX();
 		int emptyY = emptyTileList.get(selectedEmptyTile).getPosition().getY();
-		switch(powerUpType){
+		switch(2){
 			case 0 ->
 					powerUpTile = new PowerUpTile(PowerUpTypes.EXTRA_TIME, emptyX, emptyY, 11);
 			case 1 ->
