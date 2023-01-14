@@ -12,13 +12,16 @@ import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import domain.gameObjects.avatar.RunningMapObserver;
+import domain.gameObjects.powerUps.PowerUpTile;
+import helperComponents.Position;
 import models.Constants;
 import domain.*;
 import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import domain.gameObjects.ObjectTile;
 
-public class RunningMap extends JPanel implements Runnable {
+public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
 
     private ObjectTile[][] map_obj;
     int FPS = 60;
@@ -346,5 +349,16 @@ public class RunningMap extends JPanel implements Runnable {
 
     public void setHintPowerUp(boolean bool) {
         this.isHintPowerUp = bool;
+    }
+
+    @Override
+    public void notifyBottleIsThrown(Position position) {
+        System.out.println("Bottle is thrown and is drawn to position: " + position);
+        //notify the all blind aliens that the bottle is thrown to position
+    }
+
+    @Override
+    public void notifyAvatarTakesDamage() {
+
     }
 }

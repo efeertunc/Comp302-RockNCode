@@ -17,7 +17,6 @@ import factory.ViewType;
 import helperComponents.Direction;
 import helperComponents.Position;
 import domain.building.Building;
-import models.Constants;
 import panels.RunPanel;
 import main.EscapeFromKoc;
 
@@ -42,7 +41,8 @@ public class Avatar extends DynamicTile {
     private double vestTime;
     private double hintTime;
 
-    private AvatarObserver avatarObserver;
+    private AvatarInfoObserver avatarInfoObserver;
+    private RunningMapObserver runningMapObserver;
     private SoundManager sound;
     private Random rand;
 
@@ -68,8 +68,8 @@ public class Avatar extends DynamicTile {
 
     }
 
-    public void setAvatarObserver(AvatarObserver avatarObserver) {
-        this.avatarObserver = avatarObserver;
+    public void subscribeAvatarInfoObserver(AvatarInfoObserver avatarInfoObserver) {
+        this.avatarInfoObserver = avatarInfoObserver;
     }
 
 
@@ -232,6 +232,12 @@ public class Avatar extends DynamicTile {
         // MODIFIES: changes the bottlestate of the Avatar.
         // EFFECTS: the bottle is thrown and shown in the map.
         System.out.println("Bottle has been thrown");
+        Building currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
+        Position bottlePos = currentBuilding.findBottleLastPos(getPosition(), dir);
+        runningMapObserver.notifyBottleIsThrown(bottlePos);
+
+
+
         bag.decreasePowerUp(PowerUpTypes.BOTTLE);
         changeBottleState(); // after avatar throws bottle successfully, he holds nothing
         return "Bottle has been thrown " + dir.toString();
@@ -285,6 +291,7 @@ public class Avatar extends DynamicTile {
         if (life <=0) {
             vanish();
         }
+        runningMapObserver.notifyAvatarTakesDamage();
         sound.playSoundEffect(5);
     }
     @Override
@@ -341,7 +348,7 @@ public class Avatar extends DynamicTile {
 
     public void setLife(int life) {
         this.life = life;
-        avatarObserver.updateLife_inPlayerPanel(this.life);
+        avatarInfoObserver.updateLife_inPlayerPanel(this.life);
     }
 
 

@@ -1,15 +1,15 @@
 package panels;
 
 import domain.building.BuildingTracker;
-import domain.gameObjects.avatar.AvatarObserver;
+import domain.gameObjects.avatar.AvatarInfoObserver;
 
 import javax.swing.*;
 
-public class PlayerPanel extends JPanel implements AvatarObserver {
+public class PlayerPanel extends JPanel implements AvatarInfoObserver {
 
 
     public PlayerPanel() {
-        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().setAvatarObserver(this);
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().subscribeAvatarInfoObserver(this);
     }
 
 

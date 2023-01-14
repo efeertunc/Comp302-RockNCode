@@ -8,6 +8,7 @@ import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
 import domain.gameObjects.powerUps.PowerUpTile;
 import domain.gameObjects.powerUps.PowerUpTypes;
+import helperComponents.Direction;
 import helperComponents.Position;
 import domain.gameObjects.*;
 import domain.gameObjects.ObjectTile;
@@ -271,9 +272,9 @@ public class Building {
 			case 1 ->
 					powerUpTile = new PowerUpTile(PowerUpTypes.EXTRA_LIFE, emptyX, emptyY, 12);
 			case 2 ->
-				powerUpTile =new PowerUpTile(PowerUpTypes.HINT, emptyX, emptyY, 15);
+				powerUpTile =new PowerUpTile(PowerUpTypes.HINT, emptyX, emptyY, 25);
 			case 3 ->
-					powerUpTile = new PowerUpTile(PowerUpTypes.VEST, emptyX, emptyY, 16);
+					powerUpTile = new PowerUpTile(PowerUpTypes.VEST, emptyX, emptyY, 26);
 			default -> {
 				powerUpTile = null;
 				System.out.println("Power up is not generated!");
@@ -290,4 +291,9 @@ public class Building {
 		this.powerUpTime = powerUpTime;
 	}
 
+	public Position findBottleLastPos(Position position, Direction.fourDir dir) {
+
+
+		return null;
+	}
 }
