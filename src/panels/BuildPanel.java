@@ -6,8 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,6 +32,7 @@ import factory.ViewType;
 import main.EscapeFromKoc;
 import main.IAppView;
 import main.IPanel;
+import models.Constants;
 import views.AuthView;
 
 public class BuildPanel implements IPanel {
@@ -54,6 +59,7 @@ public class BuildPanel implements IPanel {
 	public BuildPanel(IAppView appView) {
 		putPaneltoFrame(appView.getFrame());
 		this.buildController = new BuildController();
+
 		initialize();
 		design();
 		performed();
@@ -84,13 +90,6 @@ public class BuildPanel implements IPanel {
 		});
 
 
-		emptyMapButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				BuildingMap.emptyMap();
-				textPane2.setBackground(Color.RED);
-			}
-		});
 
 	}
 
@@ -121,8 +120,14 @@ public class BuildPanel implements IPanel {
 			System.out.println("updateBuildingMap Current Index: "+BuildingTracker.getCurrentIndex());
 			BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap_obj(BuildingMap.getMap());
 
+
 			BuildingMap.emptyMap();
 			BuildingTracker.setCurrentIndex(1 + BuildingTracker.getCurrentIndex());
+			try {
+				BuildingMap.openFile(Constants.FileConstants.fileList[BuildingTracker.getCurrentIndex()]);
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException(e);
+			}
 			BuildingMap.setMap(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());
 			String str = "At least "
 					+ Integer.toString(
@@ -141,6 +146,12 @@ public class BuildPanel implements IPanel {
 	}
 	public void loadGameForBuilding() {
 		getBuildingMap().setMapForDB();
+		buildingInfo.setText(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
+		try {
+			BuildingMap.openFile(Constants.FileConstants.fileList[BuildingTracker.getCurrentIndex()]);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 		controlOfNextButton();
 
 	}
@@ -181,28 +192,18 @@ public class BuildPanel implements IPanel {
 		buildingInfo.setBounds(300, 0, 130, 26);
 		BuildingMap.add(buildingInfo);
 
-		objectPanel = new JPanel();
+
 		objectPanel.setBackground(Color.ORANGE);
 		objectPanel.setLayout(null);
 		objectPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
 		objectPanel.setBounds(910, 70, 380, 630);
 		panel.add(objectPanel);
-		helpButton.setBounds(200, 300, 117, 29);
-		objectPanel.add(helpButton);
 
-		nextBuildingButton.setBounds(70, 300, 117, 29);
-		objectPanel.add(nextBuildingButton);
 
-		saveGameButton.setBounds(200, 350, 117, 29);
-		objectPanel.add(saveGameButton);
-
-		startRunModeButton.setBounds(70, 400, 117, 29);
 		startRunModeButton.setVisible(false);
-		objectPanel.add(startRunModeButton);
 
-		emptyMapButton = new JButton("Empty Map");
-		emptyMapButton.setBounds(70, 350, 119, 23);
-		objectPanel.add(emptyMapButton);
+
+
 
 		comboBox = new JComboBox();
 		comboBox.setBounds(200, 400, 138, 22);
@@ -275,17 +276,69 @@ public class BuildPanel implements IPanel {
 
 	@Override
 	public void initialize() {
-
 		BuildingMap = new BuildingMap(panel);
+		objectPanel = new JPanel();
 
-		helpButton = new JButton("Help");
+		BufferedImage image = null;
+		try {
+			URL file = getClass().getResource("/visual/help.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		ImageIcon icon = new ImageIcon(image);
+		helpButton= new JButton(icon);
+		helpButton.setBounds(870, 2, 80, 80);
+		helpButton.setContentAreaFilled(false);
+		helpButton.setBorderPainted(false);
+		panel.add(helpButton);
 		helpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showHelp();
 			}
 		});
 
-		nextBuildingButton = new JButton("Next Building");
+
+		image = null;
+		try {
+			URL file = getClass().getResource("/visual/reset.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		icon = new ImageIcon(image);
+		emptyMapButton= new JButton(icon);
+		emptyMapButton.setBounds(20, 400, 80, 80);
+		emptyMapButton.setContentAreaFilled(false);
+		// emptyMapButton.setFocusPainted(false);
+		emptyMapButton.setBorderPainted(false);
+		objectPanel.add(emptyMapButton);
+
+		emptyMapButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BuildingMap.emptyMap();
+				textPane2.setBackground(Color.RED);
+			}
+		});
+
+
+
+		 image = null;
+		try {
+			URL file = getClass().getResource("/visual/next.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		icon = new ImageIcon(image);
+		nextBuildingButton= new JButton(icon);
+		nextBuildingButton.setBounds(20, 300, 100, 100);
+		nextBuildingButton.setContentAreaFilled(false);
+		// emptyMapButton.setFocusPainted(false);
+		nextBuildingButton.setBorderPainted(false);
+		objectPanel.add(nextBuildingButton);
+
 		nextBuildingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -293,14 +346,42 @@ public class BuildPanel implements IPanel {
 			}
 		});
 
-		startRunModeButton = new JButton("Start Run Mode");
+
+
+		try {
+			URL file = getClass().getResource("/visual/start.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		icon = new ImageIcon(image);
+		startRunModeButton = new JButton(icon);
+		startRunModeButton.setBounds(20, 300, 100, 100);
+		startRunModeButton.setContentAreaFilled(false);
+		// emptyMapButton.setFocusPainted(false);
+		startRunModeButton.setBorderPainted(false);
+		objectPanel.add(startRunModeButton);
+
 		startRunModeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startRunMode();
 			}
 		});
 
-		saveGameButton = new JButton("Save Game");
+		try {
+			URL file = getClass().getResource("/visual/save.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		icon = new ImageIcon(image);
+		saveGameButton = new JButton(icon);
+		saveGameButton.setBounds(950, 2, 80, 80);
+		saveGameButton.setContentAreaFilled(false);
+		saveGameButton.setFocusPainted(false);
+		saveGameButton.setBorderPainted(false);
+		panel.add(saveGameButton);
+
 		saveGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveGame();
