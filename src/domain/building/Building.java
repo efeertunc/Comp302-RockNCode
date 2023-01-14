@@ -267,7 +267,7 @@ public class Building {
 		ObjectTile powerUpTile;
 		int emptyX = emptyTileList.get(selectedEmptyTile).getPosition().getX();
 		int emptyY = emptyTileList.get(selectedEmptyTile).getPosition().getY();
-		switch(2){
+		switch(powerUpType){
 			case 0 ->
 					powerUpTile = new PowerUpTile(PowerUpTypes.EXTRA_TIME, emptyX, emptyY, 11);
 			case 1 ->
