@@ -261,7 +261,6 @@ public class Building {
 		int selectedEmptyTile = rand.nextInt(emptyTileList.size());
 
 		int powerUpType = rand.nextInt(5);
-		powerUpType = 4;
 		ObjectTile powerUpTile;
 		int emptyX = emptyTileList.get(selectedEmptyTile).getPosition().getX();
 		int emptyY = emptyTileList.get(selectedEmptyTile).getPosition().getY();
