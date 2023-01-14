@@ -315,6 +315,11 @@ public class Avatar extends DynamicTile {
         hintTime -= intervalTime/1000000000;
         int newHintTime = ((int) hintTime);
 
+        if(isHasKey()){
+            hintTime = 0;
+            setHintTime(hintTime, false);
+        }
+
         if ((hintTime <= 0) && (oldHintTime != newHintTime)) {
             hintTime = 0;
             setHintTime(hintTime, false);

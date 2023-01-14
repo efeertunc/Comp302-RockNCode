@@ -157,6 +157,7 @@ public class Building {
 		int emptyY = emptyTiles.get(selectedEmptyTile).getPosition().getY();
 		Position position = new Position(emptyX, emptyY);
 		eskiAvatar.setPosition(position);
+		eskiAvatar.setHasKey(false);
 		map_obj[eskiAvatar.getPosition().getY()][eskiAvatar.getPosition().getX()] = eskiAvatar;
 		avatar = eskiAvatar;
 		return eskiAvatar;
