@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -18,8 +22,9 @@ public class RunningMap extends JPanel implements Runnable {
 
     private ObjectTile[][] map_obj;
     int FPS = 60;
+    static int[][][] tileMap = new int[13][18][2];
     public boolean isPaused;
-    private int originalTileSize = 48; // 48x48 tile
+    private int originalTileSize = 50; // 48x48 tile
     private double scale = 1;
 
     public double getScale() {
@@ -66,22 +71,27 @@ public class RunningMap extends JPanel implements Runnable {
 
 
     public void initialize() {
+        try {
+            openFile(Constants.FileConstants.fileList[BuildingTracker.getCurrentIndex()]);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         generator = new AlienGenerator();
     }
 
     private int parseX(int x)
     {
-        return (int)((42 + x*48)*scale);
+        return (int)(x*50*scale);
     }
     private int parseY(int y)
     {
-        return (int)((27 + y*48)*scale);
+        return (int)(y*50*scale);
 
 
     }
 
     public void design() {
-        this.setBackground(Color.PINK);
+
         this.setLayout(null);
         this.setBorder(new LineBorder(new Color(255, 120, 241)));
         this.setBounds(0, 70, 900, 630);
@@ -97,15 +107,118 @@ public class RunningMap extends JPanel implements Runnable {
         Graphics2D g2D = (Graphics2D) g;
         draw(g2D);
     }
+    public void printAll(Graphics2D g2D,int imageId,int i,int j){
+        int weight;
+        weight=(int) (originalTileSize * scale);
+        int x=parseX(i);
+        int y= parseY(j);
+        if (superPanel.getRunController().getAvatar().isHasKey()){
+            g2D.drawImage(Constants.ImageConstants.OPENDOOR, (int)(810*scale), (int)(470*scale),(int)(110*scale),
+                    (int)(110*scale), null);
+        }
+        else{
+            g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, (int)(810*scale), (int)(470*scale),(int)(150*scale),
+                    (int)(110*scale), null);
+        }
+        if (imageId == 0) {
+            g2D.drawImage(Constants.ImageConstants.SHELVE, x,y, weight,weight, null);
+        }
+        if (imageId == 1) {
+            g2D.drawImage(Constants.ImageConstants.CHAIR, x,y, weight,weight, null);
+        }
+        if (imageId == 2) {
+            g2D.drawImage(Constants.ImageConstants.BIN,  x,y, weight,weight, null);
+        }
+        if (imageId == 3) {
+            g2D.drawImage(Constants.ImageConstants.TABLE,  x,y, weight,weight, null);
+        }
+        if (imageId == 4) {
+            g2D.drawImage(Constants.ImageConstants.EMPTY,  x,y, weight,weight, null);
+        }
+        if (imageId == 5) {
 
+            g2D.drawImage(Constants.ImageConstants.AVATAR,  x,y, weight,weight,null);
+            g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, (int)(810*scale), (int)(470*scale),(int)(150*scale),
+                    (int)(110*scale), null);
+        }
+        if (imageId == 6) {
+            g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY,  x,y, weight,weight, null);
+
+
+
+        }
+        if (imageId == 7) {
+            g2D.drawImage(Constants.ImageConstants.ALIEN_TIMEWASTER, x,y, weight,weight, null);
+        }
+        if (imageId == 8) {
+            g2D.drawImage(Constants.ImageConstants.KEY, x,y, weight,weight,null);
+            g2D.drawImage(Constants.ImageConstants.KEY, x,y, weight,weight,null);
+        }
+        if (imageId == 9) {
+            g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER, x,y, weight,weight,null);
+        }
+        if (imageId == 10){
+            g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND, x,y, weight,weight,null);
+        }
+        if (imageId == 11){
+            g2D.drawImage(Constants.ImageConstants.EXTRATIME, x,y, weight,weight,null);
+        }
+        if (imageId == 12){
+            g2D.drawImage(Constants.ImageConstants.EXTRALIFE, x,y, weight,weight,null);
+        }
+        if (imageId == 13){
+            g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER_ATTACK, x,y, weight,weight, null);
+        }
+        if (imageId == 14){
+            g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND_ATTACK, x,y, weight,weight, null);
+        }
+        if (imageId == 15){
+            g2D.drawImage(Constants.ImageConstants.OMER, x,y, weight,weight,null);
+        }if (imageId == 16){
+            g2D.drawImage(Constants.ImageConstants.CASE, x,y, weight,weight,null);
+        }
+        if (imageId == 17){
+            g2D.drawImage(Constants.ImageConstants.SOS, x,y, weight,weight,null);
+        }
+        if (imageId == 18){
+            g2D.drawImage(Constants.ImageConstants.SCIE, x,y, weight,weight,null);
+        }
+        if (imageId == 19){
+            g2D.drawImage(Constants.ImageConstants.ENG, x,y, weight,weight,null);
+        }
+        if (imageId == 20){
+            g2D.drawImage(Constants.ImageConstants.SNA,x,y, weight,weight,null);
+        }
+        if (imageId == 21){
+            g2D.drawImage(Constants.ImageConstants.STONE, x,y, weight,weight,null);
+        }
+        if (imageId == 22){
+            g2D.drawImage(Constants.ImageConstants.WOOD,x,y, weight,weight,null);
+        }
+        if (imageId == 23){
+            g2D.drawImage(Constants.ImageConstants.POT,x,y, (int)(weight*2),(int)(weight*2),null);
+        }
+        if (imageId == 24){
+            g2D.drawImage(Constants.ImageConstants.ENTER,x,y, (int)(weight*0.6),(int)(weight*0.6),null);
+        }
+
+    }
     public void draw(Graphics2D g2D) {
 
         if (thread.isAlive())
         {
-            int x;
-            int y;
-            int weight;
-            int height;
+            for (int i = 0; i < 13; i++) {
+                for (int j = 0; j < 18; j++) {
+                    int x = parseX(i);
+                    int y = parseY(j);
+                    for (int a = 0; a < 2; a++) {
+                        int imageId=tileMap[i][j][a];
+                        if (imageId != -1) {
+                            printAll( g2D,imageId,j, i);
+                        }
+                    }
+                }
+            }
         for (int i = 0 ; i< 17; i ++) {
             for (int j = 0; j < 12; j++) {
                 if (map_obj[j][i] == null){
@@ -116,66 +229,14 @@ public class RunningMap extends JPanel implements Runnable {
                 int imageId = map_obj[j][i].getImage();
                 //g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(5), parseY(5), 48 + 5,48 + 5, null);
                 if (imageId != -1) {
-                    x=parseX(i);
-                    y=parseY(j);
-                    weight=(int) (originalTileSize * scale);
-                    if (imageId == 0) {
-                        g2D.drawImage(Constants.ImageConstants.SHELVE, x,y, weight,weight, null);
-                    }
-                    if (imageId == 1) {
-                        g2D.drawImage(Constants.ImageConstants.CHAIR, x,y, weight,weight, null);
-                    }
-                    if (imageId == 2) {
-                        g2D.drawImage(Constants.ImageConstants.BIN,  x,y, weight,weight, null);
-                    }
-                    if (imageId == 3) {
-                        g2D.drawImage(Constants.ImageConstants.TABLE,  x,y, weight,weight, null);
-                    }
-                    if (imageId == 4) {
-                        g2D.drawImage(Constants.ImageConstants.EMPTY,  x,y, weight,weight, null);
-                    }
-                    if (imageId == 5) {
-
-                        g2D.drawImage(Constants.ImageConstants.AVATAR,  x,y, weight,weight,null);
-                        g2D.drawImage(Constants.ImageConstants.CLOSEDOOR, (int)(810*scale), (int)(470*scale),(int)(150*scale),
-                               (int)(110*scale), null);
-                    }
-                    if (imageId == 6) {
-                        g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY,  x,y, weight,weight, null);
-                         g2D.drawImage(Constants.ImageConstants.OPENDOOR, (int)(810*scale), (int)(470*scale),(int)(110*scale),
-                                (int)(110*scale), null);
+                    printAll(g2D,imageId, i,j);
 
 
-                    }
-                    if (imageId == 7) {
-                        g2D.drawImage(Constants.ImageConstants.ALIEN_TIMEWASTER, x,y, weight,weight, null);
-                    }
-                    if (imageId == 8) {
-                        g2D.drawImage(Constants.ImageConstants.KEY, x,y, weight,weight,null);
-                        g2D.drawImage(Constants.ImageConstants.KEY, x,y, weight,weight,null);
-                    }
-                    if (imageId == 9) {
-                        g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER, x,y, weight,weight,null);
-                    }
-                    if (imageId == 10){
-                        g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND, x,y, weight,weight,null);
-                    }
-                    if (imageId == 11){
-                        g2D.drawImage(Constants.ImageConstants.EXTRATIME, x,y, weight,weight,null);
-                    }
-                    if (imageId == 12){
-                        g2D.drawImage(Constants.ImageConstants.EXTRALIFE, x,y, weight,weight,null);
-                    }
-                    if (imageId == 13){
-                        g2D.drawImage(Constants.ImageConstants.ALIEN_SHOOTER_ATTACK, x,y, weight,weight, null);
-                    }
-                    if (imageId == 14){
-                        g2D.drawImage(Constants.ImageConstants.ALIEN_BLIND_ATTACK, x,y, weight,weight, null);
-                    }
                 }
             }
 
         }
+
         }
     }
 
@@ -233,5 +294,47 @@ public class RunningMap extends JPanel implements Runnable {
             }
             generator.generateAlien(intervalTime);
         }
+    }
+    public void openFile(String filename) throws FileNotFoundException {
+        tileMap=new int[13][18][2];
+        try {
+            Scanner input = new Scanner(Paths.get(filename));
+            int i = 0;
+            int j = 0;
+            while (input.hasNext()) { // while there is more to read
+                // display each read word and add it to the ArrayList wordList
+                String parses = input.next();
+
+                String[] block = parses.split(",");
+                if (block.length == 1) {
+                    tileMap[i][j][0] = Integer.parseInt(block[0]);
+
+                    tileMap[i][j][1] = -1;
+
+                } else {
+                    tileMap[i][j][0] = Integer.parseInt(block[0]);
+                    tileMap[i][j][1] = Integer.parseInt(block[1]);
+
+
+                }
+
+                j++;
+
+                if (j == 18) {
+
+                    j = 0;
+                    i++;
+
+                }
+            }
+
+        }
+
+        // IOException
+        catch (IOException io) {
+            System.err.println("Error opening input file. Terminating.");
+            System.exit(1);
+        }
+
     }
 }

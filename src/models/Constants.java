@@ -47,7 +47,16 @@ public interface Constants {
 
         public static final BufferedImage EXTRATIME;
         public static final BufferedImage EXTRALIFE;
-
+        public static final BufferedImage OMER ;
+        public static final BufferedImage CASE;
+        public static final BufferedImage SOS;
+        public static final BufferedImage SCIE;
+        public static final BufferedImage ENG;
+        public static final BufferedImage SNA;
+        public static final BufferedImage STONE;
+        public static final BufferedImage WOOD;
+        public static final BufferedImage POT;
+        public static final BufferedImage ENTER;
         static {
             try {
                 ALIEN_TIMEWASTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienTimeWaster.png")));
@@ -66,10 +75,33 @@ public interface Constants {
                 OPENDOOR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/opened_big.png")));
                 CLOSEDOOR = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/closed.png")));
                 EXTRATIME = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/extratime.png")));
-                EXTRALIFE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/life.png")));
+                EXTRALIFE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/life.png"))); //12id
+                OMER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/grass.jpeg"))); //15
+                CASE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/ice.jpg"))); //16
+               SOS = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/orange.png")));  //17
+                SCIE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/woodtile.jpeg")));  //18
+                ENG = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/white.jpeg")));  //19
+                SNA = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/pink.jpg")));   //20
+                STONE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/stone.png"))); //21
+                WOOD = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/wood.png")));  //22
+                POT = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/flowerpot.png"))); //23
+                ENTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/entrance.png")));//24
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+    }
+    abstract  class FileConstants {
+        public static final String[] fileList = new String[6];
+        static {
+            fileList[0]="omer.txt";
+            fileList[1]="case.txt";
+            fileList[2]="sos.txt";
+            fileList[3]="scie.txt";
+            fileList[4]="eng.txt";
+            fileList[5]="sna.txt";
         }
 
     }

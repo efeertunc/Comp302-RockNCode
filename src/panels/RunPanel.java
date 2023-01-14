@@ -33,6 +33,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 	JLabel labelHint;
 	JLabel labelBottle;
 	JLabel labelLife;
+	JLabel keyLabel;
 
 	JLabel labelVest;
 	Font font1 = new Font("Arial", Font.PLAIN, 15);
@@ -66,13 +67,13 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		BigLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 27));
 		BigLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		BigLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		BigLabel.setBounds(135, 6, 168, 29);
+		BigLabel.setBounds(35, 6, 168, 29);
 		panel.add(BigLabel);
 		
 
 
 
-		playerPanel.setBackground(Color.ORANGE);
+		//playerPanel.setBackground(Color.ORANGE);
 		playerPanel.setLayout(null);
 		playerPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
 		playerPanel.setBounds(910, 70, 380, 630);
@@ -91,6 +92,11 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		playerPanel.add(label1);
 		//avatar.getLife())
 
+		Icon icon = new ImageIcon(this.getClass().getResource("/visual/keyFound.gif"));
+		keyLabel = new JLabel(icon);
+		keyLabel.setBounds(100, 250, 100, 300); // You can use your own values
+		keyLabel.setVisible(runController.getAvatar().isHasKey());
+		playerPanel.add(keyLabel);
 
 		//timer
 		labelTimer = new JLabel("");
@@ -136,8 +142,8 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		label4.setBounds(112, 66, 16, 16); // You can use your own values
 		playerPanel.add(label4);
 
-		pauseButton.setBounds(27, 105, 117, 29);
-
+		pauseButton.setBounds(200, 10, 117, 29);
+		panel.add(pauseButton);
 
 
 		playerPanel.add(labelHint);
@@ -189,15 +195,11 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 	@Override
 	public void initialize() {
+
 		panel.addKeyListener(this);
 		panel.setFocusable(true);
-		pauseButton = new JButton("Pause Game");	
-		pauseButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pauseGame();
 
-			}
-		});
+
 
 		panel.addMouseListener(new MouseAdapter() {// provides empty implementation of all
 			// MouseListener`s methods, allowing us to
@@ -208,19 +210,17 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 				int y = e.getY();
 
 				System.out.println("The location presses"+x+" , "+y);
-				runController.searchKey(x,y);
-
 
 				if (e.getButton() == MouseEvent.BUTTON1){
 					System.out.println("Left button clicked");
 					runController.searchKey(x,y);
+					keyLabel.setVisible(runController.getAvatar().isHasKey());
 				}
+
 				else if (e.getButton() == MouseEvent.BUTTON3) {
 					System.out.println("Right button clicked");
 					runController.searchPowerUp(x,y);
 				}
-
-
 			}
 
 		});
@@ -284,6 +284,29 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 			}
 		});
 
+		try {
+			URL file = getClass().getResource("/visual/pause.png");
+			image = ImageIO.read(file);
+		} catch (IOException ioex) {
+			System.err.println("load error: " + ioex.getMessage());
+		}
+		icon = new ImageIcon(image);
+		pauseButton = new JButton(icon);
+		pauseButton.setBounds(20, 10, 140, 90);
+		pauseButton.setContentAreaFilled(false);
+		// emptyMapButton.setFocusPainted(false);
+		pauseButton.setBorderPainted(false);
+		panel.add(pauseButton);
+
+		pauseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pauseGame();
+
+			}
+		});
+
+
+
 		panel.setBounds(0, 0, 1290, 700);
 	}
 
@@ -301,7 +324,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		int keyCode = keyEvent.getKeyCode();
 
 		runController.doAction(keyCode);
-
+		keyLabel.setVisible(runController.getAvatar().isHasKey());
 	}
 
 	@Override
