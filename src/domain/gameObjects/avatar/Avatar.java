@@ -14,6 +14,8 @@ import domain.gameObjects.powerUps.protectVest.HasVest;
 import domain.gameObjects.powerUps.protectVest.VestState;
 import factory.PanelType;
 import factory.ViewType;
+import helperComponents.AnimationTracker;
+import helperComponents.Animator;
 import helperComponents.Direction;
 import helperComponents.Position;
 import domain.building.Building;
@@ -45,7 +47,7 @@ public class Avatar extends DynamicTile {
     private RunningMapObserver runningMapObserver;
     private SoundManager sound;
     private Random rand;
-
+    private Animator animator;
 
     public Avatar(int life, int time, int x, int y, int image) {
         this.life = life;
@@ -66,8 +68,14 @@ public class Avatar extends DynamicTile {
         sound = new SoundManager();
         rand = new Random();
 
+        animator = new Animator(this);
+        loadAnimations();
     }
 
+    private void loadAnimations()
+    {
+        animator.addAnimation(AnimationTracker.getInstance().getGameAnimations().get(0)); //AvatarHit
+    }
     public void subscribeAvatarInfoObserver(AvatarInfoObserver avatarInfoObserver) {
         this.avatarInfoObserver = avatarInfoObserver;
     }
@@ -289,9 +297,10 @@ public class Avatar extends DynamicTile {
     public void takeDamage(int damage) {
         setLife(life-damage);
         if (life <=0) {
-            vanish();
+            //vanish();
         }
-        runningMapObserver.notifyAvatarTakesDamage();
+        //runningMapObserver.notifyAvatarTakesDamage();
+        animator.setState(0);
         sound.playSoundEffect(5);
     }
     @Override
@@ -329,6 +338,8 @@ public class Avatar extends DynamicTile {
         if (currentTime < 0) {
             currentTime = 0;
         }
+
+        animator.animatorUpdate();
     }
 
     public double getTime() {
@@ -353,7 +364,7 @@ public class Avatar extends DynamicTile {
 
     public void setLife(int life) {
         this.life = life;
-        avatarInfoObserver.updateLife_inPlayerPanel(this.life);
+        //avatarInfoObserver.updateLife_inPlayerPanel(this.life);
     }
 
 
