@@ -57,6 +57,10 @@ public interface Constants {
         public static final BufferedImage WOOD;
         public static final BufferedImage POT;
         public static final BufferedImage ENTER;
+        public static final BufferedImage BACKGROUND;
+        public static final BufferedImage HINT;
+        public static final BufferedImage VEST;
+
         static {
             try {
                 ALIEN_TIMEWASTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienTimeWaster.png")));
@@ -78,7 +82,7 @@ public interface Constants {
                 EXTRALIFE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/life.png"))); //12id
                 OMER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/grass.jpeg"))); //15
                 CASE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/ice.jpg"))); //16
-               SOS = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/orange.png")));  //17
+                SOS = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/orange.png")));  //17
                 SCIE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/woodtile.jpeg")));  //18
                 ENG = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/white.jpeg")));  //19
                 SNA = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/pink.jpg")));   //20
@@ -86,7 +90,9 @@ public interface Constants {
                 WOOD = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/wood.png")));  //22
                 POT = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/flowerpot.png"))); //23
                 ENTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/entrance.png")));//24
-
+                BACKGROUND = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/background.png")));
+                HINT = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/hint.png")));
+                VEST = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/VEST.png")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

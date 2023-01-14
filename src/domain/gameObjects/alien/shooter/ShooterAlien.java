@@ -1,10 +1,7 @@
 package domain.gameObjects.alien.shooter;
 
-import domain.building.BuildingTracker;
-import domain.controllers.RunController;
-import domain.gameObjects.EmptyTile;
-import domain.gameObjects.ObjectTile;
 import domain.gameObjects.alien.Alien;
+import domain.gameObjects.alien.AlienType;
 import domain.gameObjects.avatar.Avatar;
 import factory.PanelType;
 import factory.ViewType;

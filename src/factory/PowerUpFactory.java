@@ -3,9 +3,6 @@ package factory;
 import domain.gameObjects.powerUps.*;
 import domain.gameObjects.powerUps.bottle.PlasticBottle;
 import domain.gameObjects.powerUps.protectVest.ProtectionVest;
-import main.IAppView;
-import main.IPanel;
-import panels.*;
 
 public class PowerUpFactory {
 

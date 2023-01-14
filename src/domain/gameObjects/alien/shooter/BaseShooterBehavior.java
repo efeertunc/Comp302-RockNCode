@@ -144,7 +144,7 @@ public abstract class BaseShooterBehavior {
                         {
                             indexX = (int)Math.round(x3);
                         }
-                        System.out.println("xDif: "+xDif+" yDif: "+yDif+" m,b: "+m + " "+ b + " x1,y1: "+x1+" "+y1 + " x2,y2: "+x2+" "+y2+" x3,y3: "+x3+" "+y3+ " indexX, indexY: "+indexX +" "+indexY );
+                        //System.out.println("xDif: "+xDif+" yDif: "+yDif+" m,b: "+m + " "+ b + " x1,y1: "+x1+" "+y1 + " x2,y2: "+x2+" "+y2+" x3,y3: "+x3+" "+y3+ " indexX, indexY: "+indexX +" "+indexY );
 
                         if (map_obj[indexY][indexX] instanceof Obstacle)
                         {

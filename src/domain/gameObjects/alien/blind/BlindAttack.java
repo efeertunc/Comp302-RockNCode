@@ -2,6 +2,7 @@ package domain.gameObjects.alien.blind;
 
 import domain.SoundManager;
 import domain.gameObjects.ObjectTile;
+import domain.gameObjects.alien.AlienType;
 import domain.gameObjects.avatar.Avatar;
 import factory.PanelType;
 import factory.ViewType;
@@ -16,6 +17,7 @@ public class BlindAttack extends BaseBlindBehavior implements BlindBehavior{
     private int cooldown = 2;
     private boolean ready = false;
     private double counter = cooldown;
+    private double range = Math.sqrt(2);
 
     public BlindAttack(BlindAlien alien){
         super(alien);
@@ -25,7 +27,6 @@ public class BlindAttack extends BaseBlindBehavior implements BlindBehavior{
     public void action(double interval) {
        actionFunction(interval);
     }
-
 
     public void coroutine(double intervalTime) {
         if (ready)
@@ -40,11 +41,12 @@ public class BlindAttack extends BaseBlindBehavior implements BlindBehavior{
             ready=true;
         }
     }
+
     public void alienDamage()
     {
         Avatar avatar = ((RunPanel)EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
         getAlien().getSound().playSoundEffect(10);
-        avatar.takeDamage(2);
+        avatar.getVestState().takeDamage(AlienType.BLIND, 2);
         System.out.println("Damage given by blind!");
     }
 

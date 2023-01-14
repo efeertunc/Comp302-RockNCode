@@ -43,7 +43,7 @@ public class RunController {
 	public void initialize() {
 		currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
 		currentBuilding.setKey();
-		avatar = currentBuilding.setAvatar();
+		avatar = currentBuilding.setAvatarToMap(new Avatar(3,60, 0, 0, 5));
 		//currentBuilding.generateAlien();
 	}
 
@@ -62,7 +62,10 @@ public class RunController {
 		if (BuildingTracker.getCurrentIndex()!= 5) {
 			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
 
-			initialize();
+			currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
+			currentBuilding.setKey();
+			currentBuilding.setAvatarToMap(avatar);
+
 			try {
 				((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).
 						getRunningMap().openFile(Constants.FileConstants.fileList[BuildingTracker.getCurrentIndex()]);
@@ -72,7 +75,7 @@ public class RunController {
 			}
 
 			((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).
-					getRunningMap().setMap_obj(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj());
+					getRunningMap().setMap_obj(currentBuilding.getMap_obj());
 		}
 		else{
 			EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),

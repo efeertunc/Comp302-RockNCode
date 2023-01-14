@@ -5,8 +5,12 @@ import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import domain.gameObjects.EmptyTile;
 import domain.gameObjects.ObjectTile;
+import factory.PanelType;
 import factory.PowerUpFactory;
+import factory.ViewType;
 import helperComponents.Position;
+import main.EscapeFromKoc;
+import panels.RunPanel;
 
 public class PowerUpTile extends DynamicTile {
 
@@ -25,7 +29,18 @@ public class PowerUpTile extends DynamicTile {
 
 
     public void clicked() {
-        PowerUpFactory.getInstance().createPowerUp(type).use();
+        if (type == PowerUpTypes.HINT){
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getBag().addPowerUp(type);
+        }
+        else if (type == PowerUpTypes.BOTTLE){
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getBag().addPowerUp(type);
+        }
+        else if (type == PowerUpTypes.VEST){
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().getBag().addPowerUp(type);
+        }
+        else {
+            PowerUpFactory.getInstance().createPowerUp(type).use();
+        }
     }
 
     @Override

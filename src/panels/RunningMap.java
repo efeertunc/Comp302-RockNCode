@@ -12,19 +12,23 @@ import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import domain.gameObjects.avatar.RunningMapObserver;
+import domain.gameObjects.powerUps.PowerUpTile;
+import helperComponents.Position;
 import models.Constants;
 import domain.*;
 import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import domain.gameObjects.ObjectTile;
 
-public class RunningMap extends JPanel implements Runnable {
+public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
 
     private ObjectTile[][] map_obj;
     int FPS = 60;
     static int[][][] tileMap = new int[13][18][2];
     public boolean isPaused;
     private int originalTileSize = 50; // 48x48 tile
+    private boolean isHintPowerUp;
     private double scale = 1;
 
     public double getScale() {
@@ -107,6 +111,7 @@ public class RunningMap extends JPanel implements Runnable {
         Graphics2D g2D = (Graphics2D) g;
         draw(g2D);
     }
+
     public void printAll(Graphics2D g2D,int imageId,int i,int j){
         int weight;
         weight=(int) (originalTileSize * scale);
@@ -143,9 +148,6 @@ public class RunningMap extends JPanel implements Runnable {
         }
         if (imageId == 6) {
             g2D.drawImage(Constants.ImageConstants.AVATAR_HAPPY,  x,y, weight,weight, null);
-
-
-
         }
         if (imageId == 7) {
             g2D.drawImage(Constants.ImageConstants.ALIEN_TIMEWASTER, x,y, weight,weight, null);
@@ -174,7 +176,8 @@ public class RunningMap extends JPanel implements Runnable {
         }
         if (imageId == 15){
             g2D.drawImage(Constants.ImageConstants.OMER, x,y, weight,weight,null);
-        }if (imageId == 16){
+        }
+        if (imageId == 16){
             g2D.drawImage(Constants.ImageConstants.CASE, x,y, weight,weight,null);
         }
         if (imageId == 17){
@@ -200,6 +203,12 @@ public class RunningMap extends JPanel implements Runnable {
         }
         if (imageId == 24){
             g2D.drawImage(Constants.ImageConstants.ENTER,x,y, (int)(weight*0.6),(int)(weight*0.6),null);
+        }
+        if (imageId == 25){
+            g2D.drawImage(Constants.ImageConstants.HINT, x,y, weight,weight,null);
+        }
+        if (imageId == 26){
+            g2D.drawImage(Constants.ImageConstants.VEST, x,y, weight,weight,null);
         }
 
     }
@@ -335,6 +344,21 @@ public class RunningMap extends JPanel implements Runnable {
             System.err.println("Error opening input file. Terminating.");
             System.exit(1);
         }
+
+    }
+
+    public void setHintPowerUp(boolean bool) {
+        this.isHintPowerUp = bool;
+    }
+
+    @Override
+    public void notifyBottleIsThrown(Position position) {
+        System.out.println("Bottle is thrown and is drawn to position: " + position);
+        //notify the all blind aliens that the bottle is thrown to position
+    }
+
+    @Override
+    public void notifyAvatarTakesDamage() {
 
     }
 }

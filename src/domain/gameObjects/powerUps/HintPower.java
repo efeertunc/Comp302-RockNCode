@@ -1,22 +1,24 @@
 package domain.gameObjects.powerUps;
 
-public class HintPower extends PowerUp implements CollectablePowerUpI {
+import domain.building.BuildingTracker;
+import factory.PanelType;
+import factory.ViewType;
+import main.EscapeFromKoc;
+import panels.RunPanel;
+import panels.RunningMap;
 
-    private int id;
+public class HintPower extends PowerUp implements CollectablePowerUpI {
 
     private int numHint;
 
-    public int getNumHint() {
-        return numHint;
-    }
-
-    public void setNumHint(int numHint) {
-        this.numHint = numHint;
+    public HintPower() {
+        this.numHint = 0;
     }
 
     @Override
     public void use() {
-
+        System.out.println("Hint use Function");
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().setHintTime(10, true);
     }
 
     @Override

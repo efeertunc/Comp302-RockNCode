@@ -1,6 +1,6 @@
 package domain.gameObjects.avatar;
 
-public interface AvatarObserver {
+public interface AvatarInfoObserver {
 
     void updateLife_inPlayerPanel(int life);
 
