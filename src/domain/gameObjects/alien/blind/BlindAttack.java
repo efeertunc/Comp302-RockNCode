@@ -46,7 +46,7 @@ public class BlindAttack extends BaseBlindBehavior implements BlindBehavior{
     {
         Avatar avatar = ((RunPanel)EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
         getAlien().getSound().playSoundEffect(10);
-        avatar.getVestState().takeDamage(AlienType.BLIND, 2);
+        avatar.getVestState().takeDamage(getAlien(), 2);
         System.out.println("Damage given by blind!");
     }
 
