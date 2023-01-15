@@ -26,24 +26,22 @@ public class AnimationTracker {
     private void setGameAnimations(){
         Animation avatarHit = new Animation();
 
-        avatarHit.setFramePerImage(4);
+        avatarHit.setFramePerImage(6);
         avatarHit.addToAlbum(28);
         avatarHit.addToAlbum(5);
         avatarHit.addToAlbum(28);
         avatarHit.addToAlbum(5);
-        avatarHit.addToAlbum(28);
         instance.animationList.add(avatarHit); //INDEX 0
 
 
         Animation avatarHitVest = new Animation();
 
-        avatarHit.setFramePerImage(4);
-        avatarHit.addToAlbum(29);
-        avatarHit.addToAlbum(5);
-        avatarHit.addToAlbum(29);
-        avatarHit.addToAlbum(5);
-        avatarHit.addToAlbum(29);
-        instance.animationList.add(avatarHit); //INDEX 0
+        avatarHitVest.setFramePerImage(4);
+        avatarHitVest.addToAlbum(29);
+        avatarHitVest.addToAlbum(5);
+        avatarHitVest.addToAlbum(29);
+        avatarHitVest.addToAlbum(5);
+        instance.animationList.add(avatarHitVest); //INDEX 1
     }
     public ArrayList<Animation> getGameAnimations()
     {

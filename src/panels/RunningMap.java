@@ -16,6 +16,8 @@ import javax.swing.border.LineBorder;
 import com.google.cloud.storage.Acl;
 import domain.gameObjects.Projectile;
 import domain.gameObjects.alien.Alien;
+import domain.gameObjects.alien.blind.BlindAlien;
+import domain.gameObjects.alien.blind.BlindBottle;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.avatar.RunningMapObserver;
 import helperComponents.Position;
@@ -47,6 +49,7 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         this.panel = panel;
         initialize();
         map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
+        projectiles = new ArrayList<Projectile>();
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().subscribeRunningMapObserver(this);
         //initialize();
         design();
@@ -243,43 +246,41 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         if (imageId == 29){
             g2D.drawImage(Constants.ImageConstants.AVATAR_VEST_HIT, x,y, weight,weight,null);
         }
-        handleBottleAnim(g2D);
 
     }
     public void draw(Graphics2D g2D) {
 
-        if (thread.isAlive())
-        {
+        if (thread.isAlive()) {
             for (int i = 0; i < 13; i++) {
                 for (int j = 0; j < 18; j++) {
                     int x = parseX(i);
                     int y = parseY(j);
                     for (int a = 0; a < 2; a++) {
-                        int imageId=tileMap[i][j][a];
+                        int imageId = tileMap[i][j][a];
                         if (imageId != -1) {
-                            printAll( g2D,imageId,j, i);
+                            printAll(g2D, imageId, j, i);
                         }
                     }
                 }
             }
-        for (int i = 0 ; i< 17; i ++) {
-            for (int j = 0; j < 12; j++) {
-                if (map_obj[j][i] == null){
-                    System.out.println("i" + i + "j" + j);
-                    continue;
-                }
-                //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
-                int imageId = map_obj[j][i].getImage();
-                //g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(5), parseY(5), 48 + 5,48 + 5, null);
-                if (imageId != -1) {
-                    printAll(g2D,imageId, i,j);
+            for (int i = 0; i < 17; i++) {
+                for (int j = 0; j < 12; j++) {
+                    if (map_obj[j][i] == null) {
+                        System.out.println("i" + i + "j" + j);
+                        continue;
+                    }
+                    //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
+                    int imageId = map_obj[j][i].getImage();
+                    //g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(5), parseY(5), 48 + 5,48 + 5, null);
+                    if (imageId != -1) {
+                        printAll(g2D, imageId, i, j);
 
 
+                    }
                 }
+
             }
-
-        }
-
+            handleBottleAnim(g2D);
         }
     }
 
@@ -335,6 +336,7 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
                     }
                 }
             }
+            handleBottle();
             generator.generateAlien(intervalTime);
         }
     }
@@ -392,7 +394,7 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         System.out.println("Bottle is thrown and is drawn to position: " + bottlePos.getX() + " " + bottlePos.getY());
         //notify the all blind aliens that the bottle is thrown to position
 
-        projectiles.add(new Projectile(avatarPos,bottlePos,3,27));
+        projectiles.add(new Projectile(avatarPos,bottlePos,20,27));
     }
 
     @Override
@@ -412,20 +414,47 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         this.scale = scale*1.05;
     }
 
+    public void notifyBlindsToBottleState(Position dest)
+    {
+        for (int i = 0; i < 17; i++) {
+            for (int j = 0; j < 12; j++) {
+                if (map_obj[j][i] instanceof BlindAlien) {
+                    BlindAlien alien = (BlindAlien)map_obj[j][i];
+                    alien.setBehavior(new BlindBottle(alien));
+                }
+            }
+        }
+    }
+
+
+    public void handleBottle() {
+        if (projectiles == null)
+        {
+            return;
+        }
+        for (int i = 0; i < projectiles.size(); i++) {
+            Projectile proj = projectiles.get(i);
+            if (!proj.move()) {
+                projectiles.remove(proj);
+                notifyBlindsToBottleState(proj.getDest());
+            }
+        }
+    }
+
     public void handleBottleAnim(Graphics2D g2D)
     {
-        int weight = 25;
-        for (int i = 0;i<projectiles.size();i++)
+        if (projectiles == null)
+        {
+            return;
+        }
+        for (int i = 0; i<projectiles.size();i++)
         {
             Projectile proj = projectiles.get(i);
-            if (!proj.move())
-            {
-                projectiles.remove(proj);
-            }
             if (proj.getImage() == 27)
             {
-                g2D.drawImage(Constants.ImageConstants.PLASTICBOTTLE, proj.getXPos(),proj.getYPos(), weight,weight, null);
+                g2D.drawImage(Constants.ImageConstants.PLASTICBOTTLE, proj.getXPos(),proj.getYPos(), 25,25, null);
             }
         }
     }
 }
+

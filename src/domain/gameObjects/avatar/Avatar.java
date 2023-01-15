@@ -76,6 +76,7 @@ public class Avatar extends DynamicTile {
     private void loadAnimations()
     {
         animator.addAnimation(AnimationTracker.getInstance().getGameAnimations().get(0)); //AvatarHit
+        animator.addAnimation(AnimationTracker.getInstance().getGameAnimations().get(1));
     }
     public void subscribeAvatarInfoObserver(AvatarInfoObserver avatarInfoObserver) {
         this.avatarInfoObserver = avatarInfoObserver;

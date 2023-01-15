@@ -5,11 +5,12 @@ import com.google.cloud.storage.Acl;
 import helperComponents.Position;
 
 import javax.xml.stream.events.EndDocument;
+import java.sql.SQLOutput;
 
 public class Projectile {
     private int image;
     private double speed;
-
+    private Position dest;
     private int xPosStart;
     private int yPosStart;
     private int xPosEnd;
@@ -20,8 +21,11 @@ public class Projectile {
     private int counter;
     int xSpeed;
     int ySpeed;
+    boolean isActive;
     public Projectile(Position startPoint, Position endPoint, float speed, int image)
     {
+        dest = endPoint;
+        counter = 0;
         this.image= image;
         this.speed = speed;
         xPosStart = parseX(startPoint.getX());
@@ -31,9 +35,25 @@ public class Projectile {
         xVector = xPosEnd - xPosStart;
         yVector = yPosEnd - yPosStart;
         double magnitude = Math.sqrt(Math.pow(xVector, 2) + Math.pow(yVector, 2));
-        int totalFrame = (int) (magnitude / speed);
-        xSpeed = totalFrame / xVector;
-        ySpeed = totalFrame / yVector;
+        totalFrame = (int) (magnitude / speed);
+        System.out.println("total frame: "+totalFrame);
+        if (xVector == 0)
+        {
+            xSpeed = 0;
+        }
+        else
+        {
+            xSpeed = xVector/totalFrame;
+        }
+        if (yVector ==0)
+        {
+            ySpeed = 0;
+        }
+        else
+        {
+            ySpeed = yVector/totalFrame;
+        }
+        isActive=true;
     }
 
     public int getImage()
@@ -41,23 +61,29 @@ public class Projectile {
         return image;
     }
 
-    public double getSpeed()
-    {
-        return speed;
-    }
 
     public boolean move() {
-        if (counter < totalFrame)
+        if (isActive)
         {
-            xPosStart = xPosStart + xSpeed;
-            yPosStart = yPosStart + ySpeed;
-            counter +=1;
-            return true;
+            System.out.println("move call bottle");
+            System.out.println(totalFrame);
+            System.out.println(counter);
+            if (counter < totalFrame)
+            {
+                xPosStart = xPosStart + xSpeed;
+                yPosStart = yPosStart + ySpeed;
+                counter +=1;
+                System.out.println("one");
+                return true;
+            }
+            else
+            {
+                System.out.println("two");
+                isActive=false;
+                return false;
+            }
         }
-        else
-        {
-            return false;
-        }
+        return true;
     }
     private int parseX(int x)
     {
@@ -73,5 +99,9 @@ public class Projectile {
     public int getYPos()
     {
         return yPosStart;
+    }
+    public Position getDest()
+    {
+        return dest;
     }
 }
