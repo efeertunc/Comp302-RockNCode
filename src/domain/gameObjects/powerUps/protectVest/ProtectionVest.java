@@ -38,4 +38,9 @@ public class ProtectionVest extends PowerUp implements CollectablePowerUpI {
     public int getNum() {
         return numVest;
     }
+
+    @Override
+    public void setNumToPowerUp(int num) {
+        numVest = num;
+    }
 }

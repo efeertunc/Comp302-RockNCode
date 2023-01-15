@@ -265,7 +265,7 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         for (int i = 0 ; i< 17; i ++) {
             for (int j = 0; j < 12; j++) {
                 if (map_obj[j][i] == null){
-                    System.out.println("i" + i + "j" + j);
+                    //System.out.println("i" + i + "j" + j);
                     continue;
                 }
                 //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
