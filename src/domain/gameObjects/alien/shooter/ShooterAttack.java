@@ -44,7 +44,7 @@ public class ShooterAttack extends BaseShooterBehavior implements ShooterBehavio
     {
         Avatar avatar = ((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunController().getAvatar();
         getAlien().getSound().playSoundEffect(7);
-        avatar.getVestState().takeDamage(AlienType.SHOOTER, 1);
+        avatar.getVestState().takeDamage(getAlien(), 1);
     }
 
     @Override

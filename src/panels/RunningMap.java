@@ -12,8 +12,9 @@ import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import domain.gameObjects.alien.Alien;
+import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.avatar.RunningMapObserver;
-import domain.gameObjects.powerUps.PowerUpTile;
 import helperComponents.Position;
 import models.Constants;
 import domain.*;
@@ -30,23 +31,22 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
     private int originalTileSize = 50; // 48x48 tile
     private boolean isHintPowerUp;
     private double scale = 1;
-
-    public double getScale() {
-        return scale;
-    }
-
-    public void decreaseScale() {
-        this.scale = scale*0.95;
-    }
-    public void increasecale() {
-        this.scale = scale*1.05;
-    }
     JPanel panel;
-
     RunPanel superPanel;
     Point startPoint;
     Thread thread;
     AlienGenerator generator;  //TEST PURPOSES
+
+
+    public RunningMap(JPanel panel, RunPanel _panel) {
+        this.superPanel=_panel;
+        this.panel = panel;
+        initialize();
+        map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().subscribeRunningMapObserver(this);
+        //initialize();
+        design();
+    }
 
 
 
@@ -56,16 +56,6 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
 
     public void setMap_obj(ObjectTile[][] map_obj) {
         this.map_obj = map_obj;
-    }
-
-
-    public RunningMap(JPanel panel, RunPanel _panel) {
-        this.superPanel=_panel;
-        this.panel = panel;
-        initialize();
-        map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
-        //initialize();
-        design();
     }
 
 
@@ -87,11 +77,8 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
     {
         return (int)(x*50*scale);
     }
-    private int parseY(int y)
-    {
+    private int parseY(int y) {
         return (int)(y*50*scale);
-
-
     }
 
     public void design() {
@@ -243,6 +230,9 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         if (imageId == 26){
             g2D.drawImage(Constants.ImageConstants.VEST, x,y, weight,weight,null);
         }
+        if (imageId == 27){
+            g2D.drawImage(Constants.ImageConstants.PLASTICBOTTLE, x,y, weight,weight,null);
+        }
 
     }
     public void draw(Graphics2D g2D) {
@@ -385,13 +375,28 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
     }
 
     @Override
-    public void notifyBottleIsThrown(Position position) {
-        System.out.println("Bottle is thrown and is drawn to position: " + position);
+    public void notifyBottleIsThrown(Position avatarPos, Position bottlePos) {
+        //g2D.drawImage(Constants.ImageConstants.PLASTICBOTTLE, x,y, weight,weight,null);
+        System.out.println("avatar is at " + avatarPos.getX() + " " + avatarPos.getY());
+        System.out.println("Bottle is thrown and is drawn to position: " + bottlePos.getX() + " " + bottlePos.getY());
         //notify the all blind aliens that the bottle is thrown to position
     }
 
     @Override
-    public void notifyAvatarTakesDamage() {
+    public void notifyAvatarTakesDamage(Avatar avatar, Alien alien) {
+        System.out.println("Avatar takes damage");
 
+        //notify the all blind aliens that the avatar takes damage
+    }
+
+    public double getScale() {
+        return scale;
+    }
+
+    public void decreaseScale() {
+        this.scale = scale*0.95;
+    }
+    public void increasecale() {
+        this.scale = scale*1.05;
     }
 }

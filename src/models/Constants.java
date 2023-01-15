@@ -60,6 +60,7 @@ public interface Constants {
         public static final BufferedImage BACKGROUND;
         public static final BufferedImage HINT;
         public static final BufferedImage VEST;
+        public static final BufferedImage PLASTICBOTTLE;
 
         static {
             try {
@@ -93,6 +94,7 @@ public interface Constants {
                 BACKGROUND = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/background.png")));
                 HINT = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/hint.png")));
                 VEST = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/VEST.png")));
+                PLASTICBOTTLE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/plasticBottle.png")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

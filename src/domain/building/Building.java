@@ -250,12 +250,9 @@ public class Building {
 
 	public void generatePowerTile() {
 		ArrayList<EmptyTile> emptyTileList = new ArrayList<EmptyTile>();
-		for (int i = 0; i < 17; i++)
-		{
-			for (int j = 0; j <12; j++)
-			{
-				if (map_obj[j][i] instanceof EmptyTile)
-				{
+		for (int i = 0; i < 17; i++) {
+			for (int j = 0; j <12; j++) {
+				if (map_obj[j][i] instanceof EmptyTile)  {
 					emptyTileList.add((EmptyTile) map_obj[j][i]);
 				}
 			}
@@ -263,7 +260,7 @@ public class Building {
 		Random rand = new Random();
 		int selectedEmptyTile = rand.nextInt(emptyTileList.size());
 
-		int powerUpType = rand.nextInt(4);
+		int powerUpType = rand.nextInt(5);
 		ObjectTile powerUpTile;
 		int emptyX = emptyTileList.get(selectedEmptyTile).getPosition().getX();
 		int emptyY = emptyTileList.get(selectedEmptyTile).getPosition().getY();
@@ -276,6 +273,8 @@ public class Building {
 				powerUpTile =new PowerUpTile(PowerUpTypes.HINT, emptyX, emptyY, 25);
 			case 3 ->
 					powerUpTile = new PowerUpTile(PowerUpTypes.VEST, emptyX, emptyY, 26);
+			case 4 ->
+					powerUpTile = new PowerUpTile(PowerUpTypes.BOTTLE, emptyX, emptyY, 27);
 			default -> {
 				powerUpTile = null;
 				System.out.println("Power up is not generated!");
@@ -292,9 +291,26 @@ public class Building {
 		this.powerUpTime = powerUpTime;
 	}
 
-	public Position findBottleLastPos(Position position, Direction.fourDir dir) {
+	public Position findBottleLastPos(Position avatarPos, Direction.fourDir dir) {
+		Position bottlePos = avatarPos;
+		Position newPos = bottlePos;
 
-
-		return null;
+		while (newPos.getX() >= 0 && newPos.getX() < 17 && newPos.getY() >= 0 && newPos.getY() < 12) {
+			if (!(map_obj[newPos.getY()][newPos.getX()] instanceof Obstacle)) {
+				bottlePos = newPos;
+				switch (dir) {
+					case up -> newPos = new Position(bottlePos.getX(), bottlePos.getY() - 1);
+					case down -> newPos = new Position(bottlePos.getX(), bottlePos.getY() + 1);
+					case left -> newPos = new Position(bottlePos.getX() - 1, bottlePos.getY());
+					case right -> newPos = new Position(bottlePos.getX() + 1, bottlePos.getY());
+				}
+			}
+			else {
+				break;
+			}
+		}
+		return bottlePos;
 	}
+
+
 }

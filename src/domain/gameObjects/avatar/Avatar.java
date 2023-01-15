@@ -4,6 +4,7 @@ import domain.SoundManager;
 import domain.building.BuildingTracker;
 import domain.gameObjects.DynamicTile;
 import domain.gameObjects.EmptyTile;
+import domain.gameObjects.alien.Alien;
 import domain.gameObjects.powerUps.PowerUpTile;
 import domain.gameObjects.powerUps.PowerUpTypes;
 import domain.gameObjects.powerUps.bottle.BottleState;
@@ -78,6 +79,10 @@ public class Avatar extends DynamicTile {
     }
     public void subscribeAvatarInfoObserver(AvatarInfoObserver avatarInfoObserver) {
         this.avatarInfoObserver = avatarInfoObserver;
+    }
+
+    public void subscribeRunningMapObserver(RunningMapObserver runningMapObserver) {
+        this.runningMapObserver = runningMapObserver;
     }
 
 
@@ -242,9 +247,7 @@ public class Avatar extends DynamicTile {
         System.out.println("Bottle has been thrown");
         Building currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
         Position bottlePos = currentBuilding.findBottleLastPos(getPosition(), dir);
-        runningMapObserver.notifyBottleIsThrown(bottlePos);
-
-
+        runningMapObserver.notifyBottleIsThrown(getPosition(), bottlePos);
 
         bag.decreasePowerUp(PowerUpTypes.BOTTLE);
         changeBottleState(); // after avatar throws bottle successfully, he holds nothing
@@ -294,15 +297,17 @@ public class Avatar extends DynamicTile {
         return false;
     }
 
-    public void takeDamage(int damage) {
+    public void takeDamage(Alien alien, int damage) {
         setLife(life-damage);
         if (life <=0) {
             //vanish();
         }
-        //runningMapObserver.notifyAvatarTakesDamage();
+
+        runningMapObserver.notifyAvatarTakesDamage(this, alien);
         animator.setState(0);
         sound.playSoundEffect(5);
     }
+    
     @Override
     public void update(double intervalTime) {
         // REQUIRES: intervalTime is nonnegative double.
