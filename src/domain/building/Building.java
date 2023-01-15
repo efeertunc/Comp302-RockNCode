@@ -36,6 +36,19 @@ public class Building {
 	// when the map is set from database, or when the map is created by the user during the game.
 	public void setMap_obj(ObjectTile[][] map) {
 		this.map_obj = map;
+
+		for (int i = 0; i < 17; i++) {
+			for (int j = 0; j <12; j++) {
+				if (map_obj[j][i] instanceof Avatar) {
+					avatar = (Avatar) map_obj[j][i];
+					this.time = avatar.getCurrentTime();
+					System.out.println("Time avatardan alındı");
+					this.powerUpTime = avatar.getCurrentTime();
+					return;
+				}
+			}
+		}
+		System.out.println("Time objeden alındı");
 		this.time = (double) getNumofObstacles(map) * 5;
 		this.powerUpTime = this.time;
 	}
@@ -158,6 +171,7 @@ public class Building {
 		Position position = new Position(emptyX, emptyY);
 		eskiAvatar.setPosition(position);
 		eskiAvatar.setHasKey(false);
+		eskiAvatar.setCurrentTime(this.time);
 		map_obj[eskiAvatar.getPosition().getY()][eskiAvatar.getPosition().getX()] = eskiAvatar;
 		avatar = eskiAvatar;
 		return eskiAvatar;

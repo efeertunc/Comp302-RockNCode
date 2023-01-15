@@ -40,6 +40,11 @@ public class PlasticBottle extends PowerUp implements CollectablePowerUpI {
         return numBottle;
     }
 
+    @Override
+    public void setNumToPowerUp(int num) {
+        numBottle = num;
+    }
+
 
 }
 
