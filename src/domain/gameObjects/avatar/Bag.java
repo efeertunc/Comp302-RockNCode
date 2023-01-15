@@ -13,49 +13,55 @@ import java.util.HashMap;
 
 public class Bag  {
 
-    private final HashMap<PowerUpTypes, PowerUp> bag;
+    private final HashMap<String, PowerUp> bag;
 
     public Bag(){
-        bag = new HashMap<PowerUpTypes, PowerUp>();
-        bag.put(PowerUpTypes.BOTTLE, PowerUpFactory.getInstance().createPowerUp(PowerUpTypes.BOTTLE));
-        bag.put(PowerUpTypes.VEST, PowerUpFactory.getInstance().createPowerUp(PowerUpTypes.VEST));
-        bag.put(PowerUpTypes.HINT, PowerUpFactory.getInstance().createPowerUp(PowerUpTypes.HINT));
+        bag = new HashMap<String, PowerUp>();
+        bag.put(PowerUpTypes.BOTTLE.toString(), PowerUpFactory.getInstance().createPowerUp(PowerUpTypes.BOTTLE));
+        bag.put(PowerUpTypes.VEST.toString(), PowerUpFactory.getInstance().createPowerUp(PowerUpTypes.VEST));
+        bag.put(PowerUpTypes.HINT.toString(), PowerUpFactory.getInstance().createPowerUp(PowerUpTypes.HINT));
     }
 
 
-    public Bag(HashMap<PowerUpTypes, PowerUp> bag) {
+    public Bag(HashMap<String, PowerUp> bag) {
         this.bag = bag;
     }
 
 
     public void addPowerUp(PowerUpTypes powerUp) {
-        ((CollectablePowerUpI) bag.get(powerUp)).increment();
+        ((CollectablePowerUpI) getPower(powerUp)).increment();
         System.out.println("Power up added to bag:" + powerUp);
+    }
+
+    public void setNumToPowerUp(PowerUpTypes powerUp, int num) {
+        ((CollectablePowerUpI) getPower(powerUp)).setNumToPowerUp(num);
+        System.out.println("Number of power up set to bag:" + powerUp);
     }
 
 
     public void decreasePowerUp(PowerUpTypes powerUp) {
-        ((CollectablePowerUpI) bag.get(powerUp)).decrease();
+        ((CollectablePowerUpI) getPower(powerUp)).decrease();
     }
 
 
     public boolean consistsOf(PowerUpTypes powerUp){
-        return ((CollectablePowerUpI) bag.get(powerUp)).getNum() > 0;
+        return ((CollectablePowerUpI) getPower(powerUp)).getNum() > 0;
     }
 
 
     public PowerUp getPower(PowerUpTypes powerUp){
-        return bag.get(powerUp);
+        String powerUpStr = powerUp.toString();
+        return bag.get(powerUpStr);
     }
 
     public void usePowerUp(PowerUpTypes powerUp) {
         if (consistsOf(powerUp)) {
-            bag.get(powerUp).use();
+            getPower(powerUp).use();
             //decreasePowerUp(powerUp);
         }
     }
 
-    public HashMap<PowerUpTypes, PowerUp> getPowers() {
+    public HashMap<String, PowerUp> getPowers() {
         return bag;
     }
 

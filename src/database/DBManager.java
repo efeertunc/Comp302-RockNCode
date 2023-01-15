@@ -2,6 +2,9 @@ package database;
 
 import domain.gameObjects.alien.blind.BlindAlien;
 import domain.gameObjects.alien.shooter.ShooterAlien;
+import domain.gameObjects.avatar.Bag;
+import domain.gameObjects.powerUps.PowerUpTile;
+import helperComponents.Position;
 import models.Account;
 import models.Constants;
 import models.Player;
@@ -390,7 +393,23 @@ public final class DBManager implements IDatabaseAdapter{
                         ObjectTile objectTile = BuildingTracker.getBuildingList().get(i).getMap_obj()[j][k];
 
                         if (objectTile instanceof Avatar){
-                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar", objectTile);
+                            int life = ((Avatar) objectTile).getLife();
+                            double currentTime = (int) ((Avatar) objectTile).getCurrentTime();
+                            Position position = ((Avatar) objectTile).getPosition();
+                            int image = (objectTile).getImage();
+                            Bag bag = ((Avatar) objectTile).getBag();
+                            int vestTime = (int) ((Avatar) objectTile).getVestTime();
+                            int hintTime = (int) ((Avatar) objectTile).getHintTime();
+                            boolean hasKey = ((Avatar) objectTile).isHasKey();
+
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar" + "/" + "life", life);
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar" + "/" + "currentTime", currentTime);
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar" + "/" + "position", position);
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar" + "/" + "image", image);
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar" + "/" + "bag", bag);
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar" + "/" + "vestTime", vestTime);
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar" + "/" + "hintTime", hintTime);
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "Avatar" + "/" + "hasKey", hasKey);
 
                         }
                         if (objectTile instanceof EmptyTile){
@@ -412,6 +431,9 @@ public final class DBManager implements IDatabaseAdapter{
                         }
                         if (objectTile instanceof BlindAlien){
                             mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "BlindAlien", objectTile);
+                        }
+                        if (objectTile instanceof PowerUpTile){
+                            mapList.put("/users/" + id + "/" + "map" + "/" + i + "/" + j + "/" + k + "/" + "PowerUpTile", objectTile);
                         }
                     }
                 }
@@ -504,10 +526,8 @@ public final class DBManager implements IDatabaseAdapter{
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                System.out.println("index in onDataChange" + finalI1);
 
                                 ObjectTile obj = ObjectTileFactory.createTile(dataSnapshot);
-                                System.out.println("aaa: "+ obj.getImage());
                                 objectTiles[finalJ][finalK] = obj;
 
                             }

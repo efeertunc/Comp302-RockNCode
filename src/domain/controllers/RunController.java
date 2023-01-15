@@ -1,5 +1,6 @@
 package domain.controllers;
 
+import domain.gameObjects.powerUps.PowerUpTypes;
 import helperComponents.Direction;
 import domain.gameObjects.avatar.Avatar;
 import domain.building.Building;
@@ -62,6 +63,9 @@ public class RunController {
 		if (BuildingTracker.getCurrentIndex()!= 5) {
 			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
 
+			System.out.println("Next level vest: "+avatar.getBag().consistsOf(PowerUpTypes.VEST));
+			System.out.println("Next level hint: "+avatar.getBag().consistsOf(PowerUpTypes.HINT));
+			System.out.println("Next level Bottle: "+avatar.getBag().consistsOf(PowerUpTypes.BOTTLE));
 			currentBuilding = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
 			currentBuilding.setKey();
 			currentBuilding.setAvatarToMap(avatar);

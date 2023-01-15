@@ -16,11 +16,32 @@ public class PowerUpTile extends DynamicTile {
 
     private PowerUpTypes type;
     private double time;
+
+    public void setType(PowerUpTypes type) {
+        this.type = type;
+    }
+
+    public double getTime() {
+        return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
+    }
+
+
     public PowerUpTile(PowerUpTypes type, int x, int y, int image) {
         setPosition(new Position(x,y));
         setImage(image);
         this.type = type;
         time = 6;
+    }
+
+    public PowerUpTile(PowerUpTypes type, int x, int y, int image, double time) {
+        setPosition(new Position(x,y));
+        setImage(image);
+        this.type = type;
+        this.time = time;
     }
 
     public PowerUpTypes getType() {

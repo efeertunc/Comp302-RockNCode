@@ -250,34 +250,35 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
     }
     public void draw(Graphics2D g2D) {
 
-        if (thread.isAlive()) {
+        if (thread.isAlive())
+        {
             for (int i = 0; i < 13; i++) {
                 for (int j = 0; j < 18; j++) {
                     int x = parseX(i);
                     int y = parseY(j);
                     for (int a = 0; a < 2; a++) {
-                        int imageId = tileMap[i][j][a];
+                        int imageId=tileMap[i][j][a];
                         if (imageId != -1) {
-                            printAll(g2D, imageId, j, i);
+                            printAll( g2D,imageId,j, i);
                         }
                     }
                 }
             }
-            for (int i = 0; i < 17; i++) {
-                for (int j = 0; j < 12; j++) {
-                    if (map_obj[j][i] == null) {
-                        System.out.println("i" + i + "j" + j);
-                        continue;
-                    }
-                    //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
-                    int imageId = map_obj[j][i].getImage();
-                    //g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(5), parseY(5), 48 + 5,48 + 5, null);
-                    if (imageId != -1) {
-                        printAll(g2D, imageId, i, j);
-
-
-                    }
+        for (int i = 0 ; i< 17; i ++) {
+            for (int j = 0; j < 12; j++) {
+                if (map_obj[j][i] == null){
+                    //System.out.println("i" + i + "j" + j);
+                    continue;
                 }
+                //System.out.println("j: " + j + " i: " + i + " map_obj: " + map_obj[j][i].image);
+                int imageId = map_obj[j][i].getImage();
+                //g2D.drawImage(Constants.ImageConstants.CHAIR, parseX(5), parseY(5), 48 + 5,48 + 5, null);
+                if (imageId != -1) {
+                    printAll(g2D,imageId, i,j);
+
+
+                }
+            }
 
             }
             handleBottleAnim(g2D);
