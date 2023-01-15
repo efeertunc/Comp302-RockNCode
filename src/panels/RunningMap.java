@@ -7,11 +7,14 @@ import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import com.google.cloud.storage.Acl;
+import domain.gameObjects.Projectile;
 import domain.gameObjects.alien.Alien;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.avatar.RunningMapObserver;
@@ -25,6 +28,7 @@ import domain.gameObjects.ObjectTile;
 public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
 
     private ObjectTile[][] map_obj;
+    private ArrayList<Projectile> projectiles;
     int FPS = 60;
     static int[][][] tileMap = new int[13][18][2];
     public boolean isPaused;
@@ -233,6 +237,13 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         if (imageId == 27){
             g2D.drawImage(Constants.ImageConstants.PLASTICBOTTLE, x,y, weight,weight,null);
         }
+        if (imageId == 28){
+            g2D.drawImage(Constants.ImageConstants.AVATAR_HIT, x,y, weight,weight,null);
+        }
+        if (imageId == 29){
+            g2D.drawImage(Constants.ImageConstants.AVATAR_VEST_HIT, x,y, weight,weight,null);
+        }
+        handleBottleAnim(g2D);
 
     }
     public void draw(Graphics2D g2D) {
@@ -380,12 +391,13 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         System.out.println("avatar is at " + avatarPos.getX() + " " + avatarPos.getY());
         System.out.println("Bottle is thrown and is drawn to position: " + bottlePos.getX() + " " + bottlePos.getY());
         //notify the all blind aliens that the bottle is thrown to position
+
+        projectiles.add(new Projectile(avatarPos,bottlePos,3,27));
     }
 
     @Override
     public void notifyAvatarTakesDamage(Avatar avatar, Alien alien) {
         System.out.println("Avatar takes damage");
-
         //notify the all blind aliens that the avatar takes damage
     }
 
@@ -398,5 +410,22 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
     }
     public void increasecale() {
         this.scale = scale*1.05;
+    }
+
+    public void handleBottleAnim(Graphics2D g2D)
+    {
+        int weight = 25;
+        for (int i = 0;i<projectiles.size();i++)
+        {
+            Projectile proj = projectiles.get(i);
+            if (!proj.move())
+            {
+                projectiles.remove(proj);
+            }
+            if (proj.getImage() == 27)
+            {
+                g2D.drawImage(Constants.ImageConstants.PLASTICBOTTLE, proj.getXPos(),proj.getYPos(), weight,weight, null);
+            }
+        }
     }
 }
