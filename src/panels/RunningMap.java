@@ -421,7 +421,7 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
             for (int j = 0; j < 12; j++) {
                 if (map_obj[j][i] instanceof BlindAlien) {
                     BlindAlien alien = (BlindAlien)map_obj[j][i];
-                    alien.setBehavior(new BlindBottle(alien));
+                    alien.setBehavior(new BlindBottle(alien,dest));
                 }
             }
         }

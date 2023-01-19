@@ -43,6 +43,11 @@ public class BlindBottle extends BaseBlindBehavior implements  BlindBehavior{
     }
 
     public void coroutine(double intervalTime) {
+        if (getAlien().getPosition().getX() == destination.getX() && getAlien().getPosition().getY() == destination.getY())
+        {
+            getAlien().setBehavior(new BlindNormal(getAlien()));
+            return;
+        }
         if (ready2)
         {
             getAlien().setBehavior(new BlindNormal(getAlien()));
