@@ -73,9 +73,30 @@ public class Avatar extends DynamicTile {
         loadAnimations();
     }
 
+    public Avatar(int life, int time,  int x, int y, int image, Bag bag, double vestTime, double hintTime, boolean hasKey) {
+        this.life = life;
+        this.time = time;
+        currentTime = (double) time;
+        setPosition(new Position(x,y));
+        setImage(image);
+        // sonradan değişebilir
+        bottleState = new HoldNothing();
+        vestState = new HasNoVest();
+        this.bag = bag;
+        this.vestTime = vestTime;
+        this.hintTime = hintTime;
+        this.hasKey = hasKey;
+        sound = new SoundManager();
+        rand = new Random();
+
+        animator = new Animator(this);
+        loadAnimations();
+    }
+
     private void loadAnimations()
     {
         animator.addAnimation(AnimationTracker.getInstance().getGameAnimations().get(0)); //AvatarHit
+        animator.addAnimation(AnimationTracker.getInstance().getGameAnimations().get(1));
     }
     public void subscribeAvatarInfoObserver(AvatarInfoObserver avatarInfoObserver) {
         this.avatarInfoObserver = avatarInfoObserver;
@@ -88,6 +109,10 @@ public class Avatar extends DynamicTile {
 
     public Bag getBag() {
         return bag;
+    }
+
+    public void setBag(Bag bag) {
+        this.bag = bag;
     }
 
 
@@ -266,6 +291,7 @@ public class Avatar extends DynamicTile {
             setVestTime(20);
             setImage(2); // it is not correct number
             bag.decreasePowerUp(PowerUpTypes.VEST);
+            sound.playSoundEffect(12);
             return true;
         }
         else if (vestState instanceof HasVest) {
@@ -304,8 +330,6 @@ public class Avatar extends DynamicTile {
         }
 
         runningMapObserver.notifyAvatarTakesDamage(this, alien);
-        animator.setState(0);
-        sound.playSoundEffect(5);
     }
     
     @Override
@@ -328,6 +352,10 @@ public class Avatar extends DynamicTile {
         int oldHintTime = ((int) hintTime);
         hintTime -= intervalTime/1000000000;
         int newHintTime = ((int) hintTime);
+
+        if (hintTime > 0){
+            ((RunPanel) EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.Run)).getRunningMap().setHintPowerUp(true);
+        }
 
         if(isHasKey()){
             hintTime = 0;
@@ -417,6 +445,20 @@ public class Avatar extends DynamicTile {
         Building b = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
         b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), 4);
         System.out.println("Player Vanished");
+    }
+
+    public void damageTakenFeedback() {
+        animator.setState(0);
+        sound.playSoundEffect(5);
+    }
+    
+    public void damageBlockedFeedback() {
+        animator.setState(1);
+        sound.playSoundEffect(11);
+    }
+
+    public void setCurrentTime(double currentTime) {
+        this.currentTime = currentTime;
     }
 
 }

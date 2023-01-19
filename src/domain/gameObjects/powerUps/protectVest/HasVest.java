@@ -15,9 +15,11 @@ public class HasVest implements VestState {
 
         if (alien instanceof BlindAlien) {
             BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().takeDamage(alien, damage);
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().damageTakenFeedback();
         }
         if (alien instanceof ShooterAlien) {
             BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().takeDamage(alien, 0);
+            BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().damageBlockedFeedback();
             System.out.println("You are protected by your vest from shooter alien!");
         }
 

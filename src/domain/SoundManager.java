@@ -26,7 +26,8 @@ public class SoundManager {
         soundUrl[8] = getClass().getResource("/sounds/Step1.wav");
         soundUrl[9] = getClass().getResource("/sounds/Step2.wav");
         soundUrl[10] = getClass().getResource("/sounds/Blind Punch.wav");
-
+        soundUrl[11] = getClass().getResource("/sounds/Vest Hit.wav");
+        soundUrl[12] = getClass().getResource("/sounds/Vest On.wav");
 
     }
     public void setFile(int index) {

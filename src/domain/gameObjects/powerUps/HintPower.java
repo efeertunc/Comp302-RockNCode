@@ -35,4 +35,9 @@ public class HintPower extends PowerUp implements CollectablePowerUpI {
     public int getNum() {
         return numHint;
     }
+
+    @Override
+    public void setNumToPowerUp(int num) {
+        numHint = num;
+    }
 }

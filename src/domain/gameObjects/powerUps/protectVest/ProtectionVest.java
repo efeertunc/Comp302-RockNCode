@@ -21,6 +21,7 @@ public class ProtectionVest extends PowerUp implements CollectablePowerUpI {
     @Override
     public void use() {
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().changeVestState();
+
     }
 
     @Override
@@ -36,5 +37,10 @@ public class ProtectionVest extends PowerUp implements CollectablePowerUpI {
     @Override
     public int getNum() {
         return numVest;
+    }
+
+    @Override
+    public void setNumToPowerUp(int num) {
+        numVest = num;
     }
 }
