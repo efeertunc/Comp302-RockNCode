@@ -10,5 +10,6 @@ public class HasNoVest implements VestState {
     @Override
     public void takeDamage(Alien alien, int damage) {
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().takeDamage(alien, damage);
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().damageTakenFeedback();
     }
 }

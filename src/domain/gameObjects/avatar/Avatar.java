@@ -96,6 +96,7 @@ public class Avatar extends DynamicTile {
     private void loadAnimations()
     {
         animator.addAnimation(AnimationTracker.getInstance().getGameAnimations().get(0)); //AvatarHit
+        animator.addAnimation(AnimationTracker.getInstance().getGameAnimations().get(1));
     }
     public void subscribeAvatarInfoObserver(AvatarInfoObserver avatarInfoObserver) {
         this.avatarInfoObserver = avatarInfoObserver;
@@ -290,6 +291,7 @@ public class Avatar extends DynamicTile {
             setVestTime(20);
             setImage(2); // it is not correct number
             bag.decreasePowerUp(PowerUpTypes.VEST);
+            sound.playSoundEffect(12);
             return true;
         }
         else if (vestState instanceof HasVest) {
@@ -328,8 +330,6 @@ public class Avatar extends DynamicTile {
         }
 
         runningMapObserver.notifyAvatarTakesDamage(this, alien);
-        animator.setState(0);
-        sound.playSoundEffect(5);
     }
     
     @Override
@@ -445,6 +445,16 @@ public class Avatar extends DynamicTile {
         Building b = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex());
         b.getMap_obj()[getPosition().getY()][getPosition().getX()] = new EmptyTile(getPosition().getX(),getPosition().getY(), 4);
         System.out.println("Player Vanished");
+    }
+
+    public void damageTakenFeedback() {
+        animator.setState(0);
+        sound.playSoundEffect(5);
+    }
+    
+    public void damageBlockedFeedback() {
+        animator.setState(1);
+        sound.playSoundEffect(11);
     }
 
     public void setCurrentTime(double currentTime) {

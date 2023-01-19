@@ -29,6 +29,8 @@ public interface Constants {
     }
 
     abstract  class ImageConstants{
+        public static final BufferedImage AVATAR_HIT;
+        public static final BufferedImage AVATAR_VEST_HIT;
         public static final BufferedImage ALIEN_TIMEWASTER;
         public static final BufferedImage ALIEN_SHOOTER;
         public static final BufferedImage ALIEN_BLIND;
@@ -64,6 +66,8 @@ public interface Constants {
 
         static {
             try {
+                AVATAR_HIT =(ImageIO.read(EscapeFromKoc.class.getResource("/visual/avatarHit.png")));
+                AVATAR_VEST_HIT =(ImageIO.read(EscapeFromKoc.class.getResource("/visual/avatarVestHit.png")));
                 ALIEN_TIMEWASTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienTimeWaster.png")));
                 ALIEN_BLIND = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienBlind.png")));
                 ALIEN_SHOOTER = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/alienShooter.png")));

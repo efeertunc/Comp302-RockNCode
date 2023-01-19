@@ -7,12 +7,17 @@ import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import com.google.cloud.storage.Acl;
+import domain.gameObjects.Projectile;
 import domain.gameObjects.alien.Alien;
+import domain.gameObjects.alien.blind.BlindAlien;
+import domain.gameObjects.alien.blind.BlindBottle;
 import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.avatar.RunningMapObserver;
 import helperComponents.Position;
@@ -25,6 +30,7 @@ import domain.gameObjects.ObjectTile;
 public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
 
     private ObjectTile[][] map_obj;
+    private ArrayList<Projectile> projectiles;
     int FPS = 60;
     static int[][][] tileMap = new int[13][18][2];
     public boolean isPaused;
@@ -43,6 +49,7 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         this.panel = panel;
         initialize();
         map_obj = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
+        projectiles = new ArrayList<Projectile>();
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().subscribeRunningMapObserver(this);
         //initialize();
         design();
@@ -233,6 +240,12 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         if (imageId == 27){
             g2D.drawImage(Constants.ImageConstants.PLASTICBOTTLE, x,y, weight,weight,null);
         }
+        if (imageId == 28){
+            g2D.drawImage(Constants.ImageConstants.AVATAR_HIT, x,y, weight,weight,null);
+        }
+        if (imageId == 29){
+            g2D.drawImage(Constants.ImageConstants.AVATAR_VEST_HIT, x,y, weight,weight,null);
+        }
 
     }
     public void draw(Graphics2D g2D) {
@@ -267,8 +280,8 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
                 }
             }
 
-        }
-
+            }
+            handleBottleAnim(g2D);
         }
     }
 
@@ -324,6 +337,7 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
                     }
                 }
             }
+            handleBottle();
             generator.generateAlien(intervalTime);
         }
     }
@@ -380,12 +394,13 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         System.out.println("avatar is at " + avatarPos.getX() + " " + avatarPos.getY());
         System.out.println("Bottle is thrown and is drawn to position: " + bottlePos.getX() + " " + bottlePos.getY());
         //notify the all blind aliens that the bottle is thrown to position
+
+        projectiles.add(new Projectile(avatarPos,bottlePos,20,27));
     }
 
     @Override
     public void notifyAvatarTakesDamage(Avatar avatar, Alien alien) {
         System.out.println("Avatar takes damage");
-
         //notify the all blind aliens that the avatar takes damage
     }
 
@@ -399,4 +414,48 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
     public void increasecale() {
         this.scale = scale*1.05;
     }
+
+    public void notifyBlindsToBottleState(Position dest)
+    {
+        for (int i = 0; i < 17; i++) {
+            for (int j = 0; j < 12; j++) {
+                if (map_obj[j][i] instanceof BlindAlien) {
+                    BlindAlien alien = (BlindAlien)map_obj[j][i];
+                    alien.setBehavior(new BlindBottle(alien));
+                }
+            }
+        }
+    }
+
+
+    public void handleBottle() {
+        if (projectiles == null)
+        {
+            return;
+        }
+        for (int i = 0; i < projectiles.size(); i++) {
+            Projectile proj = projectiles.get(i);
+            if (!proj.move()) {
+                projectiles.remove(proj);
+                notifyBlindsToBottleState(proj.getDest());
+            }
+        }
+    }
+
+    public void handleBottleAnim(Graphics2D g2D)
+    {
+        if (projectiles == null)
+        {
+            return;
+        }
+        for (int i = 0; i<projectiles.size();i++)
+        {
+            Projectile proj = projectiles.get(i);
+            if (proj.getImage() == 27)
+            {
+                g2D.drawImage(Constants.ImageConstants.PLASTICBOTTLE, proj.getXPos(),proj.getYPos(), 25,25, null);
+            }
+        }
+    }
 }
+
