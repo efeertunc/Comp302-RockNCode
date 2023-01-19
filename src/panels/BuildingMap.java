@@ -211,7 +211,13 @@ public void printAll(Graphics2D g2D,int imageId,int i,int j){
         }
         return null;
     }
+    public void delete (int x,int y) {
+        x=unparseX(x);
+        y=unparseY(y);
+        map[y][x]= new EmptyTile(x,y,4);
+        repaint();
 
+    }
     public void emptyMap () {
         map = initial_map();
         repaint();

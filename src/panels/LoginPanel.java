@@ -24,6 +24,7 @@ public class LoginPanel implements IPanel {
     private JLabel info;
     private JButton createAccountButton;
 
+
     public LoginPanel(IAppView appView) {
         this.authView = appView;
         putPaneltoFrame(appView.getFrame());
@@ -60,7 +61,9 @@ public class LoginPanel implements IPanel {
         loginButton = new JButton("Login");
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 login();
+
             }
         });
 
@@ -160,6 +163,11 @@ public class LoginPanel implements IPanel {
         info.setHorizontalAlignment(SwingConstants.CENTER);
         info.setBounds(6, 310, 438, 16);
         panel.add(info);
+
+
+
     }
+
+
 
 }

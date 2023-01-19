@@ -5,6 +5,7 @@ import factory.PanelFactory;
 import factory.PanelType;
 import main.IAppView;
 import main.IPanel;
+import panels.GameOverPanel;
 import panels.RunPanel;
 import panels.RunningMap;
 import panels.WinGamePanel;
@@ -21,6 +22,7 @@ public class GameView implements IAppView {
     private IPanel helpPanel;
     private IPanel pausePanel;
     private IPanel winGamePanel;
+    private IPanel gameOverPanel;
 
     public GameView() {
         putFrametoGame();
@@ -29,6 +31,7 @@ public class GameView implements IAppView {
         helpPanel = PanelFactory.getInstance().createPanel(PanelType.Help, this);
         pausePanel = PanelFactory.getInstance().createPanel(PanelType.Pause, this);
         winGamePanel = PanelFactory.getInstance().createPanel(PanelType.Win, this);
+        gameOverPanel = PanelFactory.getInstance().createPanel(PanelType.GameOver, this);
     }
 
     public void createrunPanel() {
@@ -62,6 +65,7 @@ public class GameView implements IAppView {
             case Pause -> pausePanel;
             case Help -> helpPanel;
             case Win -> winGamePanel;
+            case GameOver -> gameOverPanel;
             default -> throw new IllegalArgumentException("No such kind of panel type");
         };
     }

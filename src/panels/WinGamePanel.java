@@ -41,10 +41,10 @@ public class WinGamePanel extends JPanel implements IPanel {
         JLabel label2 = new JLabel(imgIcon1);
         JLabel label3 = new JLabel(imgIcon1);
         JLabel label4 = new JLabel(imgIcon1);
-        label1.setBounds(150, 200, 300, 300); // You can use your own values
-        label2.setBounds(850, 200, 300, 300); // You can use your own values
-        label3.setBounds(250, 50, 300, 300); // You can use your own values
-        label4.setBounds(650, 50, 300, 300); // You can use your own values
+        label1.setBounds(150, 200, 300, 300);
+        label2.setBounds(850, 200, 300, 300);
+        label3.setBounds(250, 50, 300, 300);
+        label4.setBounds(650, 50, 300, 300);
         this.add(label1);
         this.add(label2);
         this.add(label3);
