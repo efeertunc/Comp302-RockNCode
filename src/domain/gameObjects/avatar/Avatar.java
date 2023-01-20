@@ -229,7 +229,8 @@ public class Avatar extends DynamicTile {
             System.out.println("KEY HAS BEEN FOUND");
             setImage(6);
             building.deleteKey();
-            hasKey=true;
+            setHasKey(true);
+            avatarInfoObserver.updateKeyInfo_inPlayerPanel(true);
 
             return true;
         }
@@ -393,6 +394,7 @@ public class Avatar extends DynamicTile {
 
     public void setHasKey(boolean hasKey) {
         this.hasKey = hasKey;
+        //notifyAvatarObserver();
     }
 
     public int getLife() {
@@ -401,7 +403,7 @@ public class Avatar extends DynamicTile {
 
     public void setLife(int life) {
         this.life = life;
-        //avatarInfoObserver.updateLife_inPlayerPanel(this.life);
+        notifyAvatarObserver();
     }
 
 
@@ -417,7 +419,13 @@ public class Avatar extends DynamicTile {
     }
 
 
-    private void notifyAvatarObserver() {
+    public void notifyAvatarObserver() {
+        avatarInfoObserver.updateLife_inPlayerPanel(this.life);
+        avatarInfoObserver.updateBag_inPlayerPanel(bag.getPowerNum(PowerUpTypes.BOTTLE),
+                                                   bag.getPowerNum(PowerUpTypes.HINT),
+                                                   bag.getPowerNum(PowerUpTypes.VEST));
+        avatarInfoObserver.updateKeyInfo_inPlayerPanel(this.hasKey);
+
     }
 
     public BottleState getBottleState() {
@@ -464,5 +472,6 @@ public class Avatar extends DynamicTile {
     public void setCurrentTime(double currentTime) {
         this.currentTime = currentTime;
     }
+
 
 }
