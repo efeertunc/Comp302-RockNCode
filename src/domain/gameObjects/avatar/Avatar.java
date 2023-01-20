@@ -20,6 +20,7 @@ import helperComponents.Animator;
 import helperComponents.Direction;
 import helperComponents.Position;
 import domain.building.Building;
+import panels.GameOverPanel;
 import panels.RunPanel;
 import main.EscapeFromKoc;
 
@@ -326,7 +327,10 @@ public class Avatar extends DynamicTile {
     public void takeDamage(Alien alien, int damage) {
         setLife(life-damage);
         if (life <=0) {
-            //vanish();
+            vanish();
+            //((RunPanel) EscapeFromKoc.getInstance().getCurPanel()).getRunningMap().stopThread();
+            EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
+                    EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.GameOver));
         }
 
         runningMapObserver.notifyAvatarTakesDamage(this, alien);

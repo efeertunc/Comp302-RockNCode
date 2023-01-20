@@ -291,6 +291,11 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         thread = new Thread(this);
         thread.start();
     }
+    public void stopThread()
+    {
+
+        thread.interrupt();
+    }
 
 
     @Override
@@ -401,6 +406,7 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
     @Override
     public void notifyAvatarTakesDamage(Avatar avatar, Alien alien) {
         System.out.println("Avatar takes damage");
+
         //notify the all blind aliens that the avatar takes damage
     }
 

@@ -75,15 +75,23 @@ public class BuildPanel implements IPanel {
 			// override only those which interests us
 			@Override // I override only one method for presentation
 			public void mousePressed(MouseEvent e) {
-				int x = e.getX() - 30;
-				int y = e.getY()-20 ;
+				int x = e.getX() -30;
+				int y = e.getY()-20;
 				System.out.printf("x: %d  y:  %d\n",x,y);
-				int b = comboBox.getSelectedIndex();
-				if(BuildingMap.addToMap(x, y, b)!=null){
-					sound.playSoundEffect(2);
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					int b = comboBox.getSelectedIndex();
+					if (BuildingMap.addToMap(x, y, b) != null) {
+						sound.playSoundEffect(2);
+					}
+					if (BuildingMap.getObjectCount() >= BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
+						textPane2.setBackground(Color.GREEN);
+					}
 				}
-				if (BuildingMap.getObjectCount() >= BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq()) {
-					textPane2.setBackground(Color.GREEN);
+				else if (e.getButton() == MouseEvent.BUTTON3) {
+					x = e.getX() ;
+					y = e.getY();
+					BuildingMap.delete(x,y);
+
 				}
 			}
 
@@ -310,7 +318,6 @@ public class BuildPanel implements IPanel {
 		emptyMapButton= new JButton(icon);
 		emptyMapButton.setBounds(20, 400, 80, 80);
 		emptyMapButton.setContentAreaFilled(false);
-		// emptyMapButton.setFocusPainted(false);
 		emptyMapButton.setBorderPainted(false);
 		objectPanel.add(emptyMapButton);
 
@@ -335,7 +342,6 @@ public class BuildPanel implements IPanel {
 		nextBuildingButton= new JButton(icon);
 		nextBuildingButton.setBounds(20, 300, 100, 100);
 		nextBuildingButton.setContentAreaFilled(false);
-		// emptyMapButton.setFocusPainted(false);
 		nextBuildingButton.setBorderPainted(false);
 		objectPanel.add(nextBuildingButton);
 

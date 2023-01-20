@@ -23,6 +23,7 @@ import main.EscapeFromKoc;
 import domain.gameObjects.ObjectTile;
 import factory.ObjectTileFactory;
 import panels.BuildPanel;
+import panels.LoginPanel;
 import panels.MenuPanel;
 
 import java.io.FileInputStream;
@@ -82,6 +83,7 @@ public final class DBManager implements IDatabaseAdapter{
         if (checkAllRequiredFieldsLogin(username, password)){
             if (checkUserLogin(username, password)) {
                 isSaved();
+             
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
