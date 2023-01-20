@@ -172,7 +172,6 @@ public class Building {
 
 		eskiAvatar.setPosition(position);
 		eskiAvatar.setHasKey(false);
-		eskiAvatar.notifyAvatarObserver();
 		eskiAvatar.setImage(5);
 		eskiAvatar.setCurrentTime(this.time);
 
