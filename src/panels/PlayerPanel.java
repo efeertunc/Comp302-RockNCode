@@ -25,6 +25,7 @@ public class PlayerPanel extends JPanel implements AvatarInfoObserver {
         BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().subscribeAvatarInfoObserver(this);
         design();
         Avatar avatar = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar();
+        avatar.notifyAvatarObserver();
         updateLife_inPlayerPanel(avatar.getLife());
         Bag bag = avatar.getBag();
         updateBag_inPlayerPanel(bag.getPowerNum(PowerUpTypes.BOTTLE), bag.getPowerNum(PowerUpTypes.HINT), bag.getPowerNum(PowerUpTypes.VEST));
