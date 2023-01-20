@@ -169,11 +169,17 @@ public class Building {
 		int emptyX = emptyTiles.get(selectedEmptyTile).getPosition().getX();
 		int emptyY = emptyTiles.get(selectedEmptyTile).getPosition().getY();
 		Position position = new Position(emptyX, emptyY);
+
 		eskiAvatar.setPosition(position);
 		eskiAvatar.setHasKey(false);
+		eskiAvatar.notifyAvatarObserver();
+		eskiAvatar.setImage(5);
 		eskiAvatar.setCurrentTime(this.time);
-		map_obj[eskiAvatar.getPosition().getY()][eskiAvatar.getPosition().getX()] = eskiAvatar;
+
+		map_obj[position.getY()][position.getX()] = eskiAvatar;
+
 		avatar = eskiAvatar;
+
 		return eskiAvatar;
 	}
 
@@ -284,7 +290,7 @@ public class Building {
 			case 1 ->
 					powerUpTile = new PowerUpTile(PowerUpTypes.EXTRA_LIFE, emptyX, emptyY, 12);
 			case 2 ->
-				powerUpTile =new PowerUpTile(PowerUpTypes.HINT, emptyX, emptyY, 25);
+				powerUpTile = new PowerUpTile(PowerUpTypes.HINT, emptyX, emptyY, 25);
 			case 3 ->
 					powerUpTile = new PowerUpTile(PowerUpTypes.VEST, emptyX, emptyY, 26);
 			case 4 ->

@@ -29,25 +29,15 @@ import main.IPanel;
 
 
 public class RunPanel extends JPanel implements IPanel, KeyListener{
-	JLabel labelTimer;
-	JLabel labelHint;
-	JLabel labelBottle;
-	JLabel labelLife;
-	JLabel keyLabel;
-
-	JLabel labelVest;
-	Font font1 = new Font("Arial", Font.PLAIN, 15);
+	//JLabel labelTimer;
 	private JPanel panel;
-	
 	private JButton pauseButton;
-
 	private JPanel playerPanel;
-	public Avatar avatar;
 	public RunningMap RunningMap;
-	JButton zoom;
-	JButton zoomout;
+	private JButton zoom;
+	private JButton zoomout;
 	private RunController runController;
-	JFrame frame;
+	private JFrame frame;
 	
 	public RunPanel(IAppView appView) {
 		System.out.println("RunPanel");
@@ -60,100 +50,17 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		
 	}
 
-	
+	@Override
 	public void design() {
-		
 		JLabel BigLabel = new JLabel("RUN PANEL");
 		BigLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 27));
 		BigLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		BigLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		BigLabel.setBounds(35, 6, 168, 29);
 		panel.add(BigLabel);
-		
-
-
-
-		//playerPanel.setBackground(Color.ORANGE);
-		playerPanel.setLayout(null);
-		playerPanel.setBorder(new LineBorder(new Color(65, 238, 67)));
-		playerPanel.setBounds(910, 70, 380, 630);
-		panel.add(playerPanel);
-
-		//life
-
-		labelLife = new JLabel("");
-		labelLife.setBounds(27, 27, 61, 16);
-		labelLife.setHorizontalAlignment(JLabel.CENTER);
-		labelLife.setFont(font1);
-		labelLife.setText(Integer.toString(3));
-		Icon imgIcon1 = new ImageIcon(this.getClass().getResource("/visual/life.png"));
-		JLabel label1 = new JLabel(imgIcon1);
-		label1.setBounds(27, 27, 16, 16); // You can use your own values
-		playerPanel.add(label1);
-		//avatar.getLife())
-
-		Icon icon = new ImageIcon(this.getClass().getResource("/visual/keyFound.gif"));
-		keyLabel = new JLabel(icon);
-		keyLabel.setBounds(100, 250, 100, 300); // You can use your own values
-		keyLabel.setVisible(runController.getAvatar().isHasKey());
-		playerPanel.add(keyLabel);
-
-		//timer
-		labelTimer = new JLabel("");
-		labelTimer.setBounds(228, 27, 61, 16);
-		labelTimer.setHorizontalAlignment(JLabel.CENTER);
-		labelTimer.setFont(font1);
-
-
-		//bottle
-		labelBottle = new JLabel("");
-		labelBottle.setBounds(27, 66, 61, 16);
-		labelBottle.setHorizontalAlignment(JLabel.CENTER);
-		labelBottle.setFont(font1);
-		labelBottle.setText(Integer.toString(3));
-
-		Icon imgIcon2 = new ImageIcon(this.getClass().getResource("/visual/bottle.png"));
-		JLabel label2 = new JLabel(imgIcon2);
-		label2.setBounds(27, 66, 16, 16); // You can use your own values
-		playerPanel.add(label2);
-
-		//vest
-		labelVest = new JLabel("");
-		labelVest.setBounds(112, 27, 61, 16);
-		labelVest.setHorizontalAlignment(JLabel.CENTER);
-		labelVest.setFont(font1);
-		labelVest.setText(Integer.toString(3));
-
-		Icon imgIcon3 = new ImageIcon(this.getClass().getResource("/visual/vest.png"));
-		JLabel label3 = new JLabel(imgIcon3);
-		label3.setBounds(112, 27, 16, 16); // You can use your own values
-		playerPanel.add(label3);
-
-
-		//hint
-		labelHint = new JLabel("");
-		labelHint.setBounds(112, 66, 61, 16);
-		labelHint.setHorizontalAlignment(JLabel.CENTER);
-		labelHint.setFont(font1);
-		labelHint.setText(Integer.toString(3));
-
-		Icon imgIcon4 = new ImageIcon(this.getClass().getResource("/visual/quest.png"));
-		JLabel label4 = new JLabel(imgIcon4);
-		label4.setBounds(112, 66, 16, 16); // You can use your own values
-		playerPanel.add(label4);
 
 		pauseButton.setBounds(200, 10, 117, 29);
 		panel.add(pauseButton);
-
-
-		playerPanel.add(labelHint);
-		playerPanel.add(labelVest);
-		playerPanel.add(labelLife);
-		playerPanel.add(labelTimer);
-		playerPanel.add(labelBottle);
-		playerPanel.setVisible(true);
-
-
 
 	}
 
@@ -169,15 +76,16 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		panel.setBorder(new LineBorder(Color.BLACK));
 	}
 
+
 	public void countdown(){
-		if (labelTimer == null){
+		if (((PlayerPanel) playerPanel).getLabelTimer() == null){
 			return;
 		}
 		int seconds =  (int) BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getTime();
 		int min = seconds/60;
 		int second = seconds - (min*60);
 
-		labelTimer.setText(Integer.toString(min) + ":" + Integer.toString(second));
+		((PlayerPanel) playerPanel).getLabelTimer().setText(Integer.toString(min) + ":" + Integer.toString(second));
 	}
 
 	@Override
@@ -199,8 +107,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		panel.addKeyListener(this);
 		panel.setFocusable(true);
 
-
-
 		panel.addMouseListener(new MouseAdapter() {// provides empty implementation of all
 			// MouseListener`s methods, allowing us to
 			// override only those which interests us
@@ -215,7 +121,7 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 					System.out.println("Left button clicked");
 					System.out.println("The location presses"+x+" , "+y);
 					runController.searchKey(x,y);
-					keyLabel.setVisible(runController.getAvatar().isHasKey());
+					//keyLabel.setVisible(runController.getAvatar().isHasKey());
 				}
 
 				else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -227,9 +133,10 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 
 		});
 
-
+		//labelTimer = new JLabel("");
 
 		playerPanel = new PlayerPanel();
+		panel.add(playerPanel);
 
 		RunningMap = new RunningMap(panel,this);
 
@@ -326,7 +233,6 @@ public class RunPanel extends JPanel implements IPanel, KeyListener{
 		int keyCode = keyEvent.getKeyCode();
 
 		runController.doAction(keyCode);
-		keyLabel.setVisible(runController.getAvatar().isHasKey());
 	}
 
 	@Override

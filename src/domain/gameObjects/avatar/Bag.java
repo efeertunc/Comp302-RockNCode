@@ -31,16 +31,19 @@ public class Bag  {
     public void addPowerUp(PowerUpTypes powerUp) {
         ((CollectablePowerUpI) getPower(powerUp)).increment();
         System.out.println("Power up added to bag:" + powerUp);
-    }
-
-    public void setNumToPowerUp(PowerUpTypes powerUp, int num) {
-        ((CollectablePowerUpI) getPower(powerUp)).setNumToPowerUp(num);
-        System.out.println("Number of power up set to bag:" + powerUp);
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().notifyAvatarObserver();
     }
 
 
     public void decreasePowerUp(PowerUpTypes powerUp) {
         ((CollectablePowerUpI) getPower(powerUp)).decrease();
+        BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getAvatar().notifyAvatarObserver();
+    }
+
+
+    public void setNumToPowerUp(PowerUpTypes powerUp, int num) {
+        ((CollectablePowerUpI) getPower(powerUp)).setNumToPowerUp(num);
+        System.out.println("Number of power up set to bag:" + powerUp);
     }
 
 
@@ -52,6 +55,10 @@ public class Bag  {
     public PowerUp getPower(PowerUpTypes powerUp){
         String powerUpStr = powerUp.toString();
         return bag.get(powerUpStr);
+    }
+
+    public int getPowerNum(PowerUpTypes powerUp){
+        return ((CollectablePowerUpI) getPower(powerUp)).getNum();
     }
 
     public void usePowerUp(PowerUpTypes powerUp) {
