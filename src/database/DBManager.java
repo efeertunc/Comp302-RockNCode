@@ -55,6 +55,10 @@ public final class DBManager implements IDatabaseAdapter{
         return instance;
     }
 
+    /**
+     * This method is used to initialize the database.
+     * @throws IOException
+     */
     @Override
     public void connectDB() {
         try {
@@ -78,6 +82,13 @@ public final class DBManager implements IDatabaseAdapter{
     }
 
     //Auth Functions
+
+    /**
+     * This method is used to get the list of users from the database.
+     *
+     * @param username
+     * @param password
+     */
     @Override
     public void loginUser(String username, String password) {
         if (checkAllRequiredFieldsLogin(username, password)){
@@ -142,6 +153,13 @@ public final class DBManager implements IDatabaseAdapter{
 
     }
 
+    /**
+     * This method is used to register a new user to the database.
+     * @param username
+     * @param firstPassword
+     * @param secondPassword
+     * @param hint
+     */
     @Override
     public void registerUser(String username, String firstPassword, String secondPassword, String hint) {
         if (!checkUsernameRegister(username)) {
@@ -164,6 +182,13 @@ public final class DBManager implements IDatabaseAdapter{
         }
     }
 
+    /**
+     * This method is used to check if the username is available for forgeting password.
+     * @param username
+     * @param hint
+     * @param firstPassword
+     * @param secondPassword
+     */
     @Override
     public void forgotPassword(String username, String hint, String firstPassword, String secondPassword) {
 
@@ -192,6 +217,11 @@ public final class DBManager implements IDatabaseAdapter{
         }
     }
 
+    /**
+     * This method is used to check if the username is available.
+     * @param username
+     * @return
+     */
     private boolean checkUsernameRegister(String username) {
         getListOfUsers();
         for (Account account : userList) {
@@ -202,6 +232,12 @@ public final class DBManager implements IDatabaseAdapter{
         return true;
     }
 
+    /**
+     * This method is used to check if the username is available for forgeting password.
+     * @param username
+     * @param hint
+     * @return
+     */
     private Account checkUsernameForgotPassword(String username, String hint) {
         getListOfUsers();
         for (Account account : userList) {
@@ -212,6 +248,12 @@ public final class DBManager implements IDatabaseAdapter{
         return null;
     }
 
+    /**
+     * This method is used to check if the username and password is correct.
+     * @param username
+     * @param password
+     * @return
+     */
     private boolean checkUserLogin(String username, String password) {
         getListOfUsers();
         for (Account account : userList) {
@@ -223,6 +265,9 @@ public final class DBManager implements IDatabaseAdapter{
         return false;
     }
 
+    /**
+     * This method is used to check if the required fields are filled.
+     */
     private void getListOfUsers() {
         database.child("users").addValueEventListener(new ValueEventListener() {
             @Override
@@ -240,6 +285,14 @@ public final class DBManager implements IDatabaseAdapter{
         });
     }
 
+    /**
+     * This method is used to check if the required fields are filled.
+     * @param username
+     * @param hint
+     * @param firstPassword
+     * @param secondPassword
+     * @return
+     */
     public boolean checkAllRequiredFieldsRegister(String username, String hint, String firstPassword, String secondPassword){
         try {
             return checkAllRequiredFields(username, hint, firstPassword, secondPassword);
@@ -250,6 +303,12 @@ public final class DBManager implements IDatabaseAdapter{
         }
     }
 
+    /**
+     * This method is used to check if the required fields for login.
+     * @param username
+     * @param password
+     * @return
+     */
     public boolean checkAllRequiredFieldsLogin(String username, String password){
         try {
             return checkAllRequiredFields(username, password);
@@ -260,6 +319,14 @@ public final class DBManager implements IDatabaseAdapter{
         }
     }
 
+    /**
+     * This method is used to check if the required fields are filled for register.
+     * @param username
+     * @param hint
+     * @param firstPassword
+     * @param secondPassword
+     * @return
+     */
     public boolean checkAllRequiredFields(String username, String hint, String firstPassword, String secondPassword) {
         if (username == null || firstPassword == null || secondPassword == null || hint == null) {
             throw new NullPointerException("Username or password or hint can not be null");
@@ -279,6 +346,12 @@ public final class DBManager implements IDatabaseAdapter{
         return true;
     }
 
+    /**
+     * This method is used to check if the required fields are filled for login.
+     * @param username
+     * @param password
+     * @return
+     */
     public boolean checkAllRequiredFields(String username, String password) {
         if (username == null || password == null ) {
             throw new NullPointerException("Username or password can not be null");
@@ -292,6 +365,10 @@ public final class DBManager implements IDatabaseAdapter{
         return true;
     }
 
+    /**
+     * This method is used to notify observer.
+     * @param response
+     */
     public void notifyAuthObservers(String response) {
         if (response.equals(Constants.DatabaseConstants.LOGIN_ACCEPTED)) {
             DBObserver.loginAccepted(Player.getInstance().getAccount(), response);
@@ -349,6 +426,9 @@ public final class DBManager implements IDatabaseAdapter{
 
     //Save Game Functions
 
+    /**
+     * This method is used to save the game.
+     */
     public void isSaved() {
         database.child("users").child(Player.getInstance().getAccount().getID()).child("isSaved").addValueEventListener(new ValueEventListener() {
             @Override
@@ -364,6 +444,9 @@ public final class DBManager implements IDatabaseAdapter{
 
     }
 
+    /**
+     * This method is used to get the game is in running mode or not.
+     */
     public void isRunningMode() {
         database.child("users").child(Player.getInstance().getAccount().getID()).child("isRunningMode").addValueEventListener(new ValueEventListener() {
             @Override
@@ -380,6 +463,9 @@ public final class DBManager implements IDatabaseAdapter{
     }
 
     @Override
+    /**
+     * This method is used to save the game.
+     */
     public void saveGame(boolean isRunningMode) {
         Account account = Player.getInstance().getAccount();
         String id = account.getID();
@@ -469,6 +555,10 @@ public final class DBManager implements IDatabaseAdapter{
         });
     }
 
+    /**
+     * This method is used to clear the database.
+     * @param id
+     */
     private void clearDatabase(String id) {
         database.child("users").child(id).child("map").removeValue(new DatabaseReference.CompletionListener() {
             @Override
@@ -515,6 +605,9 @@ public final class DBManager implements IDatabaseAdapter{
         });
     }
 
+    /**
+     * This method is used to load the game from the database.
+     */
     private void getMapForLoadGame() {
         map = new HashMap<>();
         for (int i = 0; i < 6; i++) {
@@ -562,6 +655,9 @@ public final class DBManager implements IDatabaseAdapter{
         }
     }
 
+    /**
+     * This method is used to get the new map from the database.
+     */
     private ObjectTile[][] getNewEmptyMap() {
         ObjectTile[][] objectTiles = new ObjectTile[12][17];
         for (int i = 0; i < 12; i++) {
@@ -572,6 +668,9 @@ public final class DBManager implements IDatabaseAdapter{
         return objectTiles;
     }
 
+    /**
+     * This method is used to get the current index from the database.
+     */
     private void getLastIndexFromDB(){
         database.child("users").child(Player.getInstance().getAccount().getID()).child("currentIndex").addValueEventListener(new ValueEventListener() {
             @Override

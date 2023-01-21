@@ -26,6 +26,11 @@ public class ObjectTileFactory {
         return instance;
     }
 
+    /**
+     * Creates an object tile based on the data snapshot from the database
+     * @param dataSnapshot
+     * @return
+     */
     public static ObjectTile createTile(DataSnapshot dataSnapshot) {
         //int ID = dataSnapshot.child("id").getValue(Integer.class);
         int image = dataSnapshot.child("image").getValue(Integer.class);

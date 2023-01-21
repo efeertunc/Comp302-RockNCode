@@ -18,6 +18,11 @@ public class PowerUpFactory {
         return instance;
     }
 
+    /**
+     * Creates a power up based on the type
+     * @param type
+     * @return
+     */
     public PowerUp createPowerUp(PowerUpTypes type) {
         return switch (type) {
             case BOTTLE -> new PlasticBottle();

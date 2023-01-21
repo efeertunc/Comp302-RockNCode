@@ -101,6 +101,9 @@ public class BuildPanel implements IPanel {
 
 	}
 
+	/**
+	 * This method is used to start run mode
+	 */
 	protected void startRunMode() {
 
 		int minimum = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq();
@@ -117,6 +120,9 @@ public class BuildPanel implements IPanel {
 
 	}
 
+	/**
+	 * This method is used to go next building
+	 */
 	protected void nextBuilding() {
 		int minimum = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMinReq();
 		System.out.println("BuildingMap.getObjectCount() " + BuildingMap.getObjectCount());
@@ -147,11 +153,18 @@ public class BuildPanel implements IPanel {
 		controlOfNextButton();
 	}
 
+	/**
+	 * This method is used to save game
+	 */
 	private void saveGame() {
 		setBuildingLists();
 		((AuthView) EscapeFromKoc.getInstance().getView(ViewType.AuthView)).getAuthController().saveGameClick(false);
 
 	}
+
+	/**
+	 * This method is used to set building lists
+	 */
 	public void loadGameForBuilding() {
 		getBuildingMap().setMapForDB();
 		buildingInfo.setText(BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType().toString());
@@ -164,6 +177,9 @@ public class BuildPanel implements IPanel {
 
 	}
 
+	/**
+	 * This method is used to show help
+	 */
 	protected void showHelp() {
 		buildController.openHelpScreen();
 
@@ -179,6 +195,9 @@ public class BuildPanel implements IPanel {
 		panel.setBorder(new LineBorder(Color.BLACK));
 	}
 
+	/**
+	 * This method is used to initialize
+	 */
 	public void setBuildingLists() {
 		BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).setMap_obj(BuildingMap.getMap());
 	}
@@ -258,6 +277,9 @@ public class BuildPanel implements IPanel {
 
 	}
 
+	/**
+	 * This method is used to control of next button
+	 */
 	public void controlOfNextButton(){
 		if (BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getType() == BuildingType.SNA) {
 			nextBuildingButton.setVisible(false);

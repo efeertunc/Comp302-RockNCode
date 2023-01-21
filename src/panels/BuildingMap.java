@@ -42,11 +42,18 @@ public class BuildingMap extends JPanel {
 
     }
 
+    /**
+     * This method is used to set map for DB
+     */
     public void setMapForDB(){
         map = BuildingTracker.getBuildingList().get(BuildingTracker.getCurrentIndex()).getMap_obj();
     }
 
 
+    /**
+     * This method is used to show panel
+     * @param show
+     */
     public void showPanel(Boolean show) {
         this.setVisible(show);
 
@@ -161,6 +168,13 @@ public void printAll(Graphics2D g2D,int imageId,int i,int j){
         map[y][x] = new Obstacle(type, x, y, type);
     }
 
+    /**
+     * This method is used to add to map
+     * @param x
+     * @param y
+     * @param b
+     * @return
+     */
     public int[] addToMap ( int x, int y, int b){
         //REQUIRES: y<= 550 and x <= 800 and b<=tm.objects.length-1
         //EFFECTS: If x,y and b are in feasible range, add them to lists and update map.
@@ -229,6 +243,10 @@ public void printAll(Graphics2D g2D,int imageId,int i,int j){
         return map;
     }
 
+    /**
+     * This method is used to get object count.
+     * @return
+     */
     public int getObjectCount (){
         int count = 0;
         if (map != null){
@@ -262,6 +280,10 @@ public void printAll(Graphics2D g2D,int imageId,int i,int j){
     }
 
 
+    /**
+     * This method is used to initial map.
+     * @return
+     */
     public ObjectTile[][] initial_map () {
         ObjectTile[][] map = new ObjectTile[12][17];
         for (int i = 0; i < 12; i++) {

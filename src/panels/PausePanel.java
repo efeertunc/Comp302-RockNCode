@@ -30,7 +30,6 @@ public class PausePanel implements IPanel{
 
 	private JButton resumeButton;
 	private JButton helpButton;
-	private JButton returnMenuButton;
 
 	private JButton saveAndExitButton;
 	
@@ -57,11 +56,8 @@ public class PausePanel implements IPanel{
 		
 		helpButton.setBounds(129, 150, 174, 29);
 		panel.add(helpButton);
-		
-		returnMenuButton.setBounds(129, 191, 174, 29);
-		panel.add(returnMenuButton);
 
-		saveAndExitButton.setBounds(129, 230, 174, 29);
+		saveAndExitButton.setBounds(129, 191, 174, 29);
 		panel.add(saveAndExitButton);
 
 	}
@@ -98,14 +94,6 @@ public class PausePanel implements IPanel{
 		helpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openHelp();
-			}
-		});
-		
-		
-		returnMenuButton = new JButton("Return to Main Menu");
-		returnMenuButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				returnMenu();
 			}
 		});
 

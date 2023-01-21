@@ -18,6 +18,12 @@ public class PanelFactory {
         return instance;
     }
 
+    /**
+     * Creates a panel of the given type.
+     * @param type
+     * @param appView
+     * @return
+     */
     public IPanel createPanel(PanelType type, IAppView appView) {
         return switch (type) {
             case ForgotPass -> new ForgotPasswordPanel(appView);
