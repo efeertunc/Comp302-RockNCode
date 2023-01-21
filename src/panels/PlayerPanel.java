@@ -68,23 +68,23 @@ public class PlayerPanel extends JPanel implements AvatarInfoObserver {
         // life
         Icon imgLife = new ImageIcon(this.getClass().getResource("/visual/life.png"));
         JLabel labelLifeIMG = new JLabel(imgLife);
-        labelLifeIMG.setBounds(27, 27, 16, 16); // You can use your own values
+        labelLifeIMG.setBounds(27, 27, 64, 64); // You can use your own values
         add(labelLifeIMG);
 
         labelLifeNum = new JLabel();
-        labelLifeNum.setBounds(27, 27, 61, 16);
+        labelLifeNum.setBounds(27, 93, 61, 16);
         labelLifeNum.setHorizontalAlignment(JLabel.CENTER);
         labelLifeNum.setFont(font1);
         add(labelLifeNum);
 
 
         // bottle
-        JLabel bottleIMG = new JLabel(new ImageIcon(this.getClass().getResource("/visual/bottle.png")));
-        bottleIMG.setBounds(27, 66, 16, 16);
+        JLabel bottleIMG = new JLabel(new ImageIcon(this.getClass().getResource("/visual/plasticBottle.png")));
+        bottleIMG.setBounds(27, 160, 64, 64);
         add(bottleIMG);
 
         labelBottleNum = new JLabel("");
-        labelBottleNum.setBounds(27, 66, 61, 16);
+        labelBottleNum.setBounds(27, 227, 61, 16);
         labelBottleNum.setHorizontalAlignment(JLabel.CENTER);
         labelBottleNum.setFont(font1);
         labelBottleNum.setText(Integer.toString(3));
@@ -93,23 +93,23 @@ public class PlayerPanel extends JPanel implements AvatarInfoObserver {
 
         // vest
         JLabel vestImg = new JLabel(new ImageIcon(this.getClass().getResource("/visual/vest.png")));
-        vestImg.setBounds(112, 27, 16, 16); // You can use your own values
+        vestImg.setBounds(140, 27, 64, 64); // You can use your own values
         add(vestImg);
 
         labelVestNum = new JLabel("");
-        labelVestNum.setBounds(112, 27, 61, 16);
+        labelVestNum.setBounds(140, 93, 61, 16);
         labelVestNum.setHorizontalAlignment(JLabel.CENTER);
         labelVestNum.setFont(font1);
         add(labelVestNum);
 
 
         // hint
-        JLabel hintImg = new JLabel(new ImageIcon(this.getClass().getResource("/visual/quest.png")));
-        hintImg.setBounds(112, 66, 16, 16); // You can use your own values
+        JLabel hintImg = new JLabel(new ImageIcon(this.getClass().getResource("/visual/hint.png")));
+        hintImg.setBounds(140, 160, 64, 64); // You can use your own values
         add(hintImg);
 
         labelHintNum = new JLabel("");
-        labelHintNum.setBounds(112, 66, 61, 16);
+        labelHintNum.setBounds(140, 224, 61, 16);
         labelHintNum.setHorizontalAlignment(JLabel.CENTER);
         labelHintNum.setFont(font1);
         add(labelHintNum);
