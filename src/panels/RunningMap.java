@@ -246,6 +246,12 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         if (imageId == 29){
             g2D.drawImage(Constants.ImageConstants.AVATAR_VEST_HIT, x,y, weight,weight,null);
         }
+        if (imageId == 30){
+            g2D.drawImage(Constants.ImageConstants.AVATARVEST, x,y, weight,weight,null);
+        }
+        if (imageId == 31){
+            g2D.drawImage(Constants.ImageConstants.BLINDBOTTLE, x,y, weight,weight,null);
+        }
 
     }
     public void draw(Graphics2D g2D) {

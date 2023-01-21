@@ -30,7 +30,7 @@ public class BlindBottle extends BaseBlindBehavior implements  BlindBehavior{
 
     public BlindBottle(BlindAlien alien, Position pos){
         super(alien);
-        alien.setImage(13);
+        alien.setImage(31);
         visitedList = new ArrayList<ObjectTile>();
         adjObjects = new ArrayList<ObjectTile>();
         manhattenList = new ArrayList<ObjectTile>();

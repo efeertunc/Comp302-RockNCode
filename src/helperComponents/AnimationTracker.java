@@ -38,9 +38,9 @@ public class AnimationTracker {
 
         avatarHitVest.setFramePerImage(4);
         avatarHitVest.addToAlbum(29);
-        avatarHitVest.addToAlbum(5);
+        avatarHitVest.addToAlbum(30);
         avatarHitVest.addToAlbum(29);
-        avatarHitVest.addToAlbum(5);
+        avatarHitVest.addToAlbum(30);
         instance.animationList.add(avatarHitVest); //INDEX 1
     }
     public ArrayList<Animation> getGameAnimations()

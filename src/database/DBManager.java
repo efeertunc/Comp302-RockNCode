@@ -183,7 +183,7 @@ public final class DBManager implements IDatabaseAdapter{
             Map<String, Object> childUpdates = new HashMap<>();
             Map<String, Object> accountValues = account.toMap();
 
-            childUpdates.put("/users/" + account.getID(), accountValues);
+            childUpdates.put("/users/" + account.getID() + "/" + "password", accountValues.get("password"));
 
             database.updateChildren(childUpdates, (error, ref) -> notifyAuthObservers(Constants.DatabaseConstants.DATABASE_WRITE_ERROR + " because of" + error.getDetails()));
             notifyAuthObservers(Constants.DatabaseConstants.PASSWORD_CHANGED);

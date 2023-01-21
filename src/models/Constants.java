@@ -63,6 +63,8 @@ public interface Constants {
         public static final BufferedImage HINT;
         public static final BufferedImage VEST;
         public static final BufferedImage PLASTICBOTTLE;
+        public static final BufferedImage AVATARVEST;
+        public static final BufferedImage BLINDBOTTLE;
 
         static {
             try {
@@ -99,6 +101,8 @@ public interface Constants {
                 HINT = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/hint.png")));
                 VEST = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/VEST.png")));
                 PLASTICBOTTLE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/plasticBottle.png")));
+                AVATARVEST = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/avatarVest.png")));
+                BLINDBOTTLE = (ImageIO.read(EscapeFromKoc.class.getResource("/visual/blindBottle.png")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
