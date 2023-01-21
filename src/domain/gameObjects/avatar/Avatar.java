@@ -227,7 +227,7 @@ public class Avatar extends DynamicTile {
         if (building.checkObstacle(x,y).getKey() != null) { //hasKey
 
             System.out.println("KEY HAS BEEN FOUND");
-            setImage(6);
+            //setImage(6);
             building.deleteKey();
             setHasKey(true);
             avatarInfoObserver.updateKeyInfo_inPlayerPanel(true);
@@ -236,6 +236,12 @@ public class Avatar extends DynamicTile {
         }
 
         return false;
+    }
+
+    public void setKeyFalseToObserver () {
+        if (avatarInfoObserver != null) {
+            avatarInfoObserver.updateKeyInfo_inPlayerPanel(false);
+        }
     }
 
 
@@ -291,7 +297,7 @@ public class Avatar extends DynamicTile {
             System.out.println(vestState);
             vestState = new HasVest();
             setVestTime(20);
-            setImage(2); // it is not correct number
+            setImage(30); // it is not correct number
             bag.decreasePowerUp(PowerUpTypes.VEST);
             sound.playSoundEffect(12);
             return true;
@@ -299,7 +305,7 @@ public class Avatar extends DynamicTile {
         else if (vestState instanceof HasVest) {
             System.out.println(vestState);
             vestState = new HasNoVest();
-            setImage(3); // it is not correct number
+            setImage(5); // it is not correct number
             return false;
         }
         return false;

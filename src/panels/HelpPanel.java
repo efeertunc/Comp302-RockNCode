@@ -79,15 +79,14 @@ public class HelpPanel implements IPanel {
 		textPane.setBackground(new Color(255, 255, 204));
 		textPane.setBounds(90, 100, 800, 350);
 		textPane.setText(
-				"Escape from KOÇ is an easy-to-play game that combines fun and challenge. The game space takes place"
-						+ " on the KOÇ university campus where a student is trying to find a sequence of keys in the campus buildings."
-						+ " The game starts when the player enters one of the buildings and starts looking for a key in different rooms."
-						+ " During that journey, aliens may show up and try to catch the player, who should try to escape or distract them. "
-						+ "The player is aiming at finding the key before the timeout. To accomplish that, some hints show up here and there."
-						+ " Once the key is found, the building will be marked as complete and the player can choose the next open building, "
-						+ "which is basically the next level. Some promotions can be offered, like adding more time. The game is over If the player "
-						+ "fails to find the key within the time limit."
-						+ " If he manages to find all the keys, then he wins the game.");
+				"Building mode -> \n" +
+						"1.Click to map to insert obstacles\n" +
+						"2.After that you can continue to other buildings and start the running mode key will not be visible, player will search for it under the obstacles."
+						+ " Running mode -> Main obcejtive is to find the key and pass the door. Time will be renewed in the new building. \n"
+						+ " Powerups : There are 5 types of powerups that can be clicked and collected during the running mode. First one is Vest power up, it guards the player 15 seconds long and avoids player from loosing his/her life."
+						+ " To use this power-up click “V”. Hint power up can be used by clicking “H” key, it will immediately show the place of the key. Extra life power up directly adds 1 life to the player lives.  "
+						+ " Extra time powerup is also directly added to the players time. Last one is bottle, avatar holds the bottle ones the “B” key clicked, then gives a direction to throw."
+						);
 		panel.add(textPane);
 	}
 

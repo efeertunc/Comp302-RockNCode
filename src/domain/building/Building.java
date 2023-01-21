@@ -8,10 +8,13 @@ import domain.gameObjects.avatar.Avatar;
 import domain.gameObjects.obstacle.Obstacle;
 import domain.gameObjects.powerUps.PowerUpTile;
 import domain.gameObjects.powerUps.PowerUpTypes;
+import factory.PanelType;
+import factory.ViewType;
 import helperComponents.Direction;
 import helperComponents.Position;
 import domain.gameObjects.*;
 import domain.gameObjects.ObjectTile;
+import main.EscapeFromKoc;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -172,6 +175,7 @@ public class Building {
 
 		eskiAvatar.setPosition(position);
 		eskiAvatar.setHasKey(false);
+		eskiAvatar.setKeyFalseToObserver();
 		eskiAvatar.setImage(5);
 		eskiAvatar.setCurrentTime(this.time);
 
@@ -253,6 +257,8 @@ public class Building {
 		time -=  intervalTime/1000000000;
 		if (time < 0) {
 			time = 0;
+			EscapeFromKoc.getInstance().changePanel(EscapeFromKoc.getInstance().getCurPanel(),
+					EscapeFromKoc.getInstance().getView(ViewType.GameView).getPanel(PanelType.GameOver));
 		}
 	}
 

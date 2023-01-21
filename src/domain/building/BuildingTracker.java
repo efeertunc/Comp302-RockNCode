@@ -19,15 +19,15 @@ public class BuildingTracker {
 		}
 		Building omerB = new Building(new int [12][17], BuildingType.OMER, 5);
 		buildingList.add(0,omerB);
-		Building caseB = new Building(new int [12][17], BuildingType.CASE, 1);
+		Building caseB = new Building(new int [12][17], BuildingType.CASE, 7);
 		buildingList.add(1,caseB);
-		Building sosB = new Building(new int [12][17], BuildingType.SOS, 1);
+		Building sosB = new Building(new int [12][17], BuildingType.SOS, 10);
 		buildingList.add(2,sosB);
-		Building scieB = new Building(new int [12][17], BuildingType.SCIE, 1);
+		Building scieB = new Building(new int [12][17], BuildingType.SCIE, 14);
 		buildingList.add(3,scieB);
-		Building engB = new Building(new int [12][17], BuildingType.ENG, 1);
+		Building engB = new Building(new int [12][17], BuildingType.ENG, 19);
 		buildingList.add(4,engB);
-		Building snaB = new Building(new int [12][17], BuildingType.SNA, 2);
+		Building snaB = new Building(new int [12][17], BuildingType.SNA, 25);
 		buildingList.add(5,snaB);
 		
 		currentIndex = 0;
@@ -41,15 +41,15 @@ public class BuildingTracker {
 	public static void initialize() {
 		Building omerB = new Building(new int [12][17],  BuildingType.OMER, 5);
 		buildingList.add(0,omerB);
-		Building caseB = new Building(new int [12][17],  BuildingType.CASE, 1);
+		Building caseB = new Building(new int [12][17],  BuildingType.CASE, 7);
 		buildingList.add(1,caseB);
-		Building sosB = new Building(new int [12][17], BuildingType.SOS, 1);
+		Building sosB = new Building(new int [12][17], BuildingType.SOS, 10);
 		buildingList.add(2,sosB);
-		Building scieB = new Building(new int [12][17], BuildingType.SCIE, 1);
+		Building scieB = new Building(new int [12][17], BuildingType.SCIE, 14);
 		buildingList.add(3,scieB);
-		Building engB = new Building(new int [12][17], BuildingType.ENG, 1);
+		Building engB = new Building(new int [12][17], BuildingType.ENG, 19);
 		buildingList.add(4,engB);
-		Building snaB = new Building(new int [12][17], BuildingType.SNA, 2);
+		Building snaB = new Building(new int [12][17], BuildingType.SNA, 25);
 		buildingList.add(5,snaB);
 
 		currentIndex = 0;
