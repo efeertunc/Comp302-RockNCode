@@ -18,6 +18,11 @@ public class ViewFactory {
         return instance;
     }
 
+    /**
+     * Creates a new view of the given type.
+     * @param type
+     * @return
+     */
     public IAppView createView(ViewType type) {
         return switch (type) {
             case AuthView -> new AuthView();

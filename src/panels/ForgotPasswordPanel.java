@@ -36,6 +36,9 @@ public class ForgotPasswordPanel implements IPanel {
         design();
     }
 
+    /**
+     * This method is used to forget password
+     */
     private void forgotPassword() {
         ((AuthView) authView).getAuthController().forgotPasswordClick(username.getText(), userHint.getText(), newPassword.getText(), confirmPass.getText());
     }
@@ -66,6 +69,10 @@ public class ForgotPasswordPanel implements IPanel {
         });
     }
 
+    /**
+     * This method is used to set info label
+     * @param text
+     */
     public void setInfo(String text) {
         info.setText(text);
     }

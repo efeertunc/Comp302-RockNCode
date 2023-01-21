@@ -32,7 +32,10 @@ public class MenuPanel implements IPanel{
 		design();
 	}
 
-	
+
+	/**
+	 * This method is used to play game
+	 */
 	private void play() {
 		if (isRunningMode) {
 			menuController.startRunMode();
@@ -41,11 +44,17 @@ public class MenuPanel implements IPanel{
 		}
 	}
 
+	/**
+	 * This method is used to show help panel
+	 */
 	private void help() {
 		menuController.openHelp();
 		System.out.println("help");
 	}
-	
+
+	/**
+	 * This method is used to exit game
+	 */
 	private void exit() {
 		menuController.exit();
 	}

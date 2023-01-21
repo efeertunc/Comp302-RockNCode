@@ -147,6 +147,11 @@ public class Building {
 		return this.keyPos = keyPos;
 	}
 
+	/**
+	 * This method is used to set the avatar in the map.
+	 * @param eskiAvatar
+	 * @return
+	 */
 	public Avatar setAvatarToMap(Avatar eskiAvatar) {
 
 		for (int i = 0; i < 17; i++) {
@@ -186,6 +191,12 @@ public class Building {
 		return eskiAvatar;
 	}
 
+	/**
+	 * This method is used to check the obstacle in the map.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Obstacle checkObstacle(int x, int y)
 	{
 		if (map_obj[y][x] instanceof Obstacle)
@@ -196,6 +207,12 @@ public class Building {
 		return null;
 	}
 
+	/**
+	 * This method is used to check the power tile in the map.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public PowerUpTile checkPowerTile(int x, int y) {
 		if (map_obj[y][x] instanceof PowerUpTile)
 		{
@@ -205,6 +222,9 @@ public class Building {
 		return null;
 	}
 
+	/**
+	 * This method is used to generate alien in the map.
+	 */
 	public void generateAlien()
 	{
 		ArrayList<EmptyTile> emptyTiles = new ArrayList<EmptyTile>();
@@ -239,12 +259,20 @@ public class Building {
 		map_obj[alien.getPosition().getY()][alien.getPosition().getX()] = alien;
 	}
 
+	/**
+	 * This method is used to delete key in the map.
+	 */
 	public void deleteKey()
 	{
 		((Obstacle)map_obj[keyPos.getY()][keyPos.getX()]).deleteKey();
 		keyPos=null;
 	}
 
+	/**
+	 * This method is used to delete power tile in the map.
+	 * @param x
+	 * @param y
+	 */
 	public void deletePowerTile(int x, int y) {
 		map_obj[y][x] = new EmptyTile(x,y,4);
 	}
@@ -262,6 +290,10 @@ public class Building {
 		}
 	}
 
+	/**
+	 * This method is used to update power up type in the map.
+	 * @param intervalTime
+	 */
 	public void updatePowerUpTime(double intervalTime) {
 		powerUpTime -=  intervalTime/1000000000;
 		if (powerUpTime < 0) {
@@ -269,10 +301,17 @@ public class Building {
 		}
 	}
 
+	/**
+	 * This method is used to set power up time in the map.
+	 * @param powerUpTime
+	 */
 	public void setTime(int powerUpTime) {
 		time += powerUpTime;
 	}
 
+	/**
+	 * This method is used to generate power tile.
+	 */
 	public void generatePowerTile() {
 		ArrayList<EmptyTile> emptyTileList = new ArrayList<EmptyTile>();
 		for (int i = 0; i < 17; i++) {
@@ -316,6 +355,12 @@ public class Building {
 		this.powerUpTime = powerUpTime;
 	}
 
+	/**
+	 * This method is used to find the position of the bottle.
+	 * @param avatarPos
+	 * @param dir
+	 * @return
+	 */
 	public Position findBottleLastPos(Position avatarPos, Direction.fourDir dir) {
 		Position bottlePos = avatarPos;
 		Position newPos = bottlePos;

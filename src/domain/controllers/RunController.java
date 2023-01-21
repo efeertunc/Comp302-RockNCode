@@ -59,6 +59,9 @@ public class RunController {
 	}
 
 
+	/**
+	 * This method is called when the user goes next level
+	 */
 	public void nextLevel() {
 		if (BuildingTracker.getCurrentIndex()!= 5) {
 			BuildingTracker.setCurrentIndex(BuildingTracker.getCurrentIndex() + 1);
@@ -88,6 +91,12 @@ public class RunController {
 	}
 
 
+	/**
+	 * This method is called if the user search key
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean searchKey(int x, int y)
 	{
 		int indexX = (int)(x/scale-27) / 48;
@@ -110,6 +119,12 @@ public class RunController {
 	}
 
 
+	/**
+	 * This method is called if the user search power up
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean searchPowerUp(int x, int y) {
 		int indexX = (int)(x/scale-27) / 48;
 		int indexY = (int)(y/scale-80) / 48;

@@ -106,6 +106,13 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         draw(g2D);
     }
 
+    /**
+     * This method is used to draw map
+     * @param g2D
+     * @param imageId
+     * @param i
+     * @param j
+     */
     public void printAll(Graphics2D g2D,int imageId,int i,int j){
         int weight;
         weight=(int) (originalTileSize * scale);
@@ -331,6 +338,10 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         }
     }
 
+    /**
+     * Update the game state
+     * @param intervalTime
+     */
     public void update(double intervalTime) {
         if(!isPaused) {
             superPanel.countdown();
@@ -352,6 +363,12 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
             generator.generateAlien(intervalTime);
         }
     }
+
+    /**
+     * This method is called to open file
+     * @param filename
+     * @throws FileNotFoundException
+     */
     public void openFile(String filename) throws FileNotFoundException {
         tileMap=new int[13][18][2];
         try {
@@ -395,11 +412,18 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
 
     }
 
+    /**
+     * This method is called to set hint power up
+     * @param bool
+     */
     public void setHintPowerUp(boolean bool) {
         this.isHintPowerUp = bool;
     }
 
     @Override
+    /**
+     * This method is called to notify bottle is thrown or not
+     */
     public void notifyBottleIsThrown(Position avatarPos, Position bottlePos) {
         //g2D.drawImage(Constants.ImageConstants.PLASTICBOTTLE, x,y, weight,weight,null);
         System.out.println("avatar is at " + avatarPos.getX() + " " + avatarPos.getY());
@@ -427,6 +451,10 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         this.scale = scale*1.05;
     }
 
+    /**
+     * This method is called to handle bottle animation
+     * @param dest
+     */
     public void notifyBlindsToBottleState(Position dest)
     {
         for (int i = 0; i < 17; i++) {
@@ -440,6 +468,9 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
     }
 
 
+    /**
+     * This method is called to handle bottle animation
+     */
     public void handleBottle() {
         if (projectiles == null)
         {
@@ -454,6 +485,10 @@ public class RunningMap extends JPanel implements Runnable, RunningMapObserver {
         }
     }
 
+    /**
+     * This method is called to handle bottle animation
+     * @param g2D
+     */
     public void handleBottleAnim(Graphics2D g2D)
     {
         if (projectiles == null)

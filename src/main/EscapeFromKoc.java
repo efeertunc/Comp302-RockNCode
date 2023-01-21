@@ -44,6 +44,9 @@ public class EscapeFromKoc {
         return instance;
     }
 
+    /**
+     * Starts the application.
+     */
     private void startApp() {
         if (!checkInternetConnection()) {
             System.out.println("Lütfen internete bağlı olduğunuzdan emin olup tekrar deneyin.");
@@ -62,6 +65,11 @@ public class EscapeFromKoc {
         }
     }
 
+    /**
+     * Change the view of the application.
+     * @param from
+     * @param to
+     */
     public void changeView(IAppView from, IAppView to) {
         if (from == null) {
             startApp();
@@ -73,6 +81,11 @@ public class EscapeFromKoc {
         }
     }
 
+    /**
+     * Change the panel of the application.
+     * @param from
+     * @param to
+     */
     public void changePanel(IPanel from, IPanel to) {
         if (from == null) {
             to.showPanel(true);
@@ -87,12 +100,20 @@ public class EscapeFromKoc {
         setOldPanel(from);
     }
 
+    /**
+     * Exit the application.
+     * @param view
+     */
     private void exitApp(IAppView view) {
         view.showView(false);
         view.getFrame().dispose();
         System.exit(0);
     }
 
+    /**
+     * Checks if the internet connection is available.
+     * @return
+     */
     public boolean checkInternetConnection() {
         boolean status = false;
         Socket sock = new Socket();
@@ -113,6 +134,11 @@ public class EscapeFromKoc {
     }
 
 
+    /**
+     * Get view of the application.
+     * @param type
+     * @return
+     */
     public IAppView getView(ViewType type) {
         return switch (type) {
             case AuthView -> authView;
@@ -121,6 +147,12 @@ public class EscapeFromKoc {
         };
     }
 
+    /**
+     * Get view of the application.
+     * @param type
+     * @param appView
+     * @return
+     */
     public IAppView setView(ViewType type, IAppView appView) {
         return switch (type) {
             case AuthView -> authView = appView;
